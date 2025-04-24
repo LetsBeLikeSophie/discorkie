@@ -1,0 +1,107 @@
+{
+    "죽음의 기사": {
+      "url": "death-knight",
+      "specs": {
+        "혈기": "blood",
+        "냉기": "frost",
+        "부정": "unholy"
+      }
+    },
+    "악마사냥꾼": {
+      "url": "demon-hunter",
+      "specs": {
+        "파멸": "havoc",
+        "복수": "vengeance"
+      }
+    },
+    "드루이드": {
+      "url": "druid",
+      "specs": {
+        "조화": "balance",
+        "야성": "feral",
+        "수호": "guardian",
+        "회복": "restoration"
+      }
+    },
+    "기원사": {
+      "url": "evoker",
+      "specs": {
+        "황폐": "devastation",
+        "보존": "preservation",
+        "증폭": "augmentation"
+      }
+    },
+    "사냥꾼": {
+      "url": "hunter",
+      "specs": {
+        "야수": "beast-mastery",
+        "사격": "marksmanship",
+        "생존": "survival"
+      }
+    },
+    "마법사": {
+      "url": "mage",
+      "specs": {
+        "비전": "arcane",
+        "화염": "fire",
+        "냉기": "frost"
+      }
+    },
+    "수도사": {
+      "url": "monk",
+      "specs": {
+        "양조": "brewmaster",
+        "운무": "mistweaver",
+        "풍운": "windwalker"
+      }
+    },
+    "성기사": {
+      "url": "paladin",
+      "specs": {
+        "신성": "holy",
+        "보호": "protection",
+        "징벌": "retribution"
+      }
+    },
+    "사제": {
+      "url": "priest",
+      "specs": {
+        "수양": "discipline",
+        "신성": "holy",
+        "암흑": "shadow"
+      }
+    },
+    "도적": {
+      "url": "rogue",
+      "specs": {
+        "암살": "assassination",
+        "무법": "outlaw",
+        "잠행": "subtlety"
+      }
+    },
+    "주술사": {
+      "url": "shaman",
+      "specs": {
+        "정기": "elemental",
+        "고양": "enhancement",
+        "복원": "restoration"
+      }
+    },
+    "흑마법사": {
+      "url": "warlock",
+      "specs": {
+        "고통": "affliction",
+        "악마": "demonology",
+        "파괴": "destruction"
+      }
+    },
+    "전사": {
+      "url": "warrior",
+      "specs": {
+        "무기": "arms",
+        "분노": "fury",
+        "방어": "protection"
+      }
+    }
+  }
+  

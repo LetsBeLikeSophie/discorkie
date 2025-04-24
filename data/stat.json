@@ -1,0 +1,113 @@
+{
+  "skill_requirements": {
+    "전사": {"공격": 2, "방어": 1},
+    "도적": {"공격": 2, "방어": 1},
+    "사냥꾼": {"공격": 2, "방어": 1},
+    "마법사": {"공격": 3},
+    "흑마법사": {"공격": 2, "회복": 1},
+    "사제": {"회복": 2},
+    "성기사": {"공격": 1, "회복": 1},
+    "주술사": {"회복": 1, "방어": 1},
+    "드루이드": {"회복": 1, "방어": 1}
+  },
+
+  "종족스킬": {
+    "인간": {
+      "name": "결의의 의지",
+      "type": "방어",
+      "description": "1턴 동안 받는 피해 50% 감소",
+      "effect": {
+        "target": "self",
+        "stat": "defense",
+        "modifier_type": "percent",
+        "value": 50,
+        "duration": 1
+      }
+    },
+    "드워프": {
+      "name": "석화",
+      "type": "방어",
+      "description": "2턴 동안 상태이상 면역",
+      "effect": {
+        "target": "self",
+        "stat": "immune",
+        "modifier_type": "status",
+        "value": true,
+        "duration": 2
+      }
+    },
+    "노움": {
+      "name": "기계적 집중력",
+      "type": "강화",
+      "description": "2턴 동안 쿨다운 1턴 감소",
+      "effect": {
+        "target": "self",
+        "stat": "cooldown",
+        "modifier_type": "flat",
+        "value": -1,
+        "duration": 2
+      }
+    },
+    "나이트엘프": {
+      "name": "그림자 숨기",
+      "type": "방어",
+      "description": "1턴 동안 적의 공격 회피",
+      "effect": {
+        "target": "self",
+        "stat": "evasion",
+        "modifier_type": "status",
+        "value": true,
+        "duration": 1
+      }
+    },
+    "오크": {
+      "name": "피의 격노",
+      "type": "공격",
+      "description": "2턴 동안 공격력 25% 증가",
+      "effect": {
+        "target": "self",
+        "stat": "attack",
+        "modifier_type": "percent",
+        "value": 25,
+        "duration": 2
+      }
+    },
+    "트롤": {
+      "name": "광란",
+      "type": "공격",
+      "description": "다음 공격 50% 추가 피해",
+      "effect": {
+        "target": "self",
+        "stat": "attack",
+        "modifier_type": "percent",
+        "value": 50,
+        "duration": 1
+      }
+    },
+    "타우렌": {
+      "name": "대지의 강타",
+      "type": "공격",
+      "description": "적 하나에게 120 피해를 입힙니다.",
+      "effect": {
+        "target": "enemy",
+        "stat": "hp",
+        "modifier_type": "flat",
+        "value": -120,
+        "duration": 0
+      }
+    },
+    "언데드": {
+      "name": "의지의 지배",
+      "type": "방어",
+      "description": "2턴 동안 방어력 30% 증가",
+      "effect": {
+        "target": "self",
+        "stat": "defense",
+        "modifier_type": "percent",
+        "value": 30,
+        "duration": 2
+      }
+    }
+    }
+  
+  }
