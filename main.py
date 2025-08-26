@@ -16,10 +16,15 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    await bot.tree.sync()  # 명령어 동기화
+    try:
+        synced = await bot.tree.sync()
+        print(f"{len(synced)}개의 슬래시 커맨드를 동기화했습니다.")
+        print(f"동기화된 명령어: {[cmd.name for cmd in synced]}")
+    except Exception as e:
+        print(f"명령어 동기화 실패: {e}")
+    
     await bot.change_presence(activity=discord.Game("우당탕탕 명령어 실행"))
     print(f"{bot.user} 봇이 로그인했어요!")
-
 
 # 코그 로드
 @bot.event
