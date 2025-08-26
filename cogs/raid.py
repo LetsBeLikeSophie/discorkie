@@ -154,7 +154,6 @@ class Raid(commands.Cog):
         import pytz
         from datetime import timedelta
         kst = pytz.timezone('Asia/Seoul')
-        weekdays = ['일', '월', '화', '수', '목', '금', '토']
         
         # 현재 한국 시간
         now_kst = discord.utils.utcnow().astimezone(kst)
@@ -179,15 +178,35 @@ class Raid(commands.Cog):
         filtered_events.sort(key=lambda e: e.start_time)
         filtered_events = filtered_events[:4]
 
+        # 상대 날짜 계산 함수
+        def get_relative_date(event_date, today):
+            diff = (event_date - today).days
+            if diff == 0:
+                return "오늘"
+            elif diff == 1:
+                return "내일"
+            elif diff == 2:
+                return "모레"
+            else:
+                return f"{diff}일 후"
+
         # 메시지 구성
         msg = f"**📅 다가오는 목요일 전까지 일정**\n\n"
         
         if filtered_events:
             for i, event in enumerate(filtered_events):
                 dt = event.start_time.astimezone(kst)
-                weekday = weekdays[dt.weekday()]
-                time_str = dt.strftime(f"%m/%d ({weekday}) %H:%M")
-                msg += f"{i+1}. `{time_str}` **{event.name}**\n"
+                event_date = dt.date()
+                
+                # 상대 날짜와 시간
+                relative_date = get_relative_date(event_date, today)
+                time_str = dt.strftime("%H:%M")
+                
+                # 요일 계산 수정 (월요일=0이므로 그대로 사용)
+                weekdays = ['월', '화', '수', '목', '금', '토', '일']
+                weekday = weekdays[event_date.weekday()]
+                
+                msg += f"{i+1}. **{relative_date} ({weekday}) {time_str}** - {event.name}\n"
         else:
             msg += "예정된 일정이 없어요! 💤"
 
@@ -203,7 +222,6 @@ class Raid(commands.Cog):
         view.add_item(raid_button)
 
         await interaction.followup.send(msg, view=view)
-
 
 
     @app_commands.command(name="길드레이드", description="우리 길드의 레이드 진행도 또는 랭킹을 보여줘요!")
