@@ -249,7 +249,7 @@ class Raid(commands.Cog):
                 data = await resp.json()
 
                 if field == "raid_progression":
-                    raid = data.get("raid_progression", {}).get("liberation-of-undermine")
+                    raid = data.get("raid_progression", {}).get("manaforge-omega")
                     if not raid:
                         await interaction.followup.send("진행도 정보를 찾을 수 없어요 😢")
                         return
@@ -260,7 +260,7 @@ class Raid(commands.Cog):
                     mythic = raid.get("mythic_bosses_killed", 0)
 
                     msg = (
-                        f"💥 **언더마인 레이드 진행도**\n"
+                        f"💥 **마나 괴철로 종극점 레이드 진행도**\n"
                         f"📌 요약: {summary}\n"
                         f"> 일반 처치: {normal}넴\n"
                         f"> 영웅 처치: {heroic}넴\n"
@@ -278,7 +278,7 @@ class Raid(commands.Cog):
                         return "없음" if rank == 0 else f"{rank:,}위"
 
                     msg = (
-                        f"🏆 **언더마인 레이드 랭킹**\n"
+                        f"🏆 **마나 괴철로 종극점 레이드 랭킹**\n"
                         f"✅ **영웅 난이도**\n"
                         f"- 세계: {format_rank(raid['heroic']['world'])}\n"
                         f"- 아시아: {format_rank(raid['heroic']['region'])}\n"
