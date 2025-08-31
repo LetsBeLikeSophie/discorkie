@@ -1,5 +1,6 @@
 import discord
 from discord.ext import commands
+from discord import app_commands
 import os
 from dotenv import load_dotenv
 
@@ -18,8 +19,8 @@ intents.members = True  # /권한정리 등에서 필요!
 # 봇 인스턴스
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# 글로벌 서버 체크 함수
-async def guild_only_check(interaction):
+# 글로벌 앱 명령어 체크 함수
+async def check_guild_only(interaction):
     if interaction.guild is None or interaction.guild.id != GUILD_ID:
         await interaction.response.send_message(
             "❌ 이 명령어는 우당탕탕 스톰윈드 지구대에서만 사용할 수 있어요!", 
@@ -28,6 +29,11 @@ async def guild_only_check(interaction):
         return False
     return True
 
+# 모든 앱 명령어에 체크 추가하는 방법
+@bot.tree.check
+async def guild_check(interaction: discord.Interaction) -> bool:
+    return interaction.guild is not None and interaction.guild.id == GUILD_ID
+
 @bot.event
 async def on_ready():
     await bot.tree.sync()  # 명령어 동기화
@@ -35,17 +41,19 @@ async def on_ready():
     print(f">>> {bot.user} 봇이 로그인했어요!")
     print(f">>> 서버 제한: {GUILD_ID} (우당탕탕 스톰윈드 지구대)")
 
-@bot.event
-async def on_interaction(interaction):
-    # 슬래시 명령어에 대해서만 서버 체크
-    if interaction.type == discord.InteractionType.application_command:
-        # 서버 체크 실패시 여기서 차단
-        if not await guild_only_check(interaction):
-            return
-    
-    # 정상적인 명령어 처리 계속 (이 부분이 중요!)
-    # 원래 discord.py가 처리하도록 넘김
-    bot.dispatch('interaction', interaction)
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error):
+    # 체크 실패 에러를 처리
+    if isinstance(error, app_commands.CheckFailure):
+        if not interaction.response.is_done():
+            await interaction.response.send_message(
+                "❌ 이 명령어는 우당탕탕 스톰윈드 지구대에서만 사용할 수 있어요!", 
+                ephemeral=True
+            )
+        print(f">>> 서버 체크 실패: {interaction.user} in {interaction.guild}")
+        return
+    # 다른 에러들은 기본 처리
+    print(f">>> 명령어 에러: {error}")
 
 # 코그 로드
 @bot.event
