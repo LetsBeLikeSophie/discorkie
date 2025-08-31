@@ -16,8 +16,9 @@
 #         # /제작하기 명령어용 CSV 데이터 로드
 #         self.craftman_data = pd.read_csv("data/craftman.csv", sep='\t')
 
-#     @guild_only()
+
 #     @app_commands.command(name="직업별제작템", description="직업과 특성을 선택해 제작 아이템과 장식을 보여줘요!")
+#     @guild_only()
 #     async def crafting(self, interaction: discord.Interaction):
 #         roles = list(self.crafting_items.keys())
 #         role_choices = [discord.SelectOption(label=role, value=role) for role in roles]
@@ -69,9 +70,10 @@
 #         view = SelectCraftingItemView(combined, interaction.user, self.bot)
 #         await interaction.response.send_message("제작 의뢰할 아이템을 아래 드롭다운에서 선택해 주세요! 🥰", view=view)
 
-#     @guild_only() 
+
 #     @app_commands.command(name="제작하기", description="귀여운 제작 요청을 할 수 있어요~!")
 #     @app_commands.describe(search="아이템명, 부위, 종류 중 검색할 단어를 입력해봐~!")
+#     @guild_only() 
 #     async def 제작하기(self, interaction: discord.Interaction, search: str):
 #         await interaction.response.defer(ephemeral=True)
 #         mask = self.craftman_data[['아이템명', '부위', '종류']].apply(
