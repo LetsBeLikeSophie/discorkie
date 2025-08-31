@@ -35,8 +35,8 @@ async def setup_hook():
     await bot.load_extension("cogs.raider") 
     await bot.load_extension("cogs.wowinfo") 
     await bot.load_extension("cogs.stat") 
-    await bot.load_extension("cogs.craft") 
-    await bot.load_extension("cogs.level_scan") 
+    await bot.load_extension("cogs.level_scan")
+    # await bot.load_extension("cogs.craft")  
     # await bot.load_extension("cogs.raid_schedule")
     # await bot.load_extension("cogs.character_manager")
 
