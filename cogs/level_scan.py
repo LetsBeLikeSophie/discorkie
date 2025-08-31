@@ -14,7 +14,9 @@ ALLOWED_ID = [
     # 123456789012345678,  # 다른 사용자 예시
 ]
 DATA_PATH  = os.path.join("data", "levels.csv")
-TARGET_ROLE_ID = 1329456061048164454  # 정리할 역할 ID
+# TARGET_ROLE_ID = 1329456061048164454  # 정리할 역할 ID = 기웃대는 주민
+TARGET_ROLE_ID = 1411679460310122536  # 정리할 역할 ID = 테스트용
+
 
 class LevelScan(commands.Cog):
     def __init__(self, bot: commands.Bot):
