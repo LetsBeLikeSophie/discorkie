@@ -25,7 +25,7 @@ class LevelScan(commands.Cog):
         description="일부 사용자만 사용할 수 있어요."
     )
     async def level_scan(self, interaction: Interaction):
-        if interaction.user.id not in ALLOWED_ID:
+        if interaction.user.id not in ALLOWED_ID:  # ← 이 부분이 올바름
             return await interaction.response.send_message(
                 "❌ 이 명령어는 몇몇 사용자만 사용할 수 있어요!", ephemeral=True
             )
@@ -79,12 +79,12 @@ class LevelScan(commands.Cog):
 
     @app_commands.command(
         name="기웃정리", 
-        description="특정 역할을 가진 멤버들을 서버에서 정리합니다 (비수긔 전용)"
+        description="특정 역할을 가진 멤버들을 서버에서 정리합니다 (관리자 전용)"
     )
     async def kick_cleanup(self, interaction: Interaction):
-        if interaction.user.id != ALLOWED_ID:
+        if interaction.user.id not in ALLOWED_ID:  # ← 여기도 수정!
             return await interaction.response.send_message(
-                "❌ 이 명령어는 비수긔만 사용할 수 있어요!", ephemeral=True
+                "❌ 이 명령어는 관리자만 사용할 수 있어요!", ephemeral=True
             )
         
         await interaction.response.defer(ephemeral=True)
