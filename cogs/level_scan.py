@@ -14,8 +14,8 @@ ALLOWED_ID = [
     # 123456789012345678,  # 다른 사용자 예시
 ]
 DATA_PATH  = os.path.join("data", "levels.csv")
-# TARGET_ROLE_ID = 1329456061048164454  # 정리할 역할 ID = 기웃대는 주민
-TARGET_ROLE_ID = 1411679460310122536  # 정리할 역할 ID = 테스트용
+TARGET_ROLE_ID = 1329456061048164454  # 정리할 역할 ID = 기웃대는 주민
+# TARGET_ROLE_ID = 1411679460310122536  # 정리할 역할 ID = 테스트용
 
 
 class LevelScan(commands.Cog):
@@ -138,11 +138,10 @@ class ConfirmKickView(discord.ui.View):
         dm_failed_count = 0
         kick_failed_count = 0
         
-        farewell_message = f"""## 안녕하세요! **{self.guild_name}** 길드에서 인사드려요! 👋
+        farewell_message = f"""안녕하세요! **{self.guild_name}** 길드에서 인사드려요! 👋
 
 길드 정리 작업으로 인해 서버에서 나가시게 되었어요.
 언제든지 다시 돌아오시면 환영이에요! 
-
 함께했던 시간 고마웠고, 나중에 또 만나요! 😊
 
 *우당탕탕 스톰윈드 지구대 드림*"""
