@@ -4,12 +4,14 @@ import discord
 import datetime
 import os
 import aiohttp
+from utils import guild_only
 
 class Raid(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     # /닉
+    @guild_only() 
     @app_commands.command(name="닉", description="레이드 참가 캐릭터명으로!")
     @app_commands.describe(new_nickname="바꾸고 싶은 닉네임")
     async def change_nickname(self, interaction: Interaction, new_nickname: str):
@@ -22,6 +24,7 @@ class Raid(commands.Cog):
             await interaction.response.send_message("에러가 발생했어요... 다시 해볼까요? 🫣")
 
     # /레이드
+    @guild_only() 
     @app_commands.command(name="레이드", description="레이드 음성 채널 입장 권한을 받아요!")
     async def give_raid_role(self, interaction: Interaction):
         await interaction.response.defer(ephemeral=True)
@@ -41,6 +44,7 @@ class Raid(commands.Cog):
             await interaction.followup.send("역할을 줄 수 없어요. 관리자 권한 확인해주세요!")
 
     # /권한정리
+    @guild_only() 
     @app_commands.command(name="권한정리", description="모든 멤버의 레이드 역할을 제거해요 (관리자 전용)")
     async def clear_raid_roles(self, interaction: Interaction):
         if not interaction.user.guild_permissions.administrator:
@@ -97,6 +101,7 @@ class Raid(commands.Cog):
 
     #     await interaction.followup.send("해당 봇의 임베드 메시지를 찾지 못했어요 😢")
 
+    @guild_only() 
     @app_commands.command(name="심크", description="sim 명령어를 자동 생성해줘요!")
     @app_commands.describe(character_name="캐릭터 이름 (없으면 본인 서버닉네임 사용)")
     async def sim_helper(self, interaction: Interaction, character_name: str = None):
@@ -138,7 +143,7 @@ class Raid(commands.Cog):
                 f"member.txt에 `{character_name}-서버명` 형태로 등록되어 있는지 확인해주세요!"
             )
 
-
+    @guild_only() 
     @app_commands.command(name="일정", description="예정된 길드 이벤트를 보여줘요!")
     async def show_events(self, interaction: Interaction):
         await interaction.response.defer()
