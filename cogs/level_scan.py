@@ -6,7 +6,12 @@ from discord import Interaction, app_commands
 from discord.ext import commands
 
 CHANNEL_ID = 1275111651493806150
-OWNER_ID   = 1111599410594467862
+ALLOWED_ID = [
+    1111599410594467862,  # 비수긔
+    133478670034665473,  # 딸기
+    # 추가하고 싶은 다른 사용자 ID들을 여기에 넣으세요 
+    # 123456789012345678,  # 다른 사용자 예시
+]
 DATA_PATH  = os.path.join("data", "levels.csv")
 
 class LevelScan(commands.Cog):
@@ -15,12 +20,12 @@ class LevelScan(commands.Cog):
 
     @app_commands.command(
         name="레벨스캔",
-        description="비수긔(ID:1111599410594467862)만 사용할 수 있어요."
+        description="일부 사용자만 사용할 수 있어요."
     )
     async def level_scan(self, interaction: Interaction):
-        if interaction.user.id != OWNER_ID:
+        if interaction.user.id not in ALLOWED_ID:
             return await interaction.response.send_message(
-                "❌ 이 명령어는 비수긔만 사용할 수 있어요!", ephemeral=True
+                "❌ 이 명령어는 몇몇 사용자만 사용할 수 있어요!", ephemeral=True
             )
 
         await interaction.response.defer(ephemeral=True)

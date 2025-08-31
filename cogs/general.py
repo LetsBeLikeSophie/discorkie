@@ -38,7 +38,7 @@ class General(commands.Cog):
         else:
             await interaction.followup.send(f"❌ '{keyword}' 를 포함한 부캐를 찾을 수 없어요!")
 
-    @app_commands.command(name="길드명단", description="(비수긔 전용) 길드원 명단을 가져와 저장해요")
+    @app_commands.command(name="길드명단", description="(비수긔전용) 길드원 명단을 가져와 저장해요")
     async def fetch_guild_roster(self, interaction: Interaction):
         await interaction.response.defer(ephemeral=True)
 
