@@ -145,7 +145,7 @@ class GuildDataCollector:
             
             async with self.pool.acquire() as conn:
                 result = await conn.execute("""
-                    INSERT INTO guild_members
+                    INSERT INTO guild_bot.guild_members
                     (character_name, realm, is_guild_member,
                     language, race, class, active_spec, active_spec_role,
                     gender, faction, achievement_points,
@@ -194,12 +194,12 @@ class GuildDataCollector:
             async with self.pool.acquire() as conn:
                 if language:
                     result = await conn.fetchval(
-                        "SELECT COUNT(*) FROM guild_members WHERE is_guild_member = TRUE AND language = $1",
+                        "SELECT COUNT(*) FROM guild_bot.guild_members WHERE is_guild_member = TRUE AND language = $1",
                         language
                     )
                 else:
                     result = await conn.fetchval(
-                        "SELECT COUNT(*) FROM guild_members WHERE is_guild_member = TRUE"
+                        "SELECT COUNT(*) FROM guild_bot.guild_members WHERE is_guild_member = TRUE"
                     )
                 return result or 0
         except Exception as e:
