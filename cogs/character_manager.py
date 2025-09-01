@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 from discord import app_commands, Interaction
 import os
-from .database import db
+from db.database_manager import db
 
 def find_character_server(character_name):
     """member.txt에서 캐릭터명으로 서버 찾기"""

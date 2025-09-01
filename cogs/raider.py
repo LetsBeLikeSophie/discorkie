@@ -1,7 +1,7 @@
 from discord.ext import commands
 from discord import app_commands, Interaction
 import aiohttp
-from utils import guild_only
+from decorators.guild_only import guild_only
 
 class Raider(commands.Cog):
     def __init__(self, bot):

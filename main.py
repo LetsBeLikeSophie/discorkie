@@ -2,6 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
+from db.database_manager import db  # 데이터베이스 매니저 import
 
 # .env에서 토큰 불러오기
 load_dotenv()
@@ -30,6 +31,14 @@ async def on_ready():
 # 코그 로드
 @bot.event
 async def setup_hook():
+    # 데이터베이스 연결 풀 생성
+    try:
+        await db.create_pool()
+        print(">>> 데이터베이스 연결 풀 초기화 완료!")
+    except Exception as e:
+        print(f">>> 데이터베이스 연결 실패: {e}")
+    
+    # 코그 로드
     await bot.load_extension("cogs.raid")
     await bot.load_extension("cogs.wow")  
     await bot.load_extension("cogs.raider") 
@@ -37,8 +46,19 @@ async def setup_hook():
     await bot.load_extension("cogs.stat") 
     await bot.load_extension("cogs.level_scan")
     # await bot.load_extension("cogs.craft")  
+    # await bot.load_extension("cogs.general")  
     # await bot.load_extension("cogs.raid_schedule")
-    # await bot.load_extension("cogs.character_manager")
+    await bot.load_extension("cogs.character_manager")
+    await bot.load_extension("cogs.raid_management")
+
+# 봇 종료 시 데이터베이스 연결 해제
+@bot.event  
+async def on_disconnect():
+    try:
+        await db.close_pool()
+        print(">>> 데이터베이스 연결 풀 종료")
+    except Exception as e:
+        print(f">>> 데이터베이스 연결 해제 실패: {e}")
 
 # 봇 실행
 bot.run(TOKEN)

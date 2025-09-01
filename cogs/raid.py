@@ -4,7 +4,7 @@ import discord
 import datetime
 import os
 import aiohttp
-from utils import guild_only
+from decorators.guild_only import guild_only
 
 class Raid(commands.Cog):
     def __init__(self, bot):
