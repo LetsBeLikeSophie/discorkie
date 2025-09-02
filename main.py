@@ -45,6 +45,7 @@ async def setup_hook():
     await bot.load_extension("cogs.wowinfo") 
     await bot.load_extension("cogs.stat") 
     await bot.load_extension("cogs.level_scan")
+    await bot.load_extension("cogs.guild_stats")
     # await bot.load_extension("cogs.craft")  
     # await bot.load_extension("cogs.general")  
     # await bot.load_extension("cogs.raid_schedule")
