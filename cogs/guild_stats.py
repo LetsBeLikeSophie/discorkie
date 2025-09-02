@@ -33,10 +33,10 @@ class StatsSelect(Select):
                 emoji="📊"
             ),
             discord.SelectOption(
-                label="특이한 통계",
-                value="special_stats",
-                description="가장 희귀한 조합과 특별한 통계들!",
-                emoji="🎲"
+                label="희귀한 조합",
+                value="rare_combos",
+                description="길드에서 가장 희귀한 조합들 TOP3!",
+                emoji="🦄"
             )
         ]
         super().__init__(placeholder="원하는 통계를 선택해주세요!", options=options)
@@ -53,8 +53,8 @@ class StatsSelect(Select):
                 await self._show_rankings(interaction)
             elif stat_type == "ratios":
                 await self._show_ratios(interaction)
-            elif stat_type == "special_stats":
-                await self._show_special_stats(interaction)
+            elif stat_type == "rare_combos":
+                await self._show_rare_combos(interaction)
         except Exception as e:
             print(f">>> 통계 조회 중 오류 발생: {e}")
             await interaction.followup.send("통계 조회 중 오류가 발생했어요 😢")
@@ -70,21 +70,21 @@ class StatsSelect(Select):
         )
         
         # 인기 직업 TOP3
-        job_text = "\n"
+        job_text = ""
         for i, (job, count) in enumerate(top3_stats['top_classes'][:3], 1):
             medals = ["🥇", "🥈", "🥉"]
             job_text += f"{medals[i-1]} {job} ({count}명)\n"
         embed.add_field(name="💼 인기 직업 TOP3", value=job_text, inline=True)
         
         # 인기 전문화 TOP3
-        spec_text = "\n"
+        spec_text = ""
         for i, (spec, count) in enumerate(top3_stats['top_specs'][:3], 1):
             medals = ["🥇", "🥈", "🥉"]
             spec_text += f"{medals[i-1]} {spec} ({count}명)\n"
         embed.add_field(name="⚔️ 인기 전문화 TOP3", value=spec_text, inline=True)
         
         # 인기 서버 TOP3
-        realm_text = "\n"
+        realm_text = ""
         for i, (realm, count) in enumerate(top3_stats['top_realms'][:3], 1):
             medals = ["🥇", "🥈", "🥉"]
             realm_text += f"{medals[i-1]} {realm} ({count}명)\n"
@@ -103,7 +103,7 @@ class StatsSelect(Select):
         )
         
         # 업적점수 TOP5
-        achievement_text = "\n"
+        achievement_text = ""
         medals = ["🥇", "🥈", "🥉", "🏅", "🏅"]
         for i, (name, points) in enumerate(ranking_stats['achievement_ranking'][:5]):
             achievement_text += f"{medals[i]} {name} ({points:,}점)\n"
@@ -156,51 +156,39 @@ class StatsSelect(Select):
         
         await interaction.followup.send(embed=embed)
 
-    async def _show_special_stats(self, interaction: Interaction):
-        """특이한 통계"""
-        special_stats = await self.cog.get_special_stats()
+    async def _show_rare_combos(self, interaction: Interaction):
+        """희귀한 조합 통계"""
+        rare_stats = await self.cog.get_rare_combos()
         
         embed = discord.Embed(
-            title="🎲 특이한 통계",
-            description="길드의 숨겨진 재미있는 사실들을 발견했어요! 🔍✨",
+            title="🦄 희귀한 조합 TOP3",
+            description="길드에서 가장 희귀한 조합들을 발견했어요! 🔍✨\n특별한 존재들이네요~",
             color=0xe67e22
         )
         
-        embed.add_field(
-            name="🌟 가장 희귀한 조합",
-            value=f"{special_stats['rarest_combo']}\n(단 {special_stats['rarest_count']}명뿐!)",
-            inline=True
-        )
+        # 종족+직업 희귀한 TOP3
+        race_class_text = ""
+        for i, (combo, count) in enumerate(rare_stats['rare_race_class'][:3], 1):
+            race_class_text += f"{i}. {combo} ({count}명)\n"
+        embed.add_field(name="🧬 종족+직업 희귀 TOP3", value=race_class_text, inline=True)
         
-        embed.add_field(
-            name="👑 업적 대왕",
-            value=f"{special_stats['achievement_king']}\n({special_stats['max_achievement']:,}점의 위엄!)",
-            inline=True
-        )
+        # 직업+전문화 희귀한 TOP3
+        class_spec_text = ""
+        for i, (combo, count) in enumerate(rare_stats['rare_class_spec'][:3], 1):
+            class_spec_text += f"{i}. {combo} ({count}명)\n"
+        embed.add_field(name="⚔️ 직업+전문화 희귀 TOP3", value=class_spec_text, inline=True)
         
-        embed.add_field(
-            name="🏠 길드 본거지",
-            value=f"{special_stats['main_realm']}\n({special_stats['main_realm_count']}명 거주중)",
-            inline=True
-        )
+        # 종족+직업+전문화 희귀한 TOP3
+        triple_text = ""
+        for i, (combo, count) in enumerate(rare_stats['rare_race_class_spec'][:3], 1):
+            triple_text += f"{i}. {combo} ({count}명)\n"
+        embed.add_field(name="🌟 종족+직업+전문화 희귀 TOP3", value=triple_text, inline=True)
         
-        embed.add_field(
-            name="🎯 전문화 독점왕",
-            value=f"{special_stats['dominant_spec']}\n(무려 {special_stats['dominant_spec_count']}명!)",
-            inline=True
-        )
-        
-        embed.add_field(
-            name="🦄 외로운 전사",
-            value=f"{special_stats['loneliest_spec']}\n(혼자서도 잘해요... 😢)",
-            inline=True
-        )
-        
-        embed.add_field(
-            name="📊 길드 다양성",
-            value=f"{'🌈 매우 다양해요!' if special_stats['diversity_score'] > 0.8 else '🌟 적당히 다양해요!' if special_stats['diversity_score'] > 0.6 else '🎯 비슷비슷해요!'}",
-            inline=True
-        )
+        # 서버+종족+직업+전문화 희귀한 TOP3
+        full_combo_text = ""
+        for i, (combo, count) in enumerate(rare_stats['rare_full_combo'][:3], 1):
+            full_combo_text += f"{i}. {combo} ({count}명)\n"
+        embed.add_field(name="🏠 서버+종족+직업+전문화 희귀 TOP3", value=full_combo_text, inline=False)
         
         await interaction.followup.send(embed=embed)
 
@@ -425,101 +413,64 @@ class GuildStats(commands.Cog):
             'role_ratio': role_ratio
         }
 
-    async def get_special_stats(self) -> Dict[str, Any]:
-        """특이한 통계 조회"""
-        print(">>> 특이한 통계 조회 시작")
+    async def get_rare_combos(self) -> Dict[str, Any]:
+        """희귀한 조합 통계 조회"""
+        print(">>> 희귀한 조합 통계 조회 시작")
         
-        # 가장 희귀한 종족+직업 조합
-        rarest_combo_query = """
+        # 종족+직업 희귀한 TOP3
+        race_class_query = """
         SELECT race || ' ' || class as combo, COUNT(*) as count 
         FROM guild_bot.guild_members 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY race, class 
-        ORDER BY count ASC 
-        LIMIT 1
+        ORDER BY count ASC, combo ASC
+        LIMIT 3
         """
-        rarest_combo_result = await self.execute_single_query(rarest_combo_query)
-        rarest_combo = rarest_combo_result[0] if rarest_combo_result else "알 수 없음"
-        rarest_count = rarest_combo_result[1] if rarest_combo_result else 0
+        race_class_result = await self.execute_query(race_class_query)
+        rare_race_class = [(combo, count) for combo, count in race_class_result] if race_class_result else []
         
-        # 업적 대왕
-        achievement_king_query = """
-        SELECT character_name, achievement_points 
-        FROM guild_bot.guild_members 
-        WHERE is_guild_member = TRUE AND language = 'ko' AND achievement_points > 0
-        ORDER BY achievement_points DESC 
-        LIMIT 1
-        """
-        achievement_king_result = await self.execute_single_query(achievement_king_query)
-        achievement_king = achievement_king_result[0] if achievement_king_result else "알 수 없음"
-        max_achievement = achievement_king_result[1] if achievement_king_result else 0
-        
-        # 길드 본거지 (가장 많은 서버)
-        main_realm_query = """
-        SELECT realm, COUNT(*) as count 
-        FROM guild_bot.guild_members 
-        WHERE is_guild_member = TRUE AND language = 'ko'
-        GROUP BY realm 
-        ORDER BY count DESC 
-        LIMIT 1
-        """
-        main_realm_result = await self.execute_single_query(main_realm_query)
-        main_realm = main_realm_result[0] if main_realm_result else "알 수 없음"
-        main_realm_count = main_realm_result[1] if main_realm_result else 0
-        
-        # 가장 많은 전문화 (독점왕)
-        dominant_spec_query = """
-        SELECT active_spec, COUNT(*) as count 
+        # 직업+전문화 희귀한 TOP3
+        class_spec_query = """
+        SELECT class || ' ' || active_spec as combo, COUNT(*) as count 
         FROM guild_bot.guild_members 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
-        GROUP BY active_spec 
-        ORDER BY count DESC 
-        LIMIT 1
+        GROUP BY class, active_spec 
+        ORDER BY count ASC, combo ASC
+        LIMIT 3
         """
-        dominant_spec_result = await self.execute_single_query(dominant_spec_query)
-        dominant_spec = dominant_spec_result[0] if dominant_spec_result else "알 수 없음"
-        dominant_spec_count = dominant_spec_result[1] if dominant_spec_result else 0
+        class_spec_result = await self.execute_query(class_spec_query)
+        rare_class_spec = [(combo, count) for combo, count in class_spec_result] if class_spec_result else []
         
-        # 가장 적은 전문화 (외로운 전사)
-        loneliest_spec_query = """
-        SELECT active_spec, COUNT(*) as count 
+        # 종족+직업+전문화 희귀한 TOP3
+        race_class_spec_query = """
+        SELECT race || ' ' || class || ' ' || active_spec as combo, COUNT(*) as count 
         FROM guild_bot.guild_members 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
-        GROUP BY active_spec 
-        HAVING COUNT(*) = 1
-        LIMIT 1
+        GROUP BY race, class, active_spec 
+        ORDER BY count ASC, combo ASC
+        LIMIT 3
         """
-        loneliest_spec_result = await self.execute_single_query(loneliest_spec_query)
-        loneliest_spec = loneliest_spec_result[0] if loneliest_spec_result else "없음"
+        race_class_spec_result = await self.execute_query(race_class_spec_query)
+        rare_race_class_spec = [(combo, count) for combo, count in race_class_spec_result] if race_class_spec_result else []
         
-        # 다양성 지수 계산 (심슨 다양성 지수 응용)
-        diversity_query = """
-        SELECT class, COUNT(*) as count 
+        # 서버+종족+직업+전문화 희귀한 TOP3
+        full_combo_query = """
+        SELECT realm || ' ' || race || ' ' || class || ' ' || active_spec as combo, COUNT(*) as count 
         FROM guild_bot.guild_members 
-        WHERE is_guild_member = TRUE AND language = 'ko'
-        GROUP BY class
+        WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
+        GROUP BY realm, race, class, active_spec 
+        ORDER BY count ASC, combo ASC
+        LIMIT 3
         """
-        diversity_result = await self.execute_query(diversity_query)
+        full_combo_result = await self.execute_query(full_combo_query)
+        rare_full_combo = [(combo, count) for combo, count in full_combo_result] if full_combo_result else []
         
-        if diversity_result:
-            total = sum(count for _, count in diversity_result)
-            simpson_index = sum((count / total) ** 2 for _, count in diversity_result)
-            diversity_score = 1 - simpson_index  # 1에 가까울수록 다양함
-        else:
-            diversity_score = 0
-        
-        print(">>> 특이한 통계 조회 완료")
+        print(">>> 희귀한 조합 통계 조회 완료")
         return {
-            'rarest_combo': rarest_combo,
-            'rarest_count': rarest_count,
-            'achievement_king': achievement_king,
-            'max_achievement': max_achievement,
-            'main_realm': main_realm,
-            'main_realm_count': main_realm_count,
-            'dominant_spec': dominant_spec,
-            'dominant_spec_count': dominant_spec_count,
-            'loneliest_spec': loneliest_spec,
-            'diversity_score': diversity_score
+            'rare_race_class': rare_race_class,
+            'rare_class_spec': rare_class_spec,
+            'rare_race_class_spec': rare_race_class_spec,
+            'rare_full_combo': rare_full_combo
         }
 
 async def setup(bot):
