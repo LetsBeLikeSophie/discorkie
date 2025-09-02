@@ -274,7 +274,7 @@ class Raid(commands.Cog):
                     await interaction.followup.send(msg)
 
                 elif field == "raid_rankings":
-                    raid = data.get("raid_rankings", {}).get("liberation-of-undermine")
+                    raid = data.get("raid_rankings", {}).get("manaforge-omega")
                     if not raid:
                         await interaction.followup.send("랭킹 정보를 찾을 수 없어요 😢")
                         return
