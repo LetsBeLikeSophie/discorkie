@@ -48,8 +48,8 @@ async def setup_hook():
     # await bot.load_extension("cogs.craft")  
     # await bot.load_extension("cogs.general")  
     # await bot.load_extension("cogs.raid_schedule")
-    await bot.load_extension("cogs.character_manager")
-    await bot.load_extension("cogs.raid_management")
+    # await bot.load_extension("cogs.character_manager")
+    # await bot.load_extension("cogs.raid_management")
 
 # 봇 종료 시 데이터베이스 연결 해제
 @bot.event  
