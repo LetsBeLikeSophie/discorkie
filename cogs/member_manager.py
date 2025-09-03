@@ -18,7 +18,7 @@ TARGET_ROLE_ID = 1329456061048164454  # 정리할 역할 ID = 기웃대는 주�
 # TARGET_ROLE_ID = 1411679460310122536  # 정리할 역할 ID = 테스트용
 
 
-class LevelScan(commands.Cog):
+class MemberManager(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
@@ -231,4 +231,4 @@ class ConfirmKickView(discord.ui.View):
             item.disabled = True
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(LevelScan(bot))
+    await bot.add_cog(MemberManager(bot))

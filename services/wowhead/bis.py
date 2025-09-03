@@ -1,9 +1,8 @@
 import json
-import aiohttp
 from discord import app_commands, Interaction, ui
 from discord.ext import commands
 
-class BIS(commands.Cog):
+class Bis(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.wow_classes = self.load_classes()
@@ -45,6 +44,5 @@ class BIS(commands.Cog):
             view=view
         )
 
-
 async def setup(bot):
-    await bot.add_cog(BIS(bot))
+    await bot.add_cog(Bis(bot))

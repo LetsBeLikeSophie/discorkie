@@ -133,7 +133,7 @@ class StatView(View):
         super().__init__()
         self.add_item(RoleSelect())
 
-class Stat(commands.Cog):
+class SecondaryStats(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -142,4 +142,4 @@ class Stat(commands.Cog):
         await interaction.response.send_message("🧚‍♀️ 역할군을 선택해주세요~", view=StatView())
 
 async def setup(bot: commands.Bot):
-    await bot.add_cog(Stat(bot))
+    await bot.add_cog(SecondaryStats(bot))

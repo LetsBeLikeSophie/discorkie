@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-class WoW(commands.Cog):
+class TokenPrice(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -30,7 +30,7 @@ class WoW(commands.Cog):
 
     @commands.Cog.listener()
     async def on_ready(self):
-        print("✅ WoW 기능 준비 완료!")
+        print(">>> TokenPrice 기능 준비 완료!")
 
 
             
@@ -92,4 +92,4 @@ def get_relative_time(dt: datetime.datetime) -> str:
 
 # Cog 등록
 async def setup(bot):
-    await bot.add_cog(WoW(bot))
+    await bot.add_cog(TokenPrice(bot))

@@ -1,9 +1,8 @@
 from discord.ext import commands
 from discord import app_commands, Interaction
 import aiohttp
-from decorators.guild_only import guild_only
 
-class Raider(commands.Cog):
+class Affixes(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
@@ -34,9 +33,5 @@ class Raider(commands.Cog):
 
                 await interaction.followup.send(msg)
 
-
-
-    
-
 async def setup(bot):
-    await bot.add_cog(Raider(bot))
+    await bot.add_cog(Affixes(bot))

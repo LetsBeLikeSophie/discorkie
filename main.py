@@ -40,12 +40,12 @@ async def setup_hook():
     
     # 코그 로드
     await bot.load_extension("cogs.raid")
-    await bot.load_extension("cogs.wow")  
-    await bot.load_extension("cogs.raider") 
-    await bot.load_extension("cogs.wowinfo") 
-    await bot.load_extension("cogs.stat") 
-    await bot.load_extension("cogs.level_scan")
+    await bot.load_extension("cogs.member_manager")
     await bot.load_extension("cogs.guild_stats")
+    await bot.load_extension("services.blizzard.token_price")  
+    await bot.load_extension("services.raiderio.affixes") 
+    await bot.load_extension("services.wowhead.bis") 
+    await bot.load_extension("services.community.secondary_stats") 
     # await bot.load_extension("cogs.craft")  
     # await bot.load_extension("cogs.general")  
     # await bot.load_extension("cogs.raid_schedule")
