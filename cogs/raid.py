@@ -192,38 +192,51 @@ class DBServerSelectView(ui.View):
         selected_realm = interaction.data['values'][0]
         
         await interaction.response.send_message(
-            f"🔄 **{self.character_name}-{selected_realm}** 정보를 업데이트하고 닉네임을 변경 중...",
+            f"🔄 **{self.character_name}-{selected_realm}** 닉네임 변경을 시도 중...",
             ephemeral=True
         )
         
-        # 캐릭터를 디스코드 유저에게 연결
-        success = await link_character_to_discord(self.character_name, selected_realm, self.user)
+        new_nickname_with_emoji = f"🚀{self.character_name}"
         
-        if success:
-            new_nickname_with_emoji = f"🚀{self.character_name}"
-            try:
-                await self.user.edit(nick=new_nickname_with_emoji)
+        # 먼저 닉네임 변경을 시도
+        nickname_changed = False
+        try:
+            await self.user.edit(nick=new_nickname_with_emoji)
+            nickname_changed = True
+            print(f">>> 닉네임 변경 성공: {new_nickname_with_emoji}")
+        except discord.Forbidden:
+            print(f">>> 닉네임 변경 실패 - 권한 부족: {self.user.display_name}")
+            await interaction.followup.send(
+                "❌ 권한이 부족해서 닉네임을 변경할 수 없어요!",
+                ephemeral=True
+            )
+            return
+        except Exception as e:
+            print(f">>> 닉네임 변경 오류: {e}")
+            await interaction.followup.send(
+                "❌ 닉네임 변경 중 오류가 발생했어요!",
+                ephemeral=True
+            )
+            return
+        
+        # 닉네임 변경이 성공했을 때만 데이터베이스 연결 수행
+        if nickname_changed:
+            print(f">>> 닉네임 변경 성공 - DB 연결 시도: {self.character_name}-{selected_realm}")
+            success = await link_character_to_discord(self.character_name, selected_realm, self.user)
+            
+            if success:
                 await interaction.followup.send(
                     f"✅ 닉네임이 **{new_nickname_with_emoji}**로 변경되었어요!\n"
                     f"🎮 서버: {selected_realm}",
                     ephemeral=True
                 )
-            except discord.Forbidden:
+            else:
                 await interaction.followup.send(
-                    "❌ 권한이 부족해서 닉네임을 변경할 수 없어요!",
+                    f"✅ 닉네임이 **{new_nickname_with_emoji}**로 변경되었어요!\n"
+                    f"🎮 서버: {selected_realm}\n"
+                    f"⚠️ 데이터베이스 연결 중 오류가 발생했습니다.",
                     ephemeral=True
                 )
-            except Exception as e:
-                print(f">>> 닉네임 변경 오류: {e}")
-                await interaction.followup.send(
-                    "❌ 닉네임 변경 중 오류가 발생했어요!",
-                    ephemeral=True
-                )
-        else:
-            await interaction.followup.send(
-                "⚠️ 캐릭터 연결 중 오류가 발생했어요!",
-                ephemeral=True
-            )
         
         self.stop()
 
@@ -290,34 +303,46 @@ class ServerSelectView(ui.View):
         
         print(f">>> 새 닉네임: {new_nickname}")
         
-        # 캐릭터 데이터베이스 저장 시도
-        char_save_success = await save_character_to_db(char_info, self.user, is_guild_member=False)
-        
-        # 디스코드 연결 시도
-        link_success = await link_character_to_discord(self.character_name, self.selected_server, self.user)
-        
-        db_warning = ""
-        if not (char_save_success and link_success):
-            db_warning = "\n⚠️ 데이터베이스 처리 중 일부 오류가 발생했습니다."
-        
+        # 먼저 닉네임 변경을 시도
+        nickname_changed = False
         try:
             await self.user.edit(nick=new_nickname)
+            nickname_changed = True
+            print(f">>> 닉네임 변경 성공: {new_nickname}")
+        except discord.Forbidden:
+            print(f">>> 닉네임 변경 실패 - 권한 부족: {self.user.display_name}")
+            await interaction.followup.send(
+                f"❌ 권한이 부족해서 닉네임을 변경할 수 없어요!", 
+                ephemeral=True
+            )
+            return
+        except Exception as e:
+            print(f">>> 닉네임 변경 오류: {e}")
+            await interaction.followup.send(
+                f"❌ 닉네임 변경 중 오류가 발생했어요!", 
+                ephemeral=True
+            )
+            return
+        
+        # 닉네임 변경이 성공했을 때만 데이터베이스 작업 수행
+        if nickname_changed:
+            print(f">>> 닉네임 변경 성공 - DB 작업 시작: {self.character_name}-{self.selected_server}")
+            
+            # 캐릭터 데이터베이스 저장 시도
+            char_save_success = await save_character_to_db(char_info, self.user, is_guild_member=False)
+            
+            # 디스코드 연결 시도
+            link_success = await link_character_to_discord(self.character_name, self.selected_server, self.user)
+            
+            db_warning = ""
+            if not (char_save_success and link_success):
+                db_warning = "\n⚠️ 데이터베이스 처리 중 일부 오류가 발생했습니다."
+            
             role = char_info.get("active_spec_role", "DPS")
             await interaction.followup.send(
                 f"✅ 닉네임이 **{new_nickname}**로 변경되었어요!\n"
                 f"🎮 서버: {korean_server}\n"
                 f"🏷️ 역할: {role}{db_warning}",
-                ephemeral=True
-            )
-        except discord.Forbidden:
-            await interaction.followup.send(
-                f"❌ 권한이 부족해서 닉네임을 변경할 수 없어요!{db_warning}", 
-                ephemeral=True
-            )
-        except Exception as e:
-            print(f">>> 닉네임 변경 오류: {e}")
-            await interaction.followup.send(
-                f"❌ 닉네임 변경 중 오류가 발생했어요!{db_warning}", 
                 ephemeral=True
             )
         
@@ -386,33 +411,47 @@ class Raid(commands.Cog):
                     realm_slug = row['realm_slug']
                     print(f">>> 단일 서버 발견: {new_nickname}-{realm_slug}")
                     
-                    success = await link_character_to_discord(new_nickname, realm_slug, interaction.user)
+                    new_nickname_with_emoji = f"🚀{new_nickname}"
                     
-                    if success:
-                        new_nickname_with_emoji = f"🚀{new_nickname}"
-                        try:
-                            await interaction.user.edit(nick=new_nickname_with_emoji)
+                    # 먼저 닉네임 변경을 시도
+                    nickname_changed = False
+                    try:
+                        await interaction.user.edit(nick=new_nickname_with_emoji)
+                        nickname_changed = True
+                        print(f">>> 닉네임 변경 성공: {new_nickname_with_emoji}")
+                    except discord.Forbidden:
+                        print(f">>> 닉네임 변경 실패 - 권한 부족: {interaction.user.display_name}")
+                        await interaction.followup.send(
+                            "❌ 권한이 부족해서 닉네임을 변경할 수 없어요!", 
+                            ephemeral=True
+                        )
+                        return
+                    except Exception as e:
+                        print(f">>> 닉네임 변경 오류: {e}")
+                        await interaction.followup.send(
+                            "❌ 닉네임 변경 중 오류가 발생했어요!", 
+                            ephemeral=True
+                        )
+                        return
+                    
+                    # 닉네임 변경이 성공했을 때만 데이터베이스 연결 수행
+                    if nickname_changed:
+                        print(f">>> 닉네임 변경 성공 - DB 연결 시도: {new_nickname}-{realm_slug}")
+                        success = await link_character_to_discord(new_nickname, realm_slug, interaction.user)
+                        
+                        if success:
                             await interaction.followup.send(
                                 f"✅ 닉네임이 **{new_nickname_with_emoji}**로 변경되었어요!\n"
                                 f"🎮 서버: {realm_slug}",
                                 ephemeral=True
                             )
-                        except discord.Forbidden:
+                        else:
                             await interaction.followup.send(
-                                "❌ 권한이 부족해서 닉네임을 변경할 수 없어요!", 
+                                f"✅ 닉네임이 **{new_nickname_with_emoji}**로 변경되었어요!\n"
+                                f"🎮 서버: {realm_slug}\n"
+                                f"⚠️ 데이터베이스 연결 중 오류가 발생했습니다.",
                                 ephemeral=True
                             )
-                        except Exception as e:
-                            print(f">>> 닉네임 변경 오류: {e}")
-                            await interaction.followup.send(
-                                "❌ 닉네임 변경 중 오류가 발생했어요!", 
-                                ephemeral=True
-                            )
-                    else:
-                        await interaction.followup.send(
-                            "⚠️ 캐릭터 연결 중 오류가 발생했어요!",
-                            ephemeral=True
-                        )
                         
                 else:
                     # 서버가 여러 개인 경우
