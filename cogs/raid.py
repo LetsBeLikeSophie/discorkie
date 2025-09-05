@@ -362,9 +362,9 @@ class Raid(commands.Cog):
         print(f">>> /닉 명령어 실행: 사용자 {interaction.user.display_name}, 요청 닉네임: {new_nickname}")
         
         # 특정 역할 ID 확인
-        # special_role_id = 1329456061048164454 기웃대는주민
+        special_role_id = 1329456061048164454 # 기웃대는주민
         # special_role_id = 1412361616888172634  # 개발 테스트용
-        special_role_id = 1411679460310122536  # 운영 테스트용
+        # special_role_id = 1411679460310122536  # 운영 테스트용
 
         user_has_special_role = any(role.id == special_role_id for role in interaction.user.roles)
         
