@@ -10,6 +10,7 @@ import discord
 import asyncpg
 import asyncio
 import os
+from typing import Optional, Dict, List, Tuple
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -23,13 +24,36 @@ class AutoNicknameMatcher:
     def __init__(self):
         self.bot = None
         self.guild = None
+        self.pool: Optional[asyncpg.Pool] = None
+        
+    async def create_pool(self):
+        """데이터베이스 연결 풀 생성"""
+        try:
+            self.pool = await asyncpg.create_pool(
+                DATABASE_URL,
+                min_size=1,
+                max_size=10
+            )
+            print(">>> 데이터베이스 연결 풀 생성 완료")
+        except Exception as e:
+            print(f">>> 데이터베이스 연결 실패: {e}")
+            raise
+    
+    async def close_pool(self):
+        """데이터베이스 연결 풀 종료"""
+        if self.pool:
+            await self.pool.close()
+            print(">>> 데이터베이스 연결 풀 종료")
         
     async def connect_to_discord(self):
-        """디스코드 봇 연결"""
+        """디스코드 봇 연결 (타임아웃 적용)"""
         intents = discord.Intents.default()
         intents.members = True
         
         self.bot = discord.Client(intents=intents)
+        
+        # 연결 완료 이벤트를 기다리기 위한 Future
+        ready_future = asyncio.Future()
         
         @self.bot.event
         async def on_ready():
@@ -37,24 +61,36 @@ class AutoNicknameMatcher:
             self.guild = self.bot.get_guild(GUILD_ID)
             if self.guild:
                 print(f">>> 길드 연결 완료: {self.guild.name} (멤버수: {self.guild.member_count})")
+                ready_future.set_result(True)
             else:
                 print(f">>> 길드를 찾을 수 없음: {GUILD_ID}")
+                ready_future.set_exception(Exception(f"길드를 찾을 수 없음: {GUILD_ID}"))
         
-        await self.bot.login(BOT_TOKEN)
-        await self.bot.connect()
+        # 봇 시작
+        bot_task = asyncio.create_task(self.bot.start(BOT_TOKEN))
+        
+        try:
+            # 30초 타임아웃으로 ready 이벤트 대기
+            await asyncio.wait_for(ready_future, timeout=30.0)
+            print(">>> 디스코드 연결 및 준비 완료")
+        except asyncio.TimeoutError:
+            print(">>> 디스코드 연결 타임아웃 (30초)")
+            bot_task.cancel()
+            raise
+        except Exception as e:
+            print(f">>> 디스코드 연결 오류: {e}")
+            bot_task.cancel()
+            raise
     
-    async def get_characters_from_db(self):
+    async def get_characters_from_db(self) -> Dict[str, List[Tuple[str, int]]]:
         """DB에서 길드 캐릭터 목록 가져오기"""
         try:
-            conn = await asyncpg.connect(DATABASE_URL)
-            
-            rows = await conn.fetch("""
-                SELECT character_name, realm_slug, id
-                FROM guild_bot.characters 
-                WHERE is_guild_member = TRUE
-            """)
-            
-            await conn.close()
+            async with self.pool.acquire() as conn:
+                rows = await conn.fetch("""
+                    SELECT character_name, realm_slug, id
+                    FROM guild_bot.characters 
+                    WHERE is_guild_member = TRUE
+                """)
             
             # 캐릭터명 -> (realm_slug, character_id) 매핑
             characters = {}
@@ -74,48 +110,46 @@ class AutoNicknameMatcher:
             print(f">>> DB 조회 오류: {e}")
             return {}
     
-    async def link_character_to_discord_user(self, character_id: int, member: discord.Member):
+    async def link_character_to_discord_user(self, character_id: int, member: discord.Member) -> bool:
         """캐릭터를 디스코드 유저에게 연결"""
         try:
-            conn = await asyncpg.connect(DATABASE_URL)
+            async with self.pool.acquire() as conn:
+                discord_id = str(member.id)
+                discord_username = member.name
+                
+                # 1. discord_users 테이블에 유저 정보 추가/업데이트
+                await conn.execute("""
+                    INSERT INTO guild_bot.discord_users (discord_id, discord_username)
+                    VALUES ($1, $2)
+                    ON CONFLICT (discord_id)
+                    DO UPDATE SET
+                        discord_username = EXCLUDED.discord_username,
+                        updated_at = NOW()
+                """, discord_id, discord_username)
+                
+                # 2. discord_user_id 조회
+                discord_user_db_id = await conn.fetchval(
+                    "SELECT id FROM guild_bot.discord_users WHERE discord_id = $1",
+                    discord_id
+                )
+                
+                # 3. 기존 verified 연결 해제 (한 유저당 하나의 활성 캐릭터만)
+                await conn.execute("""
+                    UPDATE guild_bot.character_ownership 
+                    SET is_verified = FALSE, updated_at = NOW()
+                    WHERE discord_user_id = $1 AND is_verified = TRUE
+                """, discord_user_db_id)
+                
+                # 4. 새로운 연결 추가/업데이트
+                await conn.execute("""
+                    INSERT INTO guild_bot.character_ownership (discord_user_id, character_id, is_verified)
+                    VALUES ($1, $2, TRUE)
+                    ON CONFLICT (discord_user_id, character_id)
+                    DO UPDATE SET
+                        is_verified = TRUE,
+                        updated_at = NOW()
+                """, discord_user_db_id, character_id)
             
-            discord_id = str(member.id)
-            discord_username = member.name
-            
-            # 1. discord_users 테이블에 유저 정보 추가/업데이트
-            await conn.execute("""
-                INSERT INTO guild_bot.discord_users (discord_id, discord_username)
-                VALUES ($1, $2)
-                ON CONFLICT (discord_id)
-                DO UPDATE SET
-                    discord_username = EXCLUDED.discord_username,
-                    updated_at = NOW()
-            """, discord_id, discord_username)
-            
-            # 2. discord_user_id 조회
-            discord_user_db_id = await conn.fetchval(
-                "SELECT id FROM guild_bot.discord_users WHERE discord_id = $1",
-                discord_id
-            )
-            
-            # 3. 기존 verified 연결 해제 (한 유저당 하나의 활성 캐릭터만)
-            await conn.execute("""
-                UPDATE guild_bot.character_ownership 
-                SET is_verified = FALSE, updated_at = NOW()
-                WHERE discord_user_id = $1 AND is_verified = TRUE
-            """, discord_user_db_id)
-            
-            # 4. 새로운 연결 추가/업데이트
-            await conn.execute("""
-                INSERT INTO guild_bot.character_ownership (discord_user_id, character_id, is_verified)
-                VALUES ($1, $2, TRUE)
-                ON CONFLICT (discord_user_id, character_id)
-                DO UPDATE SET
-                    is_verified = TRUE,
-                    updated_at = NOW()
-            """, discord_user_db_id, character_id)
-            
-            await conn.close()
             return True
             
         except Exception as e:
@@ -138,16 +172,25 @@ class AutoNicknameMatcher:
         success_count = 0
         skip_count = 0
         error_count = 0
+        no_match_count = 0
         
         print(">>> 멤버 처리 시작...")
         
-        async for member in self.guild.fetch_members(limit=None):
+        # fetch_members 대신 guild.members 사용 (이미 캐시된 멤버들)
+        members = self.guild.members
+        print(f">>> 처리할 멤버 수: {len(members)}")
+        
+        for member in members:
             # 봇 건너뛰기
             if member.bot:
                 continue
             
             processed_count += 1
             current_nickname = member.display_name
+            
+            # 진행 상황 출력 (50명마다)
+            if processed_count % 50 == 0:
+                print(f">>> 처리 진행: {processed_count}명 완료...")
             
             # 이미 🚀 이모지가 있으면 건너뛰기
             if current_nickname.startswith("🚀"):
@@ -161,6 +204,9 @@ class AutoNicknameMatcher:
                 
                 # 여러 서버에 같은 이름이 있는 경우 첫 번째 선택
                 realm_slug, character_id = character_options[0]
+                
+                if len(character_options) > 1:
+                    print(f">>> 다중 서버 캐릭터: {current_nickname}, 첫 번째 선택: {realm_slug}")
                 
                 print(f">>> 매칭 발견: {current_nickname} -> {current_nickname}-{realm_slug}")
                 
@@ -196,25 +242,51 @@ class AutoNicknameMatcher:
                 await asyncio.sleep(0.5)
             
             else:
-                print(f">>> 매칭 없음: {current_nickname}")
+                # 매칭 없는 경우는 로그 레벨 낮춤 (너무 많아서)
+                no_match_count += 1
+                if no_match_count <= 10:  # 처음 10개만 출력
+                    print(f">>> 매칭 없음: {current_nickname}")
+                elif no_match_count == 11:
+                    print(">>> 매칭 없는 멤버가 많아 로그 생략...")
         
         print("\n>>> 처리 결과:")
         print(f">>> 총 처리된 멤버: {processed_count}")
         print(f">>> 성공: {success_count}")
         print(f">>> 건너뛰기 (이미 처리됨): {skip_count}")
         print(f">>> 오류: {error_count}")
-        print(f">>> 매칭 없음: {processed_count - success_count - skip_count - error_count}")
+        print(f">>> 매칭 없음: {no_match_count}")
     
     async def run(self):
         """메인 실행 함수"""
         try:
             print(">>> 자동 닉네임 매칭 시작")
             
-            # 디스코드 연결
+            # 데이터베이스 연결 풀 생성
+            await self.create_pool()
+            
+            # 디스코드 연결 (타임아웃 적용)
+            print(">>> 디스코드 연결 시도 중...")
             await self.connect_to_discord()
             
-            # 잠시 대기 (봇이 완전히 준비될 때까지)
-            await asyncio.sleep(2)
+            # 길드 상태 확인
+            if not self.guild:
+                raise Exception("길드 연결 실패")
+                
+            print(f">>> 길드 연결 확인 완료: {self.guild.name}")
+            print(f">>> 초기 캐시된 멤버 수: {len(self.guild.members)}")
+            
+            # 길드 멤버 캐시 완료까지 대기 (간소화)
+            print(">>> 멤버 정보 로딩 완료 대기...")
+            
+            # 간단한 대기 방식으로 변경
+            await asyncio.sleep(10)  # 10초 대기
+            
+            final_cached = len(self.guild.members)
+            print(f">>> 최종 캐시된 멤버 수: {final_cached}")
+            
+            if final_cached == 0:
+                print(">>> 경고: 캐시된 멤버가 없음. 권한 문제일 수 있음")
+                print(">>> fetch_members()로 강제 조회 시도...")
             
             # 멤버 처리
             await self.process_members()
@@ -222,8 +294,11 @@ class AutoNicknameMatcher:
         except Exception as e:
             print(f">>> 실행 오류: {e}")
         finally:
-            if self.bot:
+            # 정리 작업
+            if self.bot and not self.bot.is_closed():
                 await self.bot.close()
+                print(">>> 디스코드 연결 종료")
+            await self.close_pool()
             print(">>> 작업 완료")
 
 async def main():
@@ -240,4 +315,10 @@ async def main():
     await matcher.run()
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    # Ctrl+C 처리를 위한 신호 핸들러
+    try:
+        asyncio.run(main())
+    except KeyboardInterrupt:
+        print("\n>>> 사용자에 의한 중단")
+    except Exception as e:
+        print(f">>> 예상치 못한 오류: {e}")
