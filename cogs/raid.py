@@ -327,42 +327,6 @@ class Raid(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def rollback_character_link(self, user: discord.Member):
-        """닉네임 변경 실패 시 방금 전 DB 연결을 롤백"""
-        try:
-            database_url = os.getenv("DATABASE_URL")
-            conn = await asyncpg.connect(database_url)
-            
-            discord_id = str(user.id)
-            
-            # discord_user_id 조회
-            discord_user_db_id = await conn.fetchval(
-                "SELECT id FROM guild_bot.discord_users WHERE discord_id = $1",
-                discord_id
-            )
-            
-            if discord_user_db_id:
-                # 방금 생성된 verified 연결을 제거하고 이전 상태로 복원
-                # 가장 최근에 업데이트된 레코드를 찾아서 롤백
-                await conn.execute("""
-                    UPDATE guild_bot.character_ownership 
-                    SET is_verified = FALSE
-                    WHERE discord_user_id = $1 
-                      AND is_verified = TRUE 
-                      AND updated_at = (
-                          SELECT MAX(updated_at) 
-                          FROM guild_bot.character_ownership 
-                          WHERE discord_user_id = $1
-                      )
-                """, discord_user_db_id)
-                
-                print(f">>> 캐릭터 연결 롤백 완료: {user.name}#{discord_id}")
-            
-            await conn.close()
-            
-        except Exception as e:
-            print(f">>> 캐릭터 연결 롤백 오류: {e}")
-
     # /닉
     @app_commands.command(name="닉", description="레이드 참가 캐릭터명으로!")
     @app_commands.describe(new_nickname="바꾸고 싶은 닉네임")
@@ -374,9 +338,9 @@ class Raid(commands.Cog):
         
         # 특정 역할 ID 확인
         # special_role_id = 1329456061048164454 기웃대는주민
-        special_role_id = 1412361616888172634  # 개발 테스트용
+        # special_role_id = 1412361616888172634  # 개발 테스트용
         special_role_id = 1411679460310122536  # 운영 테스트용
-        
+
         user_has_special_role = any(role.id == special_role_id for role in interaction.user.roles)
         
         print(f">>> 사용자 특수 역할 보유 여부: {user_has_special_role}")
