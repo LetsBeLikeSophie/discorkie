@@ -78,8 +78,8 @@ class GuildDataCollector:
         
         return normalized
     
-    async def insert_member_data(self, member_data: Dict) -> bool:
-        """멤버 데이터를 데이터베이스에 삽입 (raider.io API 응답 그대로 저장)"""
+    async def insert_character_data(self, member_data: Dict) -> bool:
+        """캐릭터 데이터를 characters 테이블에 삽입 (raider.io API 응답 그대로 저장)"""
         if not self.pool:
             print(">>> 데이터베이스 연결 없음")
             return False
@@ -103,18 +103,18 @@ class GuildDataCollector:
             gender = normalized_data.get("gender", "")
             faction = normalized_data.get("faction", "")
             
-            # 데이터베이스에 삽입 (language 컬럼 제거)
+            # characters 테이블에 삽입 (디스코드 정보 제외)
             async with self.pool.acquire() as conn:
                 result = await conn.execute("""
-                    INSERT INTO guild_bot.guild_members (
-                        character_name, realm, is_guild_member,
+                    INSERT INTO guild_bot.characters (
+                        character_name, realm_slug, is_guild_member,
                         race, class, active_spec, active_spec_role,
                         gender, faction, achievement_points,
                         profile_url, profile_banner, thumbnail_url, region, last_crawled_at
                     )
                     VALUES ($1, $2, $3, $4, $5, $6, $7,
                             $8, $9, $10, $11, $12, $13, $14, NOW())
-                    ON CONFLICT (character_name, realm)
+                    ON CONFLICT (character_name, realm_slug)
                     DO UPDATE SET
                         race = EXCLUDED.race,
                         class = EXCLUDED.class,
@@ -130,7 +130,7 @@ class GuildDataCollector:
                         updated_at = NOW()
                 """,
                 name,
-                realm,
+                realm,  # realm_slug로 저장
                 True,  # is_guild_member
                 race,
                 class_name,
@@ -153,15 +153,15 @@ class GuildDataCollector:
             print(f">>> ✗ {name} 데이터 삽입 오류: {e}")
             return False
     
-    async def get_guild_member_count(self) -> int:
-        """길드 멤버 수 조회"""
+    async def get_guild_character_count(self) -> int:
+        """길드 캐릭터 수 조회"""
         if not self.pool:
             return 0
         
         try:
             async with self.pool.acquire() as conn:
                 result = await conn.fetchval(
-                    "SELECT COUNT(*) FROM guild_bot.guild_members WHERE is_guild_member = TRUE"
+                    "SELECT COUNT(*) FROM guild_bot.characters WHERE is_guild_member = TRUE"
                 )
                 return result or 0
         except Exception as e:
@@ -173,7 +173,7 @@ class GuildDataCollector:
         print(">>> 길드 데이터 수집 시작")
         
         # 처리 전 상태 확인
-        before_count = await self.get_guild_member_count()
+        before_count = await self.get_guild_character_count()
         print(f">>> 처리 전 DB 레코드 수: {before_count}개")
         
         # API에서 멤버 데이터 가져오기
@@ -188,12 +188,12 @@ class GuildDataCollector:
             name = member.get("character", {}).get("name", "Unknown")
             print(f"\n>>> [{i}/{len(members)}] {name} 처리 중...")
             
-            # 단일 데이터 삽입 (언어별 중복 제거)
-            if await self.insert_member_data(member):
+            # 캐릭터 데이터만 삽입
+            if await self.insert_character_data(member):
                 success_count += 1
         
         # 처리 후 결과 출력
-        after_count = await self.get_guild_member_count()
+        after_count = await self.get_guild_character_count()
         
         print(f"\n>>> 길드 데이터 처리 결과:")
         print(f"    API에서 조회한 멤버 수: {len(members)}명")

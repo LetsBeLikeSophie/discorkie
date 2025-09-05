@@ -30,68 +30,8 @@ SERVER_LIST = {
     "가로나": "Garona"
 }
 
-# 번역 매핑
-TRANSLATIONS = {
-    "race": {
-        "Human": "인간", "Orc": "오크", "Dwarf": "드워프", "Night Elf": "나이트 엘프",
-        "Undead": "언데드", "Tauren": "타우렌", "Gnome": "노움", "Troll": "트롤",
-        "Goblin": "고블린", "Blood Elf": "블러드 엘프", "Draenei": "드레나이",
-        "Worgen": "늑대인간", "Pandaren": "판다렌", "Nightborne": "나이트본",
-        "Highmountain Tauren": "높은산 타우렌", "Void Elf": "공허 엘프",
-        "Lightforged Draenei": "빛벼림 드레나이", "Zandalari Troll": "잔달라 트롤",
-        "Kul Tiran": "쿨 티란", "Dark Iron Dwarf": "검은무쇠 드워프",
-        "Vulpera": "불페라", "Mag'har Orc": "마그하르 오크", "Mechagnome": "기계노움",
-        "Dracthyr": "드랙티르", "Earthen": "토석인"
-    },
-    "class": {
-        "Warrior": "전사", "Paladin": "성기사", "Hunter": "사냥꾼", "Rogue": "도적",
-        "Priest": "사제", "Death Knight": "죽음의 기사", "Shaman": "주술사",
-        "Mage": "마법사", "Warlock": "흑마법사", "Monk": "수도사", "Druid": "드루이드",
-        "Demon Hunter": "악마사냥꾼", "Evoker": "기원사"
-    },
-    "spec": {
-        "Arms": "무기", "Fury": "분노", "Protection": "방어", "Holy": "신성", 
-        "Retribution": "징벌", "Beast Mastery": "야수", "Marksmanship": "사격",
-        "Survival": "생존", "Assassination": "암살", "Outlaw": "무법", "Subtlety": "잠행",
-        "Discipline": "수양", "Shadow": "암흑", "Blood": "혈기", "Frost": "냉기",
-        "Unholy": "부정", "Elemental": "정기", "Enhancement": "고양", "Restoration": "복원",
-        "Arcane": "비전", "Fire": "화염", "Affliction": "고통", "Demonology": "악마",
-        "Destruction": "파괴", "Brewmaster": "양조", "Mistweaver": "운무", 
-        "Windwalker": "풍운", "Balance": "조화", "Feral": "야성", "Guardian": "수호",
-        "Havoc": "파멸", "Vengeance": "복수", "Devastation": "황폐", "Preservation": "보존",
-        "Augmentation": "증강"
-    },
-    "gender": {
-        "male": "남성", "female": "여성"
-    },
-    "faction": {
-        "alliance": "얼라이언스", "horde": "호드"
-    },
-    "role": {
-        "DPS": "딜", "TANK": "탱", "HEALING": "힐"
-    },
-    "realm": {
-        "Hyjal": "하이잘", "Azshara": "아즈샤라", "Durotan": "듀로탄",
-        "Zul'jin": "줄진", "Windrunner": "윈드러너", "Wildhammer": "와일드해머",
-        "Rexxar": "렉사르", "Gul'dan": "굴단", "Deathwing": "데스윙",
-        "Burning Legion": "불타는군단", "Stormrage": "스톰레이지", "Cenarius": "세나리우스",
-        "Malfurion": "말퓨리온", "Hellscream": "헬스크림", "Dalaran": "달라란",
-        "Garona": "가로나", "Alexstrasza": "알렉스트라자"
-    }
-}
-
-def safe_lower(value):
-    """안전하게 소문자로 변환"""
-    return value.lower() if isinstance(value, str) else None
-
-def translate_to_korean(category: str, english_value: str) -> str:
-    """영문 값을 한국어로 번역"""
-    if category in TRANSLATIONS:
-        return TRANSLATIONS[category].get(english_value, english_value)
-    return english_value
-
-async def save_character_to_db(char_info: dict, language: str, user: discord.Member, is_guild_member: bool = False) -> bool:
-    """캐릭터 정보를 데이터베이스에 저장"""
+async def save_character_to_db(char_info: dict, user: discord.Member, is_guild_member: bool = False) -> bool:
+    """캐릭터 정보를 characters 테이블에 저장"""
     try:
         database_url = os.getenv("DATABASE_URL")
         if not database_url:
@@ -108,43 +48,27 @@ async def save_character_to_db(char_info: dict, language: str, user: discord.Mem
             await conn.close()
             return False
         
-        # 디스코드 사용자 정보
-        discord_id = str(user.id)
-        discord_username = user.name
-        
-        # 언어에 따른 데이터 변환
-        if language == "ko":
-            race = translate_to_korean("race", char_info.get("race", ""))
-            class_name = translate_to_korean("class", char_info.get("class", ""))
-            active_spec = translate_to_korean("spec", char_info.get("active_spec_name", ""))
-            active_spec_role = translate_to_korean("role", char_info.get("active_spec_role", ""))
-            gender = translate_to_korean("gender", char_info.get("gender", ""))
-            faction = translate_to_korean("faction", char_info.get("faction", ""))
-            realm_display = translate_to_korean("realm", realm)
-        else:
-            race = char_info.get("race", "")
-            class_name = safe_lower(char_info.get("class", ""))
-            active_spec = safe_lower(char_info.get("active_spec_name", ""))
-            active_spec_role = safe_lower(char_info.get("active_spec_role", ""))
-            gender = safe_lower(char_info.get("gender", ""))
-            faction = char_info.get("faction", "")
-            realm_display = realm
+        # raider.io API 응답값 그대로 사용
+        race = char_info.get("race", "")
+        class_name = char_info.get("class", "")
+        active_spec = char_info.get("active_spec_name", "")
+        active_spec_role = char_info.get("active_spec_role", "")
+        gender = char_info.get("gender", "")
+        faction = char_info.get("faction", "")
 
-        print(f">>> DB 저장 시도: {name}-{realm_display} ({language}) - 디스코드: {discord_username}#{discord_id}")
+        print(f">>> characters 테이블 저장 시도: {name}-{realm}")
         
-        # 데이터베이스에 삽입
+        # characters 테이블에 캐릭터 정보만 저장
         await conn.execute("""
-            INSERT INTO guild_bot.guild_members (
-                character_name, realm, is_guild_member,
-                language, race, class, active_spec, active_spec_role,
+            INSERT INTO guild_bot.characters (
+                character_name, realm_slug, is_guild_member,
+                race, class, active_spec, active_spec_role,
                 gender, faction, achievement_points,
-                profile_url, profile_banner, thumbnail_url, region, last_crawled_at,
-                discord_id, discord_username, is_discord_linked
+                profile_url, profile_banner, thumbnail_url, region, last_crawled_at
             )
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8,
-                    $9, $10, $11, $12, $13, $14, $15, NOW(),
-                    $16, $17, $18)
-            ON CONFLICT (character_name, realm, language)
+            VALUES ($1, $2, $3, $4, $5, $6, $7,
+                    $8, $9, $10, $11, $12, $13, $14, NOW())
+            ON CONFLICT (character_name, realm_slug)
             DO UPDATE SET
                 race = EXCLUDED.race,
                 class = EXCLUDED.class,
@@ -157,15 +81,11 @@ async def save_character_to_db(char_info: dict, language: str, user: discord.Mem
                 profile_banner = EXCLUDED.profile_banner,
                 thumbnail_url = EXCLUDED.thumbnail_url,
                 last_crawled_at = NOW(),
-                updated_at = NOW(),
-                discord_id = EXCLUDED.discord_id,
-                discord_username = EXCLUDED.discord_username,
-                is_discord_linked = EXCLUDED.is_discord_linked
+                updated_at = NOW()
         """,
         name,
-        realm_display,
+        realm,
         is_guild_member,
-        language,
         race,
         class_name,
         active_spec,
@@ -176,18 +96,78 @@ async def save_character_to_db(char_info: dict, language: str, user: discord.Mem
         char_info.get("profile_url", ""),
         char_info.get("profile_banner", ""),
         char_info.get("thumbnail_url", ""),
-        "kr",  # region
-        discord_id,
-        discord_username,
-        True  # is_discord_linked = True
+        "kr"  # region
         )
         
         await conn.close()
-        print(f">>> DB 저장 성공: {name}-{realm_display} ({language}) - 디스코드: {discord_username}#{discord_id}")
+        print(f">>> characters 테이블 저장 성공: {name}-{realm}")
         return True
         
     except Exception as e:
-        print(f">>> DB 저장 오류: {e}")
+        print(f">>> characters 테이블 저장 오류: {e}")
+        return False
+
+async def link_character_to_discord(character_name: str, realm_slug: str, user: discord.Member) -> bool:
+    """캐릭터를 디스코드 유저에게 연결"""
+    try:
+        database_url = os.getenv("DATABASE_URL")
+        conn = await asyncpg.connect(database_url)
+        
+        discord_id = str(user.id)
+        discord_username = user.name
+        
+        print(f">>> 디스코드 연결 시작: {character_name}-{realm_slug} -> {discord_username}#{discord_id}")
+        
+        # 1. discord_users 테이블에 유저 정보 추가/업데이트
+        await conn.execute("""
+            INSERT INTO guild_bot.discord_users (discord_id, discord_username)
+            VALUES ($1, $2)
+            ON CONFLICT (discord_id)
+            DO UPDATE SET
+                discord_username = EXCLUDED.discord_username,
+                updated_at = NOW()
+        """, discord_id, discord_username)
+        
+        # 2. discord_user_id 조회
+        discord_user_db_id = await conn.fetchval(
+            "SELECT id FROM guild_bot.discord_users WHERE discord_id = $1",
+            discord_id
+        )
+        
+        # 3. character_id 조회
+        character_db_id = await conn.fetchval(
+            "SELECT id FROM guild_bot.characters WHERE character_name = $1 AND realm_slug = $2",
+            character_name, realm_slug
+        )
+        
+        if not character_db_id:
+            print(f">>> 캐릭터를 찾을 수 없음: {character_name}-{realm_slug}")
+            await conn.close()
+            return False
+        
+        # 4. 기존 verified 연결 해제 (한 유저당 하나의 활성 캐릭터만)
+        await conn.execute("""
+            UPDATE guild_bot.character_ownership 
+            SET is_verified = FALSE, updated_at = NOW()
+            WHERE discord_user_id = $1 AND is_verified = TRUE
+        """, discord_user_db_id)
+        
+        # 5. 새로운 연결 추가/업데이트
+        await conn.execute("""
+            INSERT INTO guild_bot.character_ownership (discord_user_id, character_id, is_verified)
+            VALUES ($1, $2, TRUE)
+            ON CONFLICT (discord_user_id, character_id)
+            DO UPDATE SET
+                is_verified = TRUE,
+                updated_at = NOW()
+        """, discord_user_db_id, character_db_id)
+        
+        await conn.close()
+        print(f">>> 디스코드 연결 성공: {character_name}-{realm_slug} -> {discord_username}#{discord_id}")
+        return True
+        
+    except Exception as e:
+        print(f">>> 디스코드 연결 오류: {e}")
         return False
 
 class DBServerSelectView(ui.View):
@@ -216,8 +196,8 @@ class DBServerSelectView(ui.View):
             ephemeral=True
         )
         
-        # 해당 행의 디스코드 정보 업데이트
-        success = await self.update_discord_info_in_db(self.character_name, selected_realm, self.user)
+        # 캐릭터를 디스코드 유저에게 연결
+        success = await link_character_to_discord(self.character_name, selected_realm, self.user)
         
         if success:
             new_nickname_with_emoji = f"🚀{self.character_name}"
@@ -241,39 +221,11 @@ class DBServerSelectView(ui.View):
                 )
         else:
             await interaction.followup.send(
-                "⚠️ 데이터베이스 업데이트 중 오류가 발생했어요!",
+                "⚠️ 캐릭터 연결 중 오류가 발생했어요!",
                 ephemeral=True
             )
         
         self.stop()
-
-    async def update_discord_info_in_db(self, character_name: str, realm: str, user: discord.Member) -> bool:
-        """DB에서 해당 캐릭터 행의 디스코드 정보를 업데이트"""
-        try:
-            database_url = os.getenv("DATABASE_URL")
-            conn = await asyncpg.connect(database_url)
-            
-            discord_id = str(user.id)
-            discord_username = user.name
-            
-            print(f">>> {character_name}-{realm}에 디스코드 정보 매핑")
-            
-            # 새로운 캐릭터의 한글/영어 레코드에 디스코드 정보 설정
-            result = await conn.execute("""
-                UPDATE guild_bot.guild_members 
-                SET discord_id = $1, 
-                    discord_username = $2,
-                    updated_at = NOW()
-                WHERE character_name = $3 AND realm = $4
-            """, discord_id, discord_username, character_name, realm)
-            
-            await conn.close()
-            print(f">>> DB 디스코드 매핑 완료: {character_name}-{realm} -> {discord_username}#{discord_id}")
-            return True
-            
-        except Exception as e:
-            print(f">>> DB 디스코드 매핑 오류: {e}")
-            return False
 
 class ServerSelectView(ui.View):
     def __init__(self, character_name: str, user: discord.Member):
@@ -333,18 +285,20 @@ class ServerSelectView(ui.View):
             )
             return
         
-        # 🚀 이모티콘으로 닉네임 생성 (공백 없음)
+        # 🚀 이모티콘으로 닉네임 생성
         new_nickname = f"🚀{self.character_name}"
         
         print(f">>> 새 닉네임: {new_nickname}")
         
-        # 데이터베이스 저장 시도 (한글, 영문 모두)
-        db_success_ko = await save_character_to_db(char_info, "ko", self.user, is_guild_member=False)
-        db_success_en = await save_character_to_db(char_info, "en", self.user, is_guild_member=False)
+        # 캐릭터 데이터베이스 저장 시도
+        char_save_success = await save_character_to_db(char_info, self.user, is_guild_member=False)
+        
+        # 디스코드 연결 시도
+        link_success = await link_character_to_discord(self.character_name, self.selected_server, self.user)
         
         db_warning = ""
-        if not (db_success_ko and db_success_en):
-            db_warning = "\n⚠️ 데이터베이스 저장 중 일부 오류가 발생했습니다."
+        if not (char_save_success and link_success):
+            db_warning = "\n⚠️ 데이터베이스 처리 중 일부 오류가 발생했습니다."
         
         try:
             await self.user.edit(nick=new_nickname)
@@ -373,34 +327,6 @@ class Raid(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
-    async def update_discord_info_in_db(self, character_name: str, realm: str, user: discord.Member) -> bool:
-        """DB에서 해당 캐릭터 행의 디스코드 정보를 업데이트"""
-        try:
-            database_url = os.getenv("DATABASE_URL")
-            conn = await asyncpg.connect(database_url)
-            
-            discord_id = str(user.id)
-            discord_username = user.name
-            
-            print(f">>> DB 디스코드 정보 업데이트: {character_name}-{realm} -> {discord_username}#{discord_id}")
-            
-            # 한국어, 영어 버전 모두 업데이트
-            await conn.execute("""
-                UPDATE guild_bot.guild_members 
-                SET discord_id = $1, 
-                    discord_username = $2,
-                    updated_at = NOW()
-                WHERE character_name = $3 AND realm = $4
-            """, discord_id, discord_username, character_name, realm)
-            
-            await conn.close()
-            print(f">>> DB 디스코드 정보 업데이트 성공")
-            return True
-            
-        except Exception as e:
-            print(f">>> DB 디스코드 정보 업데이트 오류: {e}")
-            return False
-
     # /닉
     @app_commands.command(name="닉", description="레이드 참가 캐릭터명으로!")
     @app_commands.describe(new_nickname="바꾸고 싶은 닉네임")
@@ -425,7 +351,7 @@ class Raid(commands.Cog):
             return
         
         else:
-            # DB에서 서버 정보 조회
+            # DB에서 서버 정보 조회 (새 테이블 구조 사용)
             print(">>> DB에서 서버 정보 조회 시도")
             try:
                 database_url = os.getenv("DATABASE_URL")
@@ -435,11 +361,11 @@ class Raid(commands.Cog):
                 
                 conn = await asyncpg.connect(database_url)
                 
-                # 캐릭터명으로 DB에서 검색 (길드 멤버만)
+                # 길드 캐릭터 중에서 해당 이름으로 검색
                 rows = await conn.fetch("""
-                    SELECT DISTINCT character_name, realm, language 
-                    FROM guild_bot.guild_members 
-                    WHERE character_name = $1 AND is_guild_member = TRUE AND language = 'ko'
+                    SELECT DISTINCT character_name, realm_slug
+                    FROM guild_bot.characters 
+                    WHERE character_name = $1 AND is_guild_member = TRUE
                 """, new_nickname)
                 
                 await conn.close()
@@ -455,10 +381,10 @@ class Raid(commands.Cog):
                 if len(rows) == 1:
                     # 서버가 하나만 있는 경우
                     row = rows[0]
-                    realm = row['realm']
-                    print(f">>> 단일 서버 발견: {new_nickname}-{realm}")
+                    realm_slug = row['realm_slug']
+                    print(f">>> 단일 서버 발견: {new_nickname}-{realm_slug}")
                     
-                    success = await self.update_discord_info_in_db(new_nickname, realm, interaction.user)
+                    success = await link_character_to_discord(new_nickname, realm_slug, interaction.user)
                     
                     if success:
                         new_nickname_with_emoji = f"🚀{new_nickname}"
@@ -466,7 +392,7 @@ class Raid(commands.Cog):
                             await interaction.user.edit(nick=new_nickname_with_emoji)
                             await interaction.followup.send(
                                 f"✅ 닉네임이 **{new_nickname_with_emoji}**로 변경되었어요!\n"
-                                f"🎮 서버: {realm}",
+                                f"🎮 서버: {realm_slug}",
                                 ephemeral=True
                             )
                         except discord.Forbidden:
@@ -482,7 +408,7 @@ class Raid(commands.Cog):
                             )
                     else:
                         await interaction.followup.send(
-                            "⚠️ 데이터베이스 업데이트 중 오류가 발생했어요!",
+                            "⚠️ 캐릭터 연결 중 오류가 발생했어요!",
                             ephemeral=True
                         )
                         
@@ -491,11 +417,11 @@ class Raid(commands.Cog):
                     print(f">>> 다중 서버 발견: {len(rows)}개")
                     server_options = []
                     for row in rows:
-                        realm = row['realm']
+                        realm_slug = row['realm_slug']
                         server_options.append(discord.SelectOption(
-                            label=f"{new_nickname}-{realm}",
-                            value=realm,
-                            description=f"{realm} 서버"
+                            label=f"{new_nickname}-{realm_slug}",
+                            value=realm_slug,
+                            description=f"{realm_slug} 서버"
                         ))
                     
                     view = DBServerSelectView(new_nickname, server_options, interaction.user)
