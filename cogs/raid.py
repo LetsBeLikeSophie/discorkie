@@ -338,7 +338,9 @@ class Raid(commands.Cog):
         
         # 특정 역할 ID 확인
         # special_role_id = 1329456061048164454 기웃대는주민
-        special_role_id = 1412361616888172634  # 테스트용
+        special_role_id = 1412361616888172634  # 개발 테스트용
+        special_role_id = 1411679460310122536  # 운영 테스트용
+        
         user_has_special_role = any(role.id == special_role_id for role in interaction.user.roles)
         
         print(f">>> 사용자 특수 역할 보유 여부: {user_has_special_role}")
