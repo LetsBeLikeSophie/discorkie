@@ -267,9 +267,24 @@ class AutoNicknameMatcher:
             # 디스코드 연결 (타임아웃 적용)
             await self.connect_to_discord()
             
-            # 잠시 대기 (길드 캐시 완료까지)
-            print(">>> 길드 정보 로딩 대기 중...")
-            await asyncio.sleep(3)
+            # 길드 멤버 캐시 완료까지 대기
+            print(">>> 멤버 정보 확인 중...")
+            
+            # 최대 30초까지 멤버 캐시 완료 대기
+            for i in range(30):
+                cached_count = len(self.guild.members) if self.guild else 0
+                total_count = self.guild.member_count if self.guild else 0
+                
+                print(f">>> 멤버 캐시 진행: {cached_count}/{total_count}")
+                
+                # 충분한 멤버가 캐시되었거나 완료되었으면 진행
+                if cached_count >= total_count * 0.9:  # 90% 이상 캐시되면 진행
+                    print(f">>> 멤버 캐시 완료 ({cached_count}/{total_count})")
+                    break
+                
+                await asyncio.sleep(1)
+            else:
+                print(f">>> 멤버 캐시 타임아웃, 현재 상태로 진행 ({cached_count}/{total_count})")
             
             # 멤버 처리
             await self.process_members()
