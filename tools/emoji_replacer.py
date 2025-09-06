@@ -11,7 +11,6 @@ from typing import Dict, List
 from dotenv import load_dotenv
 
 load_dotenv()  # .env 파일 로드
-BOT_TOKEN = os.getenv("DISCORD_TOKEN")
 
 # 설정값
 GUILD_ID = 1275099769731022971  # 서버 ID
