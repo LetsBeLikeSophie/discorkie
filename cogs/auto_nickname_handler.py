@@ -31,6 +31,10 @@ class AutoNicknameHandler(commands.Cog):
                     WHERE character_name = $1 AND is_guild_member = TRUE
                 """, character_name)
             
+            print(f">>> DB 조회 결과: {character_name} - {len(rows)}개 서버에서 발견")
+            for i, row in enumerate(rows):
+                print(f">>>   [{i+1}] 서버: {row['realm_slug']}, ID: {row['id']}")
+            
             return [(row['realm_slug'], row['id']) for row in rows]
             
         except Exception as e:
@@ -157,18 +161,29 @@ class AutoNicknameHandler(commands.Cog):
     async def check_character_validity(self, character_name: str) -> Optional[Dict]:
         """캐릭터 유효성 검사 (DB 우선, 없으면 API)"""
         
+        print(f">>> 캐릭터 유효성 검사 시작: {character_name}")
+        
         # 1. DB에서 길드 캐릭터 확인
         db_characters = await self.get_characters_from_db(character_name)
         if db_characters:
-            print(f">>> DB에서 길드 캐릭터 발견: {character_name}")
-            realm_slug, character_id = db_characters[0]  # 첫 번째 서버 선택
-            return {
-                "source": "db",
-                "character_name": character_name,
-                "realm_slug": realm_slug,
-                "character_id": character_id,
-                "is_guild_member": True
-            }
+            if len(db_characters) == 1:
+                # 유일한 길드 캐릭터 발견
+                realm_slug, character_id = db_characters[0]
+                print(f">>> DB에서 유일한 길드 캐릭터 발견: {character_name}-{realm_slug}")
+                return {
+                    "source": "db",
+                    "character_name": character_name,
+                    "realm_slug": realm_slug,
+                    "character_id": character_id,
+                    "is_guild_member": True
+                }
+            else:
+                # 여러 서버에 같은 이름의 길드 캐릭터 존재
+                print(f">>> DB에서 여러 서버에 같은 캐릭터명 발견: {character_name} ({len(db_characters)}개 서버)")
+                for i, (realm, char_id) in enumerate(db_characters):
+                    print(f">>>   [{i+1}] {character_name}-{realm}")
+                print(">>> 모호한 매칭으로 인해 처리하지 않음")
+                return None
         
         # 2. API로 유효성 검사 (여러 서버 시도)
         print(f">>> API로 캐릭터 유효성 검사: {character_name}")
@@ -179,26 +194,43 @@ class AutoNicknameHandler(commands.Cog):
             "Stormrage", "Windrunner", "Zul'jin", "Dalaran", "Durotan"
         ]
         
+        found_servers = []
+        
         for server in servers_to_check:
             try:
+                print(f">>> API 서버 검사 중: {character_name}-{server}")
                 if await validate_character(server, character_name):
                     print(f">>> API에서 캐릭터 발견: {character_name}-{server}")
                     char_info = await get_character_info(server, character_name)
                     if char_info:
-                        return {
-                            "source": "api",
-                            "character_info": char_info,
-                            "realm_slug": server,
-                            "is_guild_member": False
-                        }
+                        found_servers.append((server, char_info))
                 # API 호출 제한을 위한 짧은 대기
                 await asyncio.sleep(0.1)
             except Exception as e:
                 print(f">>> API 검사 오류 ({server}): {e}")
                 continue
         
-        print(f">>> 유효한 캐릭터를 찾을 수 없음: {character_name}")
-        return None
+        # API 검사 결과 분석
+        if len(found_servers) == 0:
+            print(f">>> 어떤 서버에서도 캐릭터를 찾을 수 없음: {character_name}")
+            return None
+        elif len(found_servers) == 1:
+            # 유일한 서버에서 발견
+            server, char_info = found_servers[0]
+            print(f">>> API에서 유일한 서버에 캐릭터 발견: {character_name}-{server}")
+            return {
+                "source": "api",
+                "character_info": char_info,
+                "realm_slug": server,
+                "is_guild_member": False
+            }
+        else:
+            # 여러 서버에서 발견
+            print(f">>> API에서 여러 서버에 같은 캐릭터명 발견: {character_name} ({len(found_servers)}개 서버)")
+            for i, (server, _) in enumerate(found_servers):
+                print(f">>>   [{i+1}] {character_name}-{server}")
+            print(">>> 모호한 매칭으로 인해 처리하지 않음")
+            return None
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
@@ -218,38 +250,43 @@ class AutoNicknameHandler(commands.Cog):
         
         # 중복 처리 방지
         if after.id in self.processing_users:
+            print(f">>> 중복 처리 방지: {after.display_name} (사용자 ID: {after.id})")
             return
         
         self.processing_users.add(after.id)
         
         try:
             new_nickname = after.display_name
-            print(f">>> 닉네임 변경 감지: {before.display_name} -> {new_nickname}")
+            old_nickname = before.display_name
+            print(f">>> 닉네임 변경 감지: {old_nickname} -> {new_nickname} (사용자: {after.name})")
             
-            # 🚀 이모티콘 제거해서 캐릭터명 추출
+            # 로켓 이모티콘 제거해서 캐릭터명 추출
             character_name = new_nickname.replace("🚀", "").strip()
+            print(f">>> 추출된 캐릭터명: '{character_name}'")
             
             # 빈 문자열이거나 너무 짧으면 무시
             if len(character_name) < 2:
-                print(f">>> 캐릭터명이 너무 짧음: '{character_name}'")
+                print(f">>> 캐릭터명이 너무 짧음: '{character_name}' (길이: {len(character_name)})")
                 return
             
             # 캐릭터 유효성 검사
             char_result = await self.check_character_validity(character_name)
             
             if char_result:
-                print(f">>> 유효한 캐릭터 발견: {character_name}")
+                print(f">>> 유효한 캐릭터 확인 완료: {character_name} (소스: {char_result['source']})")
                 
-                # 🚀 이모티콘이 없으면 추가
+                # 로켓 이모티콘이 없으면 추가
                 if not new_nickname.startswith("🚀"):
                     try:
                         new_emoji_nickname = f"🚀{character_name}"
                         await after.edit(nick=new_emoji_nickname)
-                        print(f">>> 이모티콘 추가: {new_nickname} -> {new_emoji_nickname}")
+                        print(f">>> 이모티콘 추가 성공: {new_nickname} -> {new_emoji_nickname}")
                     except discord.Forbidden:
                         print(f">>> 이모티콘 추가 실패 (권한 부족): {after.name}")
                     except Exception as e:
                         print(f">>> 이모티콘 추가 오류: {e}")
+                else:
+                    print(f">>> 이미 로켓 이모티콘 존재: {new_nickname}")
                 
                 # 데이터베이스 업데이트
                 if char_result["source"] == "db":
@@ -260,7 +297,9 @@ class AutoNicknameHandler(commands.Cog):
                         after
                     )
                     if success:
-                        print(f">>> DB 길드 캐릭터 연결 성공: {character_name}")
+                        print(f">>> DB 길드 캐릭터 연결 성공: {character_name}-{char_result['realm_slug']}")
+                    else:
+                        print(f">>> DB 길드 캐릭터 연결 실패: {character_name}")
                     
                 elif char_result["source"] == "api":
                     # API에서 찾은 외부 캐릭터
@@ -277,13 +316,13 @@ class AutoNicknameHandler(commands.Cog):
                     )
                     
                     if save_success and link_success:
-                        print(f">>> API 캐릭터 저장 및 연결 성공: {character_name}")
+                        print(f">>> API 캐릭터 저장 및 연결 성공: {character_name}-{char_result['realm_slug']}")
                     else:
                         print(f">>> API 캐릭터 처리 일부 실패: save={save_success}, link={link_success}")
             
             else:
-                print(f">>> 유효하지 않은 캐릭터: {character_name}")
-                # 🚀 이모티콘이 있으면 제거
+                print(f">>> 유효하지 않거나 모호한 캐릭터: {character_name}")
+                # 로켓 이모티콘이 있으면 제거
                 if new_nickname.startswith("🚀"):
                     try:
                         clean_nickname = character_name
@@ -293,6 +332,8 @@ class AutoNicknameHandler(commands.Cog):
                         print(f">>> 이모티콘 제거 실패 (권한 부족): {after.name}")
                     except Exception as e:
                         print(f">>> 이모티콘 제거 오류: {e}")
+                else:
+                    print(f">>> 이모티콘 제거 불필요: {new_nickname}")
         
         except Exception as e:
             print(f">>> on_member_update 처리 오류: {e}")
@@ -301,6 +342,7 @@ class AutoNicknameHandler(commands.Cog):
             # 처리 완료 후 사용자 ID 제거
             await asyncio.sleep(1)  # 짧은 대기 후 제거
             self.processing_users.discard(after.id)
+            print(f">>> 처리 완료, 사용자 ID 제거: {after.id}")
 
 async def setup(bot):
     await bot.add_cog(AutoNicknameHandler(bot))

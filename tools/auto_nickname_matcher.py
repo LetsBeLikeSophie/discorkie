@@ -4,18 +4,26 @@ auto_nickname_matcher.py
 
 기존 디스코드 서버 멤버들의 닉네임을 characters 테이블과 매칭하여
 자동으로 이모지 추가 + character_ownership 연결을 수행하는 스크립트
+
+개선사항:
+- 유일한 서버에서만 발견된 캐릭터만 처리
+- 여러 서버에 같은 이름이 있으면 처리하지 않음  
+- 길드원이 아닌 캐릭터도 DB에 추가
+- 상세한 로그 출력
 """
 import discord
 import asyncio
 import os
 import sys
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
+import aiohttp
 
 # sys.path 설정을 먼저 해야 함
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # 그 다음에 db 모듈 import
 from db.database_manager import DatabaseManager
+from utils.character_validator import validate_character, get_character_info
 
 # 설정값
 GUILD_ID = 1275099769731022971  # 서버 ID
@@ -64,26 +72,26 @@ class AutoNicknameMatcher:
             bot_task.cancel()
             raise
     
-    async def get_characters_from_db(self) -> Dict[str, List[Tuple[str, int]]]:
-        """DB에서 길드 캐릭터 목록 가져오기"""
+    async def get_characters_from_db(self) -> Dict[str, List[Tuple[str, int, bool]]]:
+        """DB에서 모든 캐릭터 목록 가져오기 (길드원 여부 포함)"""
         try:
             async with self.db_manager.get_connection() as conn:
                 rows = await conn.fetch("""
-                    SELECT character_name, realm_slug, id
+                    SELECT character_name, realm_slug, id, is_guild_member
                     FROM guild_bot.characters 
-                    WHERE is_guild_member = TRUE
                 """)
             
-            # 캐릭터명 -> (realm_slug, character_id) 매핑
+            # 캐릭터명 -> (realm_slug, character_id, is_guild_member) 매핑
             characters = {}
             for row in rows:
                 char_name = row['character_name']
                 realm_slug = row['realm_slug']
                 char_id = row['id']
+                is_guild_member = row['is_guild_member']
                 
                 if char_name not in characters:
                     characters[char_name] = []
-                characters[char_name].append((realm_slug, char_id))
+                characters[char_name].append((realm_slug, char_id, is_guild_member))
             
             print(f">>> DB에서 {len(characters)}개 캐릭터명 발견")
             return characters
@@ -92,12 +100,149 @@ class AutoNicknameMatcher:
             print(f">>> DB 조회 오류: {e}")
             return {}
     
+    async def check_character_validity(self, character_name: str, db_characters: Dict) -> Optional[Dict]:
+        """캐릭터 유효성 검사 및 서버 확인"""
+        
+        print(f">>> 캐릭터 유효성 검사 시작: {character_name}")
+        
+        # 1. DB에서 캐릭터 확인
+        if character_name in db_characters:
+            char_list = db_characters[character_name]
+            print(f">>> DB에서 발견: {character_name} - {len(char_list)}개 서버")
+            
+            for i, (realm, char_id, is_guild) in enumerate(char_list):
+                guild_status = "길드원" if is_guild else "비길드원"
+                print(f">>>   [{i+1}] {character_name}-{realm} (ID: {char_id}, {guild_status})")
+            
+            if len(char_list) == 1:
+                # 유일한 캐릭터 발견
+                realm_slug, character_id, is_guild_member = char_list[0]
+                print(f">>> DB에서 유일한 캐릭터 발견: {character_name}-{realm_slug}")
+                return {
+                    "source": "db",
+                    "character_name": character_name,
+                    "realm_slug": realm_slug,
+                    "character_id": character_id,
+                    "is_guild_member": is_guild_member
+                }
+            else:
+                # 여러 서버에 같은 이름 존재
+                print(">>> 여러 서버에 같은 캐릭터명 존재, 처리하지 않음")
+                return None
+        
+        # 2. DB에 없으면 API로 검사
+        print(f">>> DB에 없음, API로 검사: {character_name}")
+        
+        # 주요 서버들 (우선순위 순)
+        servers_to_check = [
+            "Azshara", "Hyjal", "Gul'dan", "Deathwing", "Burning Legion",
+            "Stormrage", "Windrunner", "Zul'jin", "Dalaran", "Durotan"
+        ]
+        
+        found_servers = []
+        
+        for server in servers_to_check:
+            try:
+                print(f">>> API 서버 검사: {character_name}-{server}")
+                if await validate_character(server, character_name):
+                    print(f">>> API에서 발견: {character_name}-{server}")
+                    char_info = await get_character_info(server, character_name)
+                    if char_info:
+                        found_servers.append((server, char_info))
+                # API 호출 제한을 위한 대기
+                await asyncio.sleep(0.1)
+            except Exception as e:
+                print(f">>> API 검사 오류 ({server}): {e}")
+                continue
+        
+        # API 검사 결과 분석
+        if len(found_servers) == 0:
+            print(f">>> 어떤 서버에서도 찾을 수 없음: {character_name}")
+            return None
+        elif len(found_servers) == 1:
+            # 유일한 서버에서 발견
+            server, char_info = found_servers[0]
+            print(f">>> API에서 유일한 서버에 발견: {character_name}-{server}")
+            return {
+                "source": "api",
+                "character_info": char_info,
+                "realm_slug": server,
+                "is_guild_member": False  # API로 찾은 것은 일단 비길드원으로 간주
+            }
+        else:
+            # 여러 서버에서 발견
+            print(f">>> API에서 여러 서버에 발견: {character_name} ({len(found_servers)}개 서버)")
+            for i, (server, _) in enumerate(found_servers):
+                print(f">>>   [{i+1}] {character_name}-{server}")
+            print(">>> 모호한 매칭으로 처리하지 않음")
+            return None
+
+    async def save_character_to_db(self, char_info: dict, is_guild_member: bool = False) -> bool:
+        """캐릭터 정보를 DB에 저장"""
+        try:
+            name = char_info.get("name")
+            realm = char_info.get("realm")
+            
+            if not name or not realm:
+                print(f">>> 필수 데이터 누락: name={name}, realm={realm}")
+                return False
+            
+            # raider.io API 응답값 그대로 사용
+            race = char_info.get("race", "")
+            class_name = char_info.get("class", "")
+            active_spec = char_info.get("active_spec_name", "")
+            active_spec_role = char_info.get("active_spec_role", "")
+            gender = char_info.get("gender", "")
+            faction = char_info.get("faction", "")
+
+            print(f">>> characters 테이블 저장 시도: {name}-{realm} (길드원: {is_guild_member})")
+            
+            async with self.db_manager.get_connection() as conn:
+                await conn.execute("""
+                    INSERT INTO guild_bot.characters (
+                        character_name, realm_slug, is_guild_member,
+                        race, class, active_spec, active_spec_role,
+                        gender, faction, achievement_points,
+                        profile_url, profile_banner, thumbnail_url, region, last_crawled_at
+                    )
+                    VALUES ($1, $2, $3, $4, $5, $6, $7,
+                            $8, $9, $10, $11, $12, $13, $14, NOW())
+                    ON CONFLICT (character_name, realm_slug)
+                    DO UPDATE SET
+                        race = EXCLUDED.race,
+                        class = EXCLUDED.class,
+                        active_spec = EXCLUDED.active_spec,
+                        active_spec_role = EXCLUDED.active_spec_role,
+                        gender = EXCLUDED.gender,
+                        faction = EXCLUDED.faction,
+                        achievement_points = EXCLUDED.achievement_points,
+                        profile_url = EXCLUDED.profile_url,
+                        profile_banner = EXCLUDED.profile_banner,
+                        thumbnail_url = EXCLUDED.thumbnail_url,
+                        last_crawled_at = NOW(),
+                        updated_at = NOW()
+                """,
+                name, realm, is_guild_member, race, class_name, active_spec, active_spec_role,
+                gender, faction, char_info.get("achievement_points", 0),
+                char_info.get("profile_url", ""), char_info.get("profile_banner", ""),
+                char_info.get("thumbnail_url", ""), "kr"
+                )
+            
+            print(f">>> characters 테이블 저장 성공: {name}-{realm}")
+            return True
+            
+        except Exception as e:
+            print(f">>> characters 테이블 저장 오류: {e}")
+            return False
+
     async def link_character_to_discord_user(self, character_id: int, member: discord.Member) -> bool:
         """캐릭터를 디스코드 유저에게 연결"""
         try:
             async with self.db_manager.get_connection() as conn:
                 discord_id = str(member.id)
                 discord_username = member.name
+                
+                print(f">>> 디스코드 연결 시작: 캐릭터ID {character_id} -> {discord_username}#{discord_id}")
                 
                 # 1. discord_users 테이블에 유저 정보 추가/업데이트
                 await conn.execute("""
@@ -132,11 +277,32 @@ class AutoNicknameMatcher:
                         updated_at = NOW()
                 """, discord_user_db_id, character_id)
             
+            print(f">>> 디스코드 연결 성공: 캐릭터ID {character_id} -> {discord_username}")
             return True
             
         except Exception as e:
             print(f">>> DB 연결 오류 ({member.display_name}): {e}")
             return False
+
+    async def get_character_id_from_db(self, character_name: str, realm_slug: str) -> Optional[int]:
+        """DB에서 캐릭터 ID 조회"""
+        try:
+            async with self.db_manager.get_connection() as conn:
+                character_id = await conn.fetchval(
+                    "SELECT id FROM guild_bot.characters WHERE character_name = $1 AND realm_slug = $2",
+                    character_name, realm_slug
+                )
+                
+                if character_id:
+                    print(f">>> 캐릭터 ID 조회 성공: {character_name}-{realm_slug} -> ID {character_id}")
+                else:
+                    print(f">>> 캐릭터 ID 조회 실패: {character_name}-{realm_slug}")
+                
+                return character_id
+                
+        except Exception as e:
+            print(f">>> 캐릭터 ID 조회 오류: {e}")
+            return None
     
     async def process_members(self):
         """모든 멤버 처리"""
@@ -155,6 +321,7 @@ class AutoNicknameMatcher:
         skip_count = 0
         error_count = 0
         no_match_count = 0
+        ambiguous_count = 0
         
         print(">>> 멤버 처리 시작...")
         
@@ -174,26 +341,24 @@ class AutoNicknameMatcher:
             if processed_count % 50 == 0:
                 print(f">>> 처리 진행: {processed_count}명 완료...")
             
-            # 이미 🚀 이모지가 있으면 건너뛰기
+            # 이미 로켓 이모지가 있으면 건너뛰기
             if current_nickname.startswith("🚀"):
                 print(f">>> 이미 처리됨 건너뛰기: {current_nickname}")
                 skip_count += 1
                 continue
             
-            # DB에서 매칭되는 캐릭터 찾기
-            if current_nickname in characters:
-                character_options = characters[current_nickname]
-                
-                # 여러 서버에 같은 이름이 있는 경우 첫 번째 선택
-                realm_slug, character_id = character_options[0]
-                
-                if len(character_options) > 1:
-                    print(f">>> 다중 서버 캐릭터: {current_nickname}, 첫 번째 선택: {realm_slug}")
-                
-                print(f">>> 매칭 발견: {current_nickname} -> {current_nickname}-{realm_slug}")
+            # 로켓 이모지 제거해서 캐릭터명 추출
+            character_name = current_nickname.replace("🚀", "").strip()
+            print(f">>> 처리 중: {member.name} -> 캐릭터명 '{character_name}'")
+            
+            # 캐릭터 유효성 검사
+            char_result = await self.check_character_validity(character_name, characters)
+            
+            if char_result:
+                print(f">>> 유효한 캐릭터 발견: {character_name} (소스: {char_result['source']})")
                 
                 # 새 닉네임 생성
-                new_nickname = f"🚀{current_nickname}"
+                new_nickname = f"🚀{character_name}"
                 
                 # 닉네임 변경 시도
                 nickname_changed = False
@@ -210,26 +375,59 @@ class AutoNicknameMatcher:
                     error_count += 1
                     continue
                 
-                # 닉네임 변경 성공 시 DB 연결
+                # 닉네임 변경 성공 시 DB 처리
                 if nickname_changed:
-                    db_success = await self.link_character_to_discord_user(character_id, member)
-                    if db_success:
-                        print(f">>> DB 연결 성공: {new_nickname} <-> {current_nickname}-{realm_slug}")
-                        success_count += 1
+                    character_id = None
+                    
+                    if char_result["source"] == "db":
+                        # DB에 이미 있는 캐릭터
+                        character_id = char_result["character_id"]
+                        print(f">>> DB 캐릭터 사용: ID {character_id}")
+                        
+                    elif char_result["source"] == "api":
+                        # API에서 찾은 캐릭터 - DB에 저장 필요
+                        char_info = char_result["character_info"]
+                        save_success = await self.save_character_to_db(char_info, is_guild_member=False)
+                        
+                        if save_success:
+                            # 저장된 캐릭터의 ID 조회
+                            character_id = await self.get_character_id_from_db(
+                                character_name, char_result["realm_slug"]
+                            )
+                            print(f">>> API 캐릭터 저장 완료: ID {character_id}")
+                        else:
+                            print(f">>> API 캐릭터 저장 실패: {character_name}")
+                            error_count += 1
+                            continue
+                    
+                    # 디스코드 연결
+                    if character_id:
+                        db_success = await self.link_character_to_discord_user(character_id, member)
+                        if db_success:
+                            print(f">>> 전체 처리 성공: {new_nickname} <-> 캐릭터ID {character_id}")
+                            success_count += 1
+                        else:
+                            print(f">>> DB 연결 실패: {new_nickname}")
+                            error_count += 1
                     else:
-                        print(f">>> DB 연결 실패: {new_nickname}")
+                        print(f">>> 캐릭터 ID 없음: {character_name}")
                         error_count += 1
                 
                 # API 호출 제한을 위한 잠시 대기
                 await asyncio.sleep(0.5)
             
             else:
-                # 매칭 없는 경우는 로그 레벨 낮춤 (너무 많아서)
-                no_match_count += 1
-                if no_match_count <= 10:  # 처음 10개만 출력
-                    print(f">>> 매칭 없음: {current_nickname}")
-                elif no_match_count == 11:
-                    print(">>> 매칭 없는 멤버가 많아 로그 생략...")
+                # 매칭 없거나 모호한 경우
+                if character_name in characters and len(characters[character_name]) > 1:
+                    ambiguous_count += 1
+                    if ambiguous_count <= 5:  # 처음 5개만 출력
+                        print(f">>> 모호한 매칭: {character_name}")
+                else:
+                    no_match_count += 1
+                    if no_match_count <= 10:  # 처음 10개만 출력
+                        print(f">>> 매칭 없음: {character_name}")
+                    elif no_match_count == 11:
+                        print(">>> 매칭 없는 멤버가 많아 로그 생략...")
         
         print("\n>>> 처리 결과:")
         print(f">>> 총 처리된 멤버: {processed_count}")
@@ -237,6 +435,7 @@ class AutoNicknameMatcher:
         print(f">>> 건너뛰기 (이미 처리됨): {skip_count}")
         print(f">>> 오류: {error_count}")
         print(f">>> 매칭 없음: {no_match_count}")
+        print(f">>> 모호한 매칭: {ambiguous_count}")
     
     async def run(self):
         """메인 실행 함수"""
