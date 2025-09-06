@@ -43,6 +43,7 @@ async def setup_hook():
     
     # 코그 로드
     await bot.load_extension("cogs.raid")
+    await bot.load_extension("cogs.auto_nickname_handler")  # 자동 닉네임 처리
     await bot.load_extension("cogs.member_manager")
     # await bot.load_extension("cogs.guild_stats")
     await bot.load_extension("services.blizzard.token_price")  
