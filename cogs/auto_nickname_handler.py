@@ -163,34 +163,41 @@ class AutoNicknameHandler(commands.Cog):
         
         print(f">>> 캐릭터 유효성 검사 시작: {character_name}")
         
-        # 1. DB에서 길드 캐릭터 확인
+        # 1. DB에서 캐릭터 확인 (길드원/비길드원 무관)
         db_characters = await self.get_characters_from_db(character_name)
         if db_characters:
             if len(db_characters) == 1:
-                # 유일한 길드 캐릭터 발견
-                realm_slug, character_id = db_characters[0]
-                print(f">>> DB에서 유일한 길드 캐릭터 발견: {character_name}-{realm_slug}")
+                # 유일한 캐릭터 발견
+                realm_slug, character_id, is_guild_member = db_characters[0]
+                guild_status = "길드원" if is_guild_member else "비길드원"
+                print(f">>> DB에서 유일한 캐릭터 발견: {character_name}-{realm_slug} ({guild_status})")
                 return {
                     "source": "db",
                     "character_name": character_name,
                     "realm_slug": realm_slug,
                     "character_id": character_id,
-                    "is_guild_member": True
+                    "is_guild_member": is_guild_member
                 }
             else:
-                # 여러 서버에 같은 이름의 길드 캐릭터 존재
+                # 여러 서버에 같은 이름 존재
                 print(f">>> DB에서 여러 서버에 같은 캐릭터명 발견: {character_name} ({len(db_characters)}개 서버)")
-                for i, (realm, char_id) in enumerate(db_characters):
-                    print(f">>>   [{i+1}] {character_name}-{realm}")
-                print(">>> 모호한 매칭으로 인해 처리하지 않음")
-                return None
+                for i, (realm, char_id, is_guild) in enumerate(db_characters):
+                    guild_status = "길드원" if is_guild else "비길드원"
+                    print(f">>>   [{i+1}] {character_name}-{realm} ({guild_status})")
+                print(">>> 모호한 캐릭터로 물음표 처리")
+                return {
+                    "source": "db_ambiguous",
+                    "character_name": character_name,
+                    "servers": [realm for realm, _, _ in db_characters],
+                    "needs_clarification": True
+                }
         
-        # 2. API로 유효성 검사 (여러 서버 시도)
-        print(f">>> API로 캐릭터 유효성 검사: {character_name}")
+        # 2. DB에 없으면 API로 유효성 검사 (여러 서버 시도)
+        print(f">>> DB에 없음, API로 캐릭터 유효성 검사: {character_name}")
         
-        # 주요 서버들 (우선순위 순)
+        # 주요 서버들 (우선순위 순 - 길드 서버 우선)
         servers_to_check = [
-            "Azshara", "Hyjal", "Gul'dan", "Deathwing", "Burning Legion",
+            "Hyjal", "Azshara", "Gul'dan", "Deathwing", "Burning Legion",
             "Stormrage", "Windrunner", "Zul'jin", "Dalaran", "Durotan"
         ]
         
@@ -198,13 +205,14 @@ class AutoNicknameHandler(commands.Cog):
         
         for server in servers_to_check:
             try:
+                print(f">>> API 서버 검사 중: {character_name}-{server}")
                 if await validate_character(server, character_name):
                     print(f">>> API에서 캐릭터 발견: {character_name}-{server}")
                     char_info = await get_character_info(server, character_name)
                     if char_info:
                         found_servers.append((server, char_info))
                         
-                        # 2개 이상 발견되면 바로 중단 (어차피 처리 안함)
+                        # 2개 이상 발견되면 바로 중단 (어차피 모호함 처리)
                         if len(found_servers) >= 2:
                             print(f">>> 2개 이상 서버에서 발견, 검사 중단: {character_name}")
                             break
@@ -234,8 +242,13 @@ class AutoNicknameHandler(commands.Cog):
             print(f">>> API에서 여러 서버에 같은 캐릭터명 발견: {character_name} ({len(found_servers)}개 서버)")
             for i, (server, _) in enumerate(found_servers):
                 print(f">>>   [{i+1}] {character_name}-{server}")
-            print(">>> 모호한 매칭으로 인해 처리하지 않음")
-            return None
+            print(">>> 모호한 API 캐릭터로 물음표 처리")
+            return {
+                "source": "api_ambiguous",
+                "character_name": character_name,
+                "servers": [server for server, _ in found_servers],
+                "needs_clarification": True
+            }
 
     @commands.Cog.listener()
     async def on_member_update(self, before: discord.Member, after: discord.Member):
@@ -265,8 +278,8 @@ class AutoNicknameHandler(commands.Cog):
             old_nickname = before.display_name
             print(f">>> 닉네임 변경 감지: {old_nickname} -> {new_nickname} (사용자: {after.name})")
             
-            # 로켓 이모티콘 제거해서 캐릭터명 추출
-            character_name = new_nickname.replace("🚀", "").strip()
+            # 로켓/물음표 이모티콘 제거해서 캐릭터명 추출
+            character_name = new_nickname.replace("🚀", "").replace("❓", "").strip()
             print(f">>> 추출된 캐릭터명: '{character_name}'")
             
             # 빈 문자열이거나 너무 짧으면 무시
@@ -280,55 +293,75 @@ class AutoNicknameHandler(commands.Cog):
             if char_result:
                 print(f">>> 유효한 캐릭터 확인 완료: {character_name} (소스: {char_result['source']})")
                 
-                # 로켓 이모티콘이 없으면 추가
-                if not new_nickname.startswith("🚀"):
-                    try:
-                        new_emoji_nickname = f"🚀{character_name}"
-                        await after.edit(nick=new_emoji_nickname)
-                        print(f">>> 이모티콘 추가 성공: {new_nickname} -> {new_emoji_nickname}")
-                    except discord.Forbidden:
-                        print(f">>> 이모티콘 추가 실패 (권한 부족): {after.name}")
-                    except Exception as e:
-                        print(f">>> 이모티콘 추가 오류: {e}")
+                # 모호한 경우와 확실한 경우 구분
+                if char_result.get("needs_clarification"):
+                    # 여러 서버에 존재하는 모호한 캐릭터 - 물음표 추가
+                    if not new_nickname.startswith("❓"):
+                        try:
+                            new_emoji_nickname = f"❓{character_name}"
+                            await after.edit(nick=new_emoji_nickname)
+                            print(f">>> 물음표 추가 성공 (모호한 캐릭터): {new_nickname} -> {new_emoji_nickname}")
+                            servers_list = ", ".join(char_result["servers"])
+                            print(f">>> 존재하는 서버들: {servers_list}")
+                        except discord.Forbidden:
+                            print(f">>> 물음표 추가 실패 (권한 부족): {after.name}")
+                        except Exception as e:
+                            print(f">>> 물음표 추가 오류: {e}")
+                    else:
+                        print(f">>> 이미 물음표 이모티콘 존재: {new_nickname}")
                 else:
-                    print(f">>> 이미 로켓 이모티콘 존재: {new_nickname}")
+                    # 유일한 서버에서 확인된 캐릭터 - 로켓 추가
+                    if not new_nickname.startswith("🚀"):
+                        try:
+                            new_emoji_nickname = f"🚀{character_name}"
+                            await after.edit(nick=new_emoji_nickname)
+                            print(f">>> 로켓 추가 성공 (확실한 캐릭터): {new_nickname} -> {new_emoji_nickname}")
+                        except discord.Forbidden:
+                            print(f">>> 로켓 추가 실패 (권한 부족): {after.name}")
+                        except Exception as e:
+                            print(f">>> 로켓 추가 오류: {e}")
+                    else:
+                        print(f">>> 이미 로켓 이모티콘 존재: {new_nickname}")
                 
-                # 데이터베이스 업데이트
-                if char_result["source"] == "db":
-                    # DB에 있는 길드 캐릭터
-                    success = await self.link_character_to_discord(
-                        character_name, 
-                        char_result["realm_slug"], 
-                        after
-                    )
-                    if success:
-                        print(f">>> DB 길드 캐릭터 연결 성공: {character_name}-{char_result['realm_slug']}")
-                    else:
-                        print(f">>> DB 길드 캐릭터 연결 실패: {character_name}")
-                    
-                elif char_result["source"] == "api":
-                    # API에서 찾은 외부 캐릭터
-                    char_info = char_result["character_info"]
-                    
-                    # 캐릭터 정보를 DB에 저장
-                    save_success = await self.save_character_to_db(char_info, is_guild_member=False)
-                    
-                    # 디스코드 연결
-                    link_success = await self.link_character_to_discord(
-                        character_name,
-                        char_result["realm_slug"],
-                        after
-                    )
-                    
-                    if save_success and link_success:
-                        print(f">>> API 캐릭터 저장 및 연결 성공: {character_name}-{char_result['realm_slug']}")
-                    else:
-                        print(f">>> API 캐릭터 처리 일부 실패: save={save_success}, link={link_success}")
+                # 데이터베이스 업데이트 (확실한 캐릭터만)
+                if not char_result.get("needs_clarification"):
+                    if char_result["source"] == "db":
+                        # DB에 있는 길드 캐릭터
+                        success = await self.link_character_to_discord(
+                            character_name, 
+                            char_result["realm_slug"], 
+                            after
+                        )
+                        if success:
+                            print(f">>> DB 길드 캐릭터 연결 성공: {character_name}-{char_result['realm_slug']}")
+                        else:
+                            print(f">>> DB 길드 캐릭터 연결 실패: {character_name}")
+                        
+                    elif char_result["source"] == "api":
+                        # API에서 찾은 외부 캐릭터
+                        char_info = char_result["character_info"]
+                        
+                        # 캐릭터 정보를 DB에 저장
+                        save_success = await self.save_character_to_db(char_info, is_guild_member=False)
+                        
+                        # 디스코드 연결
+                        link_success = await self.link_character_to_discord(
+                            character_name,
+                            char_result["realm_slug"],
+                            after
+                        )
+                        
+                        if save_success and link_success:
+                            print(f">>> API 캐릭터 저장 및 연결 성공: {character_name}-{char_result['realm_slug']}")
+                        else:
+                            print(f">>> API 캐릭터 처리 일부 실패: save={save_success}, link={link_success}")
+                else:
+                    print(f">>> 모호한 캐릭터로 인해 DB 연결 생략: {character_name}")
             
             else:
-                print(f">>> 유효하지 않거나 모호한 캐릭터: {character_name}")
-                # 로켓 이모티콘이 있으면 제거
-                if new_nickname.startswith("🚀"):
+                print(f">>> 유효하지 않은 캐릭터: {character_name}")
+                # 로켓/물음표 이모티콘이 있으면 제거
+                if new_nickname.startswith("🚀") or new_nickname.startswith("❓"):
                     try:
                         clean_nickname = character_name
                         await after.edit(nick=clean_nickname)
