@@ -5,11 +5,16 @@ auto_nickname_matcher.py
 기존 디스코드 서버 멤버들의 닉네임을 characters 테이블과 매칭하여
 자동으로 이모지 추가 + character_ownership 연결을 수행하는 스크립트
 """
-
 import discord
 import asyncio
 import os
+import sys
 from typing import Dict, List, Tuple
+
+# sys.path 설정을 먼저 해야 함
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# 그 다음에 db 모듈 import
 from db.database_manager import DatabaseManager
 
 # 설정값
