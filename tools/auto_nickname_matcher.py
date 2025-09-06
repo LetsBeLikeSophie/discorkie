@@ -340,7 +340,7 @@ class AutoNicknameMatcher:
         error_count = 0
         no_match_count = 0
         ambiguous_count = 0
-        question_mark_count = 0
+        star_count = 0
         
         print(">>> 멤버 처리 시작...")
         
@@ -387,7 +387,7 @@ class AutoNicknameMatcher:
                         print(f">>> 물음표 추가 성공 (모호한 캐릭터): {member.name} -> {new_nickname}")
                         servers_list = ", ".join(char_result["servers"])
                         print(f">>> 존재하는 서버들: {servers_list}")
-                        question_mark_count += 1
+                        star_count += 1
                     except discord.Forbidden:
                         print(f">>> 물음표 추가 실패 (권한 부족): {member.name}")
                         error_count += 1
@@ -473,7 +473,7 @@ class AutoNicknameMatcher:
         print("\n>>> 처리 결과:")
         print(f">>> 총 처리된 멤버: {processed_count}")
         print(f">>> 로켓 추가 성공: {success_count}")
-        print(f">>> 물음표 추가 성공: {question_mark_count}")
+        print(f">>> 별 추가 성공: {star_count}")
         print(f">>> 건너뛰기 (이미 처리됨): {skip_count}")
         print(f">>> 오류: {error_count}")
         print(f">>> 매칭 없음: {no_match_count}")
