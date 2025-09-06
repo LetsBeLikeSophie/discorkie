@@ -198,12 +198,17 @@ class AutoNicknameHandler(commands.Cog):
         
         for server in servers_to_check:
             try:
-                print(f">>> API 서버 검사 중: {character_name}-{server}")
                 if await validate_character(server, character_name):
                     print(f">>> API에서 캐릭터 발견: {character_name}-{server}")
                     char_info = await get_character_info(server, character_name)
                     if char_info:
                         found_servers.append((server, char_info))
+                        
+                        # 2개 이상 발견되면 바로 중단 (어차피 처리 안함)
+                        if len(found_servers) >= 2:
+                            print(f">>> 2개 이상 서버에서 발견, 검사 중단: {character_name}")
+                            break
+                            
                 # API 호출 제한을 위한 짧은 대기
                 await asyncio.sleep(0.1)
             except Exception as e:
