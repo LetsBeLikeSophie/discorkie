@@ -1,7 +1,13 @@
 import asyncio
 import aiohttp
-from typing import Dict, List
+import sys
 import os
+from typing import Dict, List
+
+# sys.path 설정을 먼저
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# 그 다음에 db 모듈 import
 from db.database_manager import DatabaseManager
 
 class GuildDataCollector:
