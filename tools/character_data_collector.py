@@ -62,6 +62,19 @@ class GuildDataCollector:
         
         return normalized
     
+    async def mark_all_non_guild_members(self):
+        """배치 시작 전 모든 캐릭터를 비길드원으로 표시"""
+        try:
+            async with self.db_manager.get_connection() as conn:
+                result = await conn.execute("""
+                    UPDATE guild_bot.characters 
+                    SET is_guild_member = FALSE, updated_at = NOW()
+                    WHERE is_guild_member = TRUE
+                """)
+                print(f">>> 모든 캐릭터를 비길드원으로 초기화 완료")
+        except Exception as e:
+            print(f">>> 초기화 오류: {e}")
+    
     async def insert_character_data(self, member_data: Dict) -> bool:
         """캐릭터 데이터를 characters 테이블에 삽입 (raider.io API 응답 그대로 저장)"""
         if not self.db_manager.pool:
@@ -87,7 +100,7 @@ class GuildDataCollector:
             gender = normalized_data.get("gender", "")
             faction = normalized_data.get("faction", "")
             
-            # characters 테이블에 삽입 (디스코드 정보 제외)
+            # characters 테이블에 삽입/업데이트 (길드원 상태 포함)
             async with self.db_manager.get_connection() as conn:
                 result = await conn.execute("""
                     INSERT INTO guild_bot.characters (
@@ -100,6 +113,7 @@ class GuildDataCollector:
                             $8, $9, $10, $11, $12, $13, $14, NOW())
                     ON CONFLICT (character_name, realm_slug)
                     DO UPDATE SET
+                        is_guild_member = EXCLUDED.is_guild_member,  -- 중요: 길드원 상태 업데이트
                         race = EXCLUDED.race,
                         class = EXCLUDED.class,
                         active_spec = EXCLUDED.active_spec,
@@ -115,7 +129,7 @@ class GuildDataCollector:
                 """,
                 name,
                 realm,  # realm_slug로 저장
-                True,  # is_guild_member
+                True,  # is_guild_member (길드원임을 명시)
                 race,
                 class_name,
                 active_spec,
@@ -129,7 +143,7 @@ class GuildDataCollector:
                 "kr"  # region
                 )
                 
-                print(f"    ✓ {name}-{realm} 데이터 삽입 완료")
+                print(f"    ✓ {name}-{realm} 길드원 데이터 업데이트 완료")
                 return True
                 
         except Exception as e:
@@ -152,38 +166,70 @@ class GuildDataCollector:
             print(f">>> 레코드 수 조회 오류: {e}")
             return 0
 
+    async def get_status_changes(self) -> Dict[str, int]:
+        """길드원 상태 변경 통계 조회"""
+        try:
+            async with self.db_manager.get_connection() as conn:
+                # 새로 길드에 가입한 캐릭터 (오늘 업데이트되고 is_guild_member=TRUE)
+                new_members = await conn.fetchval("""
+                    SELECT COUNT(*) FROM guild_bot.characters 
+                    WHERE is_guild_member = TRUE 
+                    AND DATE(updated_at) = CURRENT_DATE
+                """)
+                
+                # 전체 길드원 수
+                total_members = await conn.fetchval(
+                    "SELECT COUNT(*) FROM guild_bot.characters WHERE is_guild_member = TRUE"
+                )
+                
+                return {
+                    "new_members": new_members or 0,
+                    "total_members": total_members or 0
+                }
+        except Exception as e:
+            print(f">>> 상태 변경 통계 조회 오류: {e}")
+            return {"new_members": 0, "total_members": 0}
+
     async def collect_guild_data(self):
         """길드 데이터 수집 메인 함수"""
         print(">>> 길드 데이터 수집 시작")
         
         # 처리 전 상태 확인
         before_count = await self.get_guild_character_count()
-        print(f">>> 처리 전 DB 레코드 수: {before_count}개")
+        print(f">>> 처리 전 길드원 수: {before_count}명")
         
-        # API에서 멤버 데이터 가져오기
+        # 1단계: 모든 캐릭터를 비길드원으로 초기화
+        print(">>> 1단계: 길드원 상태 초기화")
+        await self.mark_all_non_guild_members()
+        
+        # 2단계: API에서 현재 길드 멤버 데이터 가져오기
+        print(">>> 2단계: API에서 길드 멤버 데이터 수집")
         members = await self.fetch_guild_members()
         if not members:
             print(">>> 길드 멤버 데이터 없음")
             return
         
-        # 각 멤버 데이터 처리 (단일 행만 삽입)
+        # 3단계: 각 멤버 데이터 처리
+        print(">>> 3단계: 길드 멤버 데이터 업데이트")
         success_count = 0
         for i, member in enumerate(members, 1):
             name = member.get("character", {}).get("name", "Unknown")
-            print(f"\n>>> [{i}/{len(members)}] {name} 처리 중...")
+            print(f">>> [{i}/{len(members)}] {name} 처리 중...")
             
-            # 캐릭터 데이터만 삽입
+            # 캐릭터 데이터 삽입/업데이트 (길드원으로 표시)
             if await self.insert_character_data(member):
                 success_count += 1
         
         # 처리 후 결과 출력
         after_count = await self.get_guild_character_count()
+        changes = await self.get_status_changes()
         
-        print(f"\n>>> 길드 데이터 처리 결과:")
+        print(f"\n>>> 길드 데이터 처리 완료:")
         print(f"    API에서 조회한 멤버 수: {len(members)}명")
-        print(f"    처리 전 DB 레코드 수: {before_count}개")
-        print(f"    처리 후 DB 레코드 수: {after_count}개")
-        print(f"    성공적으로 처리된 작업: {success_count}개")
+        print(f"    처리 전 길드원 수: {before_count}명")
+        print(f"    처리 후 길드원 수: {after_count}명")
+        print(f"    성공적으로 업데이트된 캐릭터: {success_count}명")
+        print(f"    오늘 새로 업데이트된 길드원: {changes['new_members']}명")
 
     async def insert_from_api(self):
         """API에서 데이터를 가져와 삽입하는 독립 실행 함수"""
