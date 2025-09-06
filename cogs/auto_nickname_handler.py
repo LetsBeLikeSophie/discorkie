@@ -21,21 +21,22 @@ class AutoNicknameHandler(commands.Cog):
         await self.db_manager.close_pool()
         print(">>> AutoNicknameHandler: 데이터베이스 연결 해제")
 
-    async def get_characters_from_db(self, character_name: str) -> List[Tuple[str, int]]:
-        """DB에서 캐릭터 정보 조회"""
+    async def get_characters_from_db(self, character_name: str) -> List[Tuple[str, int, bool]]:
+        """DB에서 캐릭터 정보 조회 (길드원 여부 포함)"""
         try:
             async with self.db_manager.get_connection() as conn:
                 rows = await conn.fetch("""
-                    SELECT realm_slug, id
+                    SELECT realm_slug, id, is_guild_member
                     FROM guild_bot.characters 
-                    WHERE character_name = $1 AND is_guild_member = TRUE
+                    WHERE character_name = $1
                 """, character_name)
             
             print(f">>> DB 조회 결과: {character_name} - {len(rows)}개 서버에서 발견")
             for i, row in enumerate(rows):
-                print(f">>>   [{i+1}] 서버: {row['realm_slug']}, ID: {row['id']}")
+                guild_status = "길드원" if row['is_guild_member'] else "비길드원"
+                print(f">>>   [{i+1}] 서버: {row['realm_slug']}, ID: {row['id']} ({guild_status})")
             
-            return [(row['realm_slug'], row['id']) for row in rows]
+            return [(row['realm_slug'], row['id'], row['is_guild_member']) for row in rows]
             
         except Exception as e:
             print(f">>> DB 캐릭터 조회 오류: {e}")
