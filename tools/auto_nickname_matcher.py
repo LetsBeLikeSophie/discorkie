@@ -7,43 +7,20 @@ auto_nickname_matcher.py
 """
 
 import discord
-import asyncpg
 import asyncio
 import os
-from typing import Optional, Dict, List, Tuple
-from dotenv import load_dotenv
-
-load_dotenv()
+from typing import Dict, List, Tuple
+from db.database_manager import DatabaseManager
 
 # 설정값
 GUILD_ID = 1275099769731022971  # 서버 ID
 BOT_TOKEN = os.getenv("DISCORD_TOKEN")
-DATABASE_URL = os.getenv("DATABASE_URL")
 
 class AutoNicknameMatcher:
     def __init__(self):
         self.bot = None
         self.guild = None
-        self.pool: Optional[asyncpg.Pool] = None
-        
-    async def create_pool(self):
-        """데이터베이스 연결 풀 생성"""
-        try:
-            self.pool = await asyncpg.create_pool(
-                DATABASE_URL,
-                min_size=1,
-                max_size=10
-            )
-            print(">>> 데이터베이스 연결 풀 생성 완료")
-        except Exception as e:
-            print(f">>> 데이터베이스 연결 실패: {e}")
-            raise
-    
-    async def close_pool(self):
-        """데이터베이스 연결 풀 종료"""
-        if self.pool:
-            await self.pool.close()
-            print(">>> 데이터베이스 연결 풀 종료")
+        self.db_manager = DatabaseManager()
         
     async def connect_to_discord(self):
         """디스코드 봇 연결 (타임아웃 적용)"""
@@ -85,7 +62,7 @@ class AutoNicknameMatcher:
     async def get_characters_from_db(self) -> Dict[str, List[Tuple[str, int]]]:
         """DB에서 길드 캐릭터 목록 가져오기"""
         try:
-            async with self.pool.acquire() as conn:
+            async with self.db_manager.get_connection() as conn:
                 rows = await conn.fetch("""
                     SELECT character_name, realm_slug, id
                     FROM guild_bot.characters 
@@ -113,7 +90,7 @@ class AutoNicknameMatcher:
     async def link_character_to_discord_user(self, character_id: int, member: discord.Member) -> bool:
         """캐릭터를 디스코드 유저에게 연결"""
         try:
-            async with self.pool.acquire() as conn:
+            async with self.db_manager.get_connection() as conn:
                 discord_id = str(member.id)
                 discord_username = member.name
                 
@@ -262,7 +239,7 @@ class AutoNicknameMatcher:
             print(">>> 자동 닉네임 매칭 시작")
             
             # 데이터베이스 연결 풀 생성
-            await self.create_pool()
+            await self.db_manager.create_pool()
             
             # 디스코드 연결 (타임아웃 적용)
             print(">>> 디스코드 연결 시도 중...")
@@ -298,7 +275,7 @@ class AutoNicknameMatcher:
             if self.bot and not self.bot.is_closed():
                 await self.bot.close()
                 print(">>> 디스코드 연결 종료")
-            await self.close_pool()
+            await self.db_manager.close_pool()
             print(">>> 작업 완료")
 
 async def main():
@@ -307,7 +284,7 @@ async def main():
         print(">>> DISCORD_TOKEN 환경변수가 없습니다")
         return
     
-    if not DATABASE_URL:
+    if not os.getenv("DATABASE_URL"):
         print(">>> DATABASE_URL 환경변수가 없습니다")
         return
     

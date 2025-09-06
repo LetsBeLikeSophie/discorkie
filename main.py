@@ -2,7 +2,7 @@ import discord
 from discord.ext import commands
 import os
 from dotenv import load_dotenv
-from db.database_manager import db  # 데이터베이스 매니저 import
+from db.database_manager import DatabaseManager  # 수정된 import
 
 # .env에서 토큰 불러오기
 load_dotenv()
@@ -15,6 +15,9 @@ intents.members = True  # /권한정리 등에서 필요!
 
 # 봇 인스턴스
 bot = commands.Bot(command_prefix="!", intents=intents)
+
+# 데이터베이스 매니저 인스턴스 생성
+db_manager = DatabaseManager()
 
 @bot.event
 async def on_ready():
@@ -33,7 +36,7 @@ async def on_ready():
 async def setup_hook():
     # 데이터베이스 연결 풀 생성
     try:
-        await db.create_pool()
+        await db_manager.create_pool()
         print(">>> 데이터베이스 연결 풀 초기화 완료!")
     except Exception as e:
         print(f">>> 데이터베이스 연결 실패: {e}")
@@ -56,7 +59,7 @@ async def setup_hook():
 @bot.event  
 async def on_disconnect():
     try:
-        await db.close_pool()
+        await db_manager.close_pool()
         print(">>> 데이터베이스 연결 풀 종료")
     except Exception as e:
         print(f">>> 데이터베이스 연결 해제 실패: {e}")

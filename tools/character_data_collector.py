@@ -1,34 +1,12 @@
 import asyncio
 import aiohttp
-import asyncpg
-from typing import Dict, List, Optional
+from typing import Dict, List
 import os
-from dotenv import load_dotenv
-
-load_dotenv()
+from db.database_manager import DatabaseManager
 
 class GuildDataCollector:
     def __init__(self):
-        self.pool: Optional[asyncpg.Pool] = None
-    
-    async def create_pool(self):
-        """데이터베이스 연결 풀 생성"""
-        try:
-            database_url = os.getenv("DATABASE_URL")
-            self.pool = await asyncpg.create_pool(
-                database_url,
-                min_size=1,
-                max_size=10
-            )
-            print(">>> 데이터베이스 연결 풀 생성 완료")
-        except Exception as e:
-            print(f">>> 데이터베이스 연결 실패: {e}")
-            raise
-    
-    async def close_pool(self):
-        """데이터베이스 연결 풀 종료"""
-        if self.pool:
-            await self.pool.close()
+        self.db_manager = DatabaseManager()
     
     async def fetch_guild_members(self) -> List[Dict]:
         """Raider.io API에서 길드 멤버 정보 가져오기"""
@@ -80,7 +58,7 @@ class GuildDataCollector:
     
     async def insert_character_data(self, member_data: Dict) -> bool:
         """캐릭터 데이터를 characters 테이블에 삽입 (raider.io API 응답 그대로 저장)"""
-        if not self.pool:
+        if not self.db_manager.pool:
             print(">>> 데이터베이스 연결 없음")
             return False
         
@@ -104,7 +82,7 @@ class GuildDataCollector:
             faction = normalized_data.get("faction", "")
             
             # characters 테이블에 삽입 (디스코드 정보 제외)
-            async with self.pool.acquire() as conn:
+            async with self.db_manager.get_connection() as conn:
                 result = await conn.execute("""
                     INSERT INTO guild_bot.characters (
                         character_name, realm_slug, is_guild_member,
@@ -155,11 +133,11 @@ class GuildDataCollector:
     
     async def get_guild_character_count(self) -> int:
         """길드 캐릭터 수 조회"""
-        if not self.pool:
+        if not self.db_manager.pool:
             return 0
         
         try:
-            async with self.pool.acquire() as conn:
+            async with self.db_manager.get_connection() as conn:
                 result = await conn.fetchval(
                     "SELECT COUNT(*) FROM guild_bot.characters WHERE is_guild_member = TRUE"
                 )
@@ -203,21 +181,21 @@ class GuildDataCollector:
 
     async def insert_from_api(self):
         """API에서 데이터를 가져와 삽입하는 독립 실행 함수"""
-        await self.create_pool()
+        await self.db_manager.create_pool()
         try:
             await self.collect_guild_data()
         finally:
-            await self.close_pool()
+            await self.db_manager.close_pool()
 
 
 # 실행 함수
 async def main():
     collector = GuildDataCollector()
     try:
-        await collector.create_pool()
+        await collector.db_manager.create_pool()
         await collector.collect_guild_data()
     finally:
-        await collector.close_pool()
+        await collector.db_manager.close_pool()
 
 
 if __name__ == "__main__":
