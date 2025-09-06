@@ -111,7 +111,7 @@
             
 #             if unassigned:
 #                 embed.add_field(
-#                     name=f"❓ 역할 미설정 ({len(unassigned)}명)",
+#                     name=f"⭐ 역할 미설정 ({len(unassigned)}명)",
 #                     value="\n".join(unassigned),
 #                     inline=False
 #                 )

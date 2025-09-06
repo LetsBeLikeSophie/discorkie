@@ -279,7 +279,7 @@ class AutoNicknameHandler(commands.Cog):
             print(f">>> 닉네임 변경 감지: {old_nickname} -> {new_nickname} (사용자: {after.name})")
             
             # 로켓/물음표 이모티콘 제거해서 캐릭터명 추출
-            character_name = new_nickname.replace("🚀", "").replace("❓", "").strip()
+            character_name = new_nickname.replace("🚀", "").replace("⭐", "").strip()
             print(f">>> 추출된 캐릭터명: '{character_name}'")
             
             # 빈 문자열이거나 너무 짧으면 무시
@@ -296,9 +296,9 @@ class AutoNicknameHandler(commands.Cog):
                 # 모호한 경우와 확실한 경우 구분
                 if char_result.get("needs_clarification"):
                     # 여러 서버에 존재하는 모호한 캐릭터 - 물음표 추가
-                    if not new_nickname.startswith("❓"):
+                    if not new_nickname.startswith("⭐"):
                         try:
-                            new_emoji_nickname = f"❓{character_name}"
+                            new_emoji_nickname = f"⭐{character_name}"
                             await after.edit(nick=new_emoji_nickname)
                             print(f">>> 물음표 추가 성공 (모호한 캐릭터): {new_nickname} -> {new_emoji_nickname}")
                             servers_list = ", ".join(char_result["servers"])
@@ -361,7 +361,7 @@ class AutoNicknameHandler(commands.Cog):
             else:
                 print(f">>> 유효하지 않은 캐릭터: {character_name}")
                 # 로켓/물음표 이모티콘이 있으면 제거
-                if new_nickname.startswith("🚀") or new_nickname.startswith("❓"):
+                if new_nickname.startswith("🚀") or new_nickname.startswith("⭐"):
                     try:
                         clean_nickname = character_name
                         await after.edit(nick=clean_nickname)

@@ -7,7 +7,7 @@ auto_nickname_matcher.py
 
 개선사항:
 - 유일한 서버에서만 발견된 캐릭터 → 🚀 로켓 이모티콘
-- 여러 서버에 같은 이름이 있는 캐릭터 → ❓ 물음표 이모티콘
+- 여러 서버에 같은 이름이 있는 캐릭터 → ⭐ 물음표 이모티콘
 - 길드원이 아닌 캐릭터도 DB에 추가
 - 상세한 로그 출력
 - 2개 이상 발견 시 조기 중단으로 성능 최적화
@@ -361,13 +361,13 @@ class AutoNicknameMatcher:
                 print(f">>> 처리 진행: {processed_count}명 완료...")
             
             # 이미 로켓/물음표 이모지가 있으면 건너뛰기
-            if current_nickname.startswith("🚀") or current_nickname.startswith("❓"):
+            if current_nickname.startswith("🚀") or current_nickname.startswith("⭐"):
                 print(f">>> 이미 처리됨 건너뛰기: {current_nickname}")
                 skip_count += 1
                 continue
             
             # 로켓/물음표 이모지 제거해서 캐릭터명 추출
-            character_name = current_nickname.replace("🚀", "").replace("❓", "").strip()
+            character_name = current_nickname.replace("🚀", "").replace("⭐", "").strip()
             print(f">>> 처리 중: {member.name} -> 캐릭터명 '{character_name}'")
             
             # 캐릭터 유효성 검사
@@ -379,7 +379,7 @@ class AutoNicknameMatcher:
                 # 모호한 경우와 확실한 경우 구분
                 if char_result.get("needs_clarification"):
                     # 여러 서버에 존재하는 모호한 캐릭터 - 물음표 추가
-                    new_nickname = f"❓{character_name}"
+                    new_nickname = f"⭐{character_name}"
                     
                     # 닉네임 변경 시도
                     try:
