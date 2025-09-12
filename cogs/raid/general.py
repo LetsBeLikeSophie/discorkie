@@ -13,12 +13,12 @@ class Raid(commands.Cog):
     async def cog_load(self):
         """코그 로드 시 DB 연결"""
         await self.db_manager.create_pool()
-        print(">>> Raid 코그: 데이터베이스 연결 완료")
+        print(">>> Raid: 데이터베이스 연결 완료")
 
     async def cog_unload(self):
         """코그 언로드 시 DB 연결 해제"""
         await self.db_manager.close_pool()
-        print(">>> Raid 코그: 데이터베이스 연결 해제")
+        print(">>> Raid: 데이터베이스 연결 해제")
 
     # /닉 - 단순한 닉네임 변경
     @app_commands.command(name="닉", description="닉네임을 변경해요!")

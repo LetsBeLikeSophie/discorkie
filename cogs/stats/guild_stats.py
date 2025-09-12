@@ -275,7 +275,7 @@ class GuildStats(commands.Cog):
         # 인기 직업 TOP3
         top_classes_query = """
         SELECT class, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY class 
         ORDER BY count DESC 
@@ -287,7 +287,7 @@ class GuildStats(commands.Cog):
         # 인기 전문화 TOP3
         top_specs_query = """
         SELECT active_spec, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
         GROUP BY active_spec 
         ORDER BY count DESC 
@@ -299,7 +299,7 @@ class GuildStats(commands.Cog):
         # 인기 서버 TOP3
         top_realms_query = """
         SELECT realm, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY realm 
         ORDER BY count DESC 
@@ -322,7 +322,7 @@ class GuildStats(commands.Cog):
         # 업적점수 TOP5
         achievement_query = """
         SELECT character_name, achievement_points 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND achievement_points > 0
         ORDER BY achievement_points DESC 
         LIMIT 5
@@ -342,7 +342,7 @@ class GuildStats(commands.Cog):
         # 성별 비율
         gender_query = """
         SELECT gender, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY gender
         """
@@ -366,7 +366,7 @@ class GuildStats(commands.Cog):
         # 진영 비율
         faction_query = """
         SELECT faction, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY faction
         """
@@ -390,7 +390,7 @@ class GuildStats(commands.Cog):
         # 역할군 비율
         role_query = """
         SELECT active_spec_role, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec_role IS NOT NULL
         GROUP BY active_spec_role
         """
@@ -420,7 +420,7 @@ class GuildStats(commands.Cog):
         # 종족+직업 희귀한 TOP3
         race_class_query = """
         SELECT race || ' ' || class as combo, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko'
         GROUP BY race, class 
         ORDER BY count ASC, combo ASC
@@ -432,7 +432,7 @@ class GuildStats(commands.Cog):
         # 직업+전문화 희귀한 TOP3
         class_spec_query = """
         SELECT class || ' ' || active_spec as combo, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
         GROUP BY class, active_spec 
         ORDER BY count ASC, combo ASC
@@ -444,7 +444,7 @@ class GuildStats(commands.Cog):
         # 종족+직업+전문화 희귀한 TOP3
         race_class_spec_query = """
         SELECT race || ' ' || class || ' ' || active_spec as combo, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
         GROUP BY race, class, active_spec 
         ORDER BY count ASC, combo ASC
@@ -456,7 +456,7 @@ class GuildStats(commands.Cog):
         # 서버+종족+직업+전문화 희귀한 TOP3
         full_combo_query = """
         SELECT realm || ' ' || race || ' ' || class || ' ' || active_spec as combo, COUNT(*) as count 
-        FROM guild_bot.guild_members 
+        FROM guild_bot.characters 
         WHERE is_guild_member = TRUE AND language = 'ko' AND active_spec IS NOT NULL
         GROUP BY realm, race, class, active_spec 
         ORDER BY count ASC, combo ASC

@@ -28,9 +28,9 @@ class TokenPrice(commands.Cog):
                     print(f"토큰 요청 실패: {resp.status}")
                     return None
 
-    @commands.Cog.listener()
-    async def on_ready(self):
-        print(">>> TokenPrice 기능 준비 완료!")
+    # @commands.Cog.listener()
+    # async def on_ready(self):
+    #     print(">>> TokenPrice 기능 준비 완료!")
 
 
             

@@ -1,0 +1,4944 @@
+{
+  "name": "우당탕탕 스톰윈드 지구대",
+  "displayName": null,
+  "faction": "alliance",
+  "region": "kr",
+  "realm": "Hyjal",
+  "last_crawled_at": "2025-08-30T22:07:52.000Z",
+  "profile_url": "https://raider.io/guilds/kr/hyjal/%EC%9A%B0%EB%8B%B9%ED%83%95%ED%83%95%20%EC%8A%A4%ED%86%B0%EC%9C%88%EB%93%9C%20%EC%A7%80%EA%B5%AC%EB%8C%80",
+  "members": [
+    {
+      "rank": 2,
+      "character": {
+        "name": "브론즈현지인",
+        "race": "Goblin",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 13940,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T16:39:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/브론즈현지인",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Sigurros",
+        "race": "Pandaren",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 15775,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-23T20:21:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Sigurros",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "에로마스터",
+        "race": "Mag'har Orc",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 13670,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-06T10:10:19.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/에로마스터",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "어둠속의바바리걸",
+        "race": "Blood Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 13675,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-09T08:43:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/어둠속의바바리걸",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "미녀와야수",
+        "race": "Night Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 22105,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-08-28T00:08:21.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/미녀와야수",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "여우와냥",
+        "race": "Human",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28765,
+        "region": "kr",
+        "realm": "Burning Legion",
+        "last_crawled_at": "2025-08-30T01:06:31.000Z",
+        "profile_url": "https://raider.io/characters/kr/burning-legion/여우와냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "무호흡무딜링",
+        "race": "Undead",
+        "class": "Hunter",
+        "active_spec_name": "Marksmanship",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 11220,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-20T16:38:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/무호흡무딜링",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "야성과이성",
+        "race": "Human",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 27115,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-09-01T02:12:50.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/야성과이성",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "애꾸눈덕팔이",
+        "race": "Dark Iron Dwarf",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11290,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2024-10-16T23:03:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/애꾸눈덕팔이",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "태양의전사아니다",
+        "race": "Dwarf",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 8910,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-08-30T22:28:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/태양의전사아니다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "리랄룽래리",
+        "race": "Dracthyr",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 27460,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T16:03:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/리랄룽래리",
+        "profile_banner": "alliancebanner18"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "Vdp",
+        "race": "Blood Elf",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 14075,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T16:38:05.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Vdp",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "흰거다",
+        "race": "Undead",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 11280,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:13:06.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/흰거다",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "착복",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 8055,
+        "region": "kr",
+        "realm": "Cenarius",
+        "last_crawled_at": "2020-11-23T22:08:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/cenarius/착복",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "치카리",
+        "race": "Dracthyr",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 15490,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/치카리",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "델타룬",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 27235,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-13T10:24:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/델타룬",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "색씨앙",
+        "race": "Blood Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 23695,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/색씨앙",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "오동잎댄스",
+        "race": "Blood Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 15585,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/오동잎댄스",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "아이참기사",
+        "race": "Blood Elf",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 17300,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-17T08:15:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/아이참기사",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "오마낫",
+        "race": "Tauren",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 16300,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/오마낫",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "드레인영웅검",
+        "race": "Human",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 4215,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/드레인영웅검",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "지옥의지배자",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5425,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-15T23:18:40.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/지옥의지배자",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "아이참기사",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17260,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-07-18T02:19:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/아이참기사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "힐줄까여",
+        "race": "Dwarf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13265,
+        "region": "kr",
+        "realm": "Cenarius",
+        "last_crawled_at": "2025-07-21T10:27:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/cenarius/힐줄까여",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "아자토스",
+        "race": "Night Elf",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11050,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-30T22:28:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/아자토스",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "부스러긔",
+        "race": "Pandaren",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12330,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-25T02:18:28.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/부스러긔",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "달루아",
+        "race": "Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 6765,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:09:36.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/달루아",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "명천도",
+        "race": "Pandaren",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5425,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/명천도",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "대꾸",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 31635,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T05:34:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/대꾸",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "민트빌런",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 27435,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/민트빌런",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "캡틴핑쿠",
+        "race": "Tauren",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 11155,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T05:01:53.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/캡틴핑쿠",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "눈먼거",
+        "race": "Blood Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 5650,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-15T01:37:01.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/눈먼거",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "어리둥절한신병",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 10390,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/어리둥절한신병",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "나무막대긔",
+        "race": "Worgen",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12350,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T16:03:04.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/나무막대긔",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Traeyoung",
+        "race": "Human",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 5915,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-29T08:27:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/Traeyoung",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꽃마녀다미",
+        "race": "Human",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11745,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-07-06T10:10:19.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃마녀다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "무쇠용광로",
+        "race": "Dark Iron Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 18650,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-25T02:18:30.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/무쇠용광로",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "주끼시로",
+        "race": "Dark Iron Dwarf",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11795,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T07:05:03.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/주끼시로",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "Audiquatrro",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15225,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Audiquatrro",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "크란크",
+        "race": "Human",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 16925,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-31T03:05:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/크란크",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "심신수양",
+        "race": "Blood Elf",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 18680,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:14:19.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/심신수양",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "오동잎",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 15585,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:44.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/오동잎",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "하리보전사",
+        "race": "Gnome",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7485,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-18T02:21:40.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/하리보전사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "얼덕후",
+        "race": "Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 16805,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/얼덕후",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "힐링리키",
+        "race": "Night Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13085,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-30T17:07:44.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/힐링리키",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "탱커리키",
+        "race": "Human",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13055,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-07-20T22:52:15.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/탱커리키",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "도우리키",
+        "race": "Void Elf",
+        "class": "Rogue",
+        "active_spec_name": "Subtlety",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13055,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-07-06T10:10:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/도우리키",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꼬꼬리키",
+        "race": "Pandaren",
+        "class": "Shaman",
+        "active_spec_name": "Enhancement",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13055,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/꼬꼬리키",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나쿠키맛",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Preservation",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 17255,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:02:14.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나쿠키맛",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꽃타투다미",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11755,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-05T01:53:21.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃타투다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "하리보도적",
+        "race": "Gnome",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7485,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-18T02:21:42.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/하리보도적",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "곰시멜루",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 14935,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:06:08.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/곰시멜루",
+        "profile_banner": "alliancebanner18"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "놈리건노움마법사",
+        "race": "Gnome",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 18505,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-10T03:11:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/놈리건노움마법사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "힐드러가여",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13990,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T17:57:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/힐드러가여",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "포말하우트",
+        "race": "Undead",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 22540,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T16:34:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/포말하우트",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "불숨불숨",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Devastation",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11795,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-24T21:48:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/불숨불숨",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "뚜꾸뚜꾸",
+        "race": "Pandaren",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 26315,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T13:05:01.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/뚜꾸뚜꾸",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "꼼쭉",
+        "race": "Vulpera",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 10895,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/꼼쭉",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "죠타롱",
+        "race": "Human",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 2445,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-18T17:00:57.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/죠타롱",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "나는산악인이다",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Marksmanship",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 27900,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:52:24.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/나는산악인이다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "대목성",
+        "race": "Blood Elf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 6695,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:49.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/대목성",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Iy",
+        "race": "Worgen",
+        "class": "Druid",
+        "active_spec_name": "Feral",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 8975,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-29T10:03:18.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/Iy",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "비수긔",
+        "race": "Gnome",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12330,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:50.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/비수긔",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "험한놈",
+        "race": "Mag'har Orc",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 10390,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-11T10:01:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/험한놈",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "리빙빙",
+        "race": "Nightborne",
+        "class": "Priest",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 18645,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-15T04:19:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/리빙빙",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "뻔뻔하다",
+        "race": "Dwarf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11170,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-16T08:22:14.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/뻔뻔하다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "틀그자체",
+        "race": "Mag'har Orc",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 13815,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-07T22:19:39.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/틀그자체",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "Boodoomaster",
+        "race": "Troll",
+        "class": "Shaman",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 18655,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-09T08:43:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Boodoomaster",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "또리성기사",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12170,
+        "region": "kr",
+        "realm": "Gul'dan",
+        "last_crawled_at": "2025-08-30T16:39:12.000Z",
+        "profile_url": "https://raider.io/characters/kr/guldan/또리성기사",
+        "profile_banner": "classbanner_paladin1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기초코바나나맛",
+        "race": "Vulpera",
+        "class": "Shaman",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 17185,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:09:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기초코바나나맛",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "용을보다",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Preservation",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 13370,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:21.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/용을보다",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "팜하니랑",
+        "race": "Kul Tiran",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 18355,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-06T10:10:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/팜하니랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "누런술사",
+        "race": "Dwarf",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6735,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:09:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/누런술사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "새침데긔",
+        "race": "Dracthyr",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12160,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:52:25.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/새침데긔",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "또리도적",
+        "race": "Human",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12135,
+        "region": "kr",
+        "realm": "Gul'dan",
+        "last_crawled_at": "2025-08-28T17:39:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/guldan/또리도적",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "Kubectl",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Preservation",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 13815,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Kubectl",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "갓사요",
+        "race": "Blood Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Vengeance",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 6745,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:13:59.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/갓사요",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "싱나이트",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 5425,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:44.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/싱나이트",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "끼혁",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11745,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-06-08T16:17:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/끼혁",
+        "profile_banner": "alliancebanner21"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나우유맛",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17225,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나우유맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "다이브밤",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Marksmanship",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6580,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-11T09:54:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/다이브밤",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "누런도적",
+        "race": "Gnome",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11170,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/누런도적",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "뼈추비",
+        "race": "Worgen",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7085,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:22.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/뼈추비",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "침착한청년",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6705,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/침착한청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "진일랑",
+        "race": "Human",
+        "class": "Rogue",
+        "active_spec_name": "Subtlety",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9565,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-25T02:18:26.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/진일랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "사즉필생",
+        "race": "Blood Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 7495,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-09-01T05:33:39.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/사즉필생",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "셰이드",
+        "race": "Night Elf",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9860,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T14:38:03.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/셰이드",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "렙업하는딸기",
+        "race": "Worgen",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17225,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/렙업하는딸기",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "천상아",
+        "race": "Human",
+        "class": "Warlock",
+        "active_spec_name": "Affliction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 10910,
+        "region": "kr",
+        "realm": "Rexxar",
+        "last_crawled_at": "2025-08-10T11:51:34.000Z",
+        "profile_url": "https://raider.io/characters/kr/rexxar/천상아",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꽃망치다미",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11795,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃망치다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "꽃방패다미",
+        "race": "Dark Iron Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11745,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-07-29T09:54:21.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃방패다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꽃격류다미",
+        "race": "Human",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11795,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T07:04:44.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃격류다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "불타는잎새",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 10335,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-22T17:16:55.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/불타는잎새",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "이삭줍는꼬마",
+        "race": "Gnome",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 20935,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-19T06:21:57.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/이삭줍는꼬마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "팜하니와",
+        "race": "Blood Elf",
+        "class": "Paladin",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 18645,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-09T08:43:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/팜하니와",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "박춘권",
+        "race": "Void Elf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15700,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T06:02:52.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/박춘권",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "김어죽",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 15265,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-30T15:05:41.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/김어죽",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나피치맛",
+        "race": "Blood Elf",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 17255,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나피치맛",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "베라예",
+        "race": "Lightforged Draenei",
+        "class": "Rogue",
+        "active_spec_name": "Outlaw",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17150,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/베라예",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나포도맛",
+        "race": "Void Elf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17155,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-27T09:20:14.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나포도맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "새벽의민트초코",
+        "race": "Draenei",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 19005,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:47:25.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/새벽의민트초코",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "별심",
+        "race": "Blood Elf",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 7825,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-13T10:26:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/별심",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "물고긔",
+        "race": "Gnome",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12350,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T18:03:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/물고긔",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "미슈카",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 16100,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/미슈카",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "모카쀼우",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5995,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T22:18:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/모카쀼우",
+        "profile_banner": "alliancebanner18"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "데쓰윙그상대는",
+        "race": "Dracthyr",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 4535,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-07T22:19:40.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/데쓰윙그상대는",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 0,
+      "character": {
+        "name": "딸기바나나메론맛",
+        "race": "Pandaren",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17225,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나메론맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "이방인전사",
+        "race": "Dark Iron Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 13425,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T12:03:11.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/이방인전사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "쭈처리",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12175,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-15T19:27:36.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/쭈처리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "금쪽같은꼬마",
+        "race": "Gnome",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 20935,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-19T06:14:06.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/금쪽같은꼬마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "도발이뭐엿더라",
+        "race": "Kul Tiran",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13480,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:24:07.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/도발이뭐엿더라",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "이븐한청년",
+        "race": "Dwarf",
+        "class": "Shaman",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6625,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:10:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/이븐한청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "석좀용",
+        "race": "Dracthyr",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 11110,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:09:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/석좀용",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "보호기원",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 23270,
+        "region": "kr",
+        "realm": "Burning Legion",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/burning-legion/보호기원",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Ow",
+        "race": "Worgen",
+        "class": "Priest",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 8975,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-30T22:28:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/Ow",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "세인트이드",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 10910,
+        "region": "kr",
+        "realm": "Rexxar",
+        "last_crawled_at": "2025-07-31T13:49:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/rexxar/세인트이드",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "내사랑복실",
+        "race": "Undead",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 23240,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/내사랑복실",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "베르홀리팔라딘",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 9425,
+        "region": "kr",
+        "realm": "Stormrage",
+        "last_crawled_at": "2025-08-29T11:01:28.000Z",
+        "profile_url": "https://raider.io/characters/kr/stormrage/베르홀리팔라딘",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "비월랑",
+        "race": "Draenei",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9495,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-24T21:48:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/비월랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "싱마",
+        "race": "Dracthyr",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 5390,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:49.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/싱마",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "공허파수꾼",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Survival",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 18650,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-28T00:08:34.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/공허파수꾼",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "홰초리",
+        "race": "Pandaren",
+        "class": "Monk",
+        "active_spec_name": "Windwalker",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7740,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-06-02T12:07:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/홰초리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "앙마쭈처리",
+        "race": "Draenei",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12275,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-13T10:26:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/앙마쭈처리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "모카매직",
+        "race": "Dwarf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5780,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-07T02:43:27.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/모카매직",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나민트맛",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Survival",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17050,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-17T20:36:04.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나민트맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "누런사제",
+        "race": "Human",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6580,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-10T09:24:33.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/누런사제",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "적면",
+        "race": "Dwarf",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 14845,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T15:37:17.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/적면",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "진정한피시",
+        "race": "Earthen",
+        "class": "Rogue",
+        "active_spec_name": "Outlaw",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 26255,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-16T08:22:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/진정한피시",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "일월랑",
+        "race": "Void Elf",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9565,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-25T02:18:36.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/일월랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "자연을보다",
+        "race": "Tauren",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 13370,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/자연을보다",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "꽃작살다미",
+        "race": "Dark Iron Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Survival",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11795,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-28T00:08:22.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃작살다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "별술사",
+        "race": "Mag'har Orc",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 7995,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T07:32:01.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/별술사",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "나이키양말",
+        "race": "Tauren",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 4530,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T12:02:56.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/나이키양말",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나밤맛",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Vengeance",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17155,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:15:30.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나밤맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "이제맞자",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 39630,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/이제맞자",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "꽃딱콩다미",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11805,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T15:34:28.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/꽃딱콩다미",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Tyrving",
+        "race": "Kul Tiran",
+        "class": "Warrior",
+        "active_spec_name": "Arms",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 1875,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:17:59.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Tyrving",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "죽끼혁",
+        "race": "Gnome",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11745,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-05-30T14:16:31.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/죽끼혁",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "딸기바나나초코맛",
+        "race": "Mechagnome",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17155,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T08:26:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/딸기바나나초코맛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "최복순양",
+        "race": "Gnome",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15460,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/최복순양",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "해초리",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7575,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-03-30T22:17:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/해초리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "두르릅",
+        "race": "Kul Tiran",
+        "class": "Druid",
+        "active_spec_name": "Feral",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 17150,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:50.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/두르릅",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "아이참드루",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17260,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-07-15T04:19:50.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/아이참드루",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑옥빛",
+        "race": "Worgen",
+        "class": "Monk",
+        "active_spec_name": "Windwalker",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑옥빛",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "유랑하늘",
+        "race": "Dwarf",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑하늘",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑보라",
+        "race": "Void Elf",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑보라",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑자주",
+        "race": "Blood Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 23980,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑자주",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑하얀",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑하얀",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑파랑",
+        "race": "Draenei",
+        "class": "Shaman",
+        "active_spec_name": "Enhancement",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑파랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "유랑갈색",
+        "race": "Void Elf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑갈색",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑분홍",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑분홍",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑주황",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Feral",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:43:24.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑주황",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "윈드위스퍼",
+        "race": "Mag'har Orc",
+        "class": "Shaman",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 9490,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T11:22:44.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/윈드위스퍼",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "별도적",
+        "race": "Dwarf",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 7815,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-10T03:23:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/별도적",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑연두",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑연두",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑빨강",
+        "race": "Void Elf",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑빨강",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 1,
+      "character": {
+        "name": "움바바두바바",
+        "race": "Void Elf",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 18675,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:02:17.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/움바바두바바",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "상조드",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 4280,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-27T00:45:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/상조드",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "맵지",
+        "race": "Night Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 8125,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:28:01.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/맵지",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "벙기",
+        "race": "Dwarf",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7630,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:28:02.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/벙기",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "하리보들후",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 7415,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-18T02:21:41.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/하리보들후",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "겨울깨비",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 10240,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/겨울깨비",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "더비기닝",
+        "race": "Dark Iron Dwarf",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 14705,
+        "region": "kr",
+        "realm": "Dalaran",
+        "last_crawled_at": "2025-08-07T22:20:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/dalaran/더비기닝",
+        "profile_banner": "",
+        "use_animated_banner": false
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "징끼혁",
+        "race": "Blood Elf",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 11810,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-05-30T06:21:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/징끼혁",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "용을보다",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Devastation",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 13160,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-05T01:53:22.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/용을보다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "핫치님",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12215,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/핫치님",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "귀욤뽀짝복실",
+        "race": "Void Elf",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 23220,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/귀욤뽀짝복실",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "헤초리",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7490,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-03-16T14:12:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/헤초리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "성예랑",
+        "race": "Human",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9565,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-30T22:28:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/성예랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "비타민먹는코끼리",
+        "race": "Night Elf",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11330,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-09T08:43:25.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/비타민먹는코끼리",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "종족해금의꿈",
+        "race": "Troll",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 8955,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-02-16T16:15:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/종족해금의꿈",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "베르이드",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9415,
+        "region": "kr",
+        "realm": "Stormrage",
+        "last_crawled_at": "2025-08-25T14:46:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/stormrage/베르이드",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "진예랑",
+        "race": "Mechagnome",
+        "class": "Hunter",
+        "active_spec_name": "Marksmanship",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9220,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-07-30T11:07:08.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/진예랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "그린숲속",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 8945,
+        "region": "kr",
+        "realm": "Zul'jin",
+        "last_crawled_at": "2025-08-28T00:08:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/zuljin/그린숲속",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "Xtt",
+        "race": "Night Elf",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 17325,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T08:54:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Xtt",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "분홍별기사",
+        "race": "Dwarf",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7920,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-28T21:17:09.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/분홍별기사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "데모니",
+        "race": "Gnome",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 19610,
+        "region": "kr",
+        "realm": "Dalaran",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/dalaran/데모니",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "팜하니와춤을",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Preservation",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 18645,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-06T10:10:28.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/팜하니와춤을",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "용혈랑",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Preservation",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 9565,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/용혈랑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "대마녀서은님",
+        "race": "Void Elf",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15375,
+        "region": "kr",
+        "realm": "Durotan",
+        "last_crawled_at": "2025-08-31T16:34:14.000Z",
+        "profile_url": "https://raider.io/characters/kr/durotan/대마녀서은님",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "흑우저",
+        "race": "Night Elf",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 16805,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-30T16:28:10.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/흑우저",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "용용쭈철",
+        "race": "Dracthyr",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12335,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-28T00:08:38.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/용용쭈철",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "나혼자만꼬마",
+        "race": "Gnome",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 20935,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-19T06:14:04.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/나혼자만꼬마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "흑마아키터",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 20965,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-07-12T06:19:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/흑마아키터",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "하리보왕전사",
+        "race": "Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 7545,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/하리보왕전사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "말로하자아프다",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 10055,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-08-13T10:26:34.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/말로하자아프다",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "연차차",
+        "race": "Human",
+        "class": "Mage",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9915,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T13:33:01.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/연차차",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "리리느",
+        "race": "Night Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6870,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T13:32:59.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/리리느",
+        "profile_banner": "classbanner_druid1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "차핑",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12395,
+        "region": "kr",
+        "realm": "Cenarius",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/cenarius/차핑",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "다시갑시다",
+        "race": "Pandaren",
+        "class": "Shaman",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 28115,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/다시갑시다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "챠르릉챠놈",
+        "race": "Pandaren",
+        "class": "Shaman",
+        "active_spec_name": "Enhancement",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5615,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-20T22:57:09.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/챠르릉챠놈",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "탱죽어서분제함",
+        "race": "Blood Elf",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 12855,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T15:02:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱죽어서분제함",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "초록별용용이",
+        "race": "Dracthyr",
+        "class": "Evoker",
+        "active_spec_name": "Devastation",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 7995,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/초록별용용이",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "이애순",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 5945,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-22T04:12:41.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/이애순",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "블랙조이",
+        "race": "Troll",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 22750,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T12:05:56.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/블랙조이",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "흥망행이",
+        "race": "Night Elf",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 18775,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/흥망행이",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "피곤한여울이",
+        "race": "Draenei",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 19005,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T04:05:55.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/피곤한여울이",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "기사쭈철",
+        "race": "Void Elf",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12365,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/기사쭈철",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "화목기원",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 23230,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-27T15:42:31.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/화목기원",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "최복순이",
+        "race": "Draenei",
+        "class": "Warlock",
+        "active_spec_name": "Destruction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15600,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-20T23:00:51.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/최복순이",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "농악과락의만남",
+        "race": "Troll",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 8175,
+        "region": "kr",
+        "realm": "Cenarius",
+        "last_crawled_at": "2025-08-31T08:04:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/cenarius/농악과락의만남",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "평안기원",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 23040,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T13:19:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/평안기원",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "보라별악사",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Vengeance",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 7815,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-10T20:35:34.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/보라별악사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "냥꾼성냥",
+        "race": "Kul Tiran",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12175,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/냥꾼성냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "탱누으면분제함",
+        "race": "Pandaren",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 12855,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T16:02:58.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱누으면분제함",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "올바른청년",
+        "race": "Human",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6625,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-27T14:36:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/올바른청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "망치둘",
+        "race": "Orc",
+        "class": "Shaman",
+        "active_spec_name": "Enhancement",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 5560,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-10T07:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/망치둘",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "헬파인더",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13425,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:53.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/헬파인더",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "노트북훔치는청년",
+        "race": "Dwarf",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6705,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:02:15.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/노트북훔치는청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "곰부엉첸",
+        "race": "Tauren",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 12100,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-14T01:26:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/곰부엉첸",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "육동잎",
+        "race": "Human",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 15445,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:33:52.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/육동잎",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "나이키가방",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 4530,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/나이키가방",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "나이키안대",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Vengeance",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 4520,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/나이키안대",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "역병보균자라니",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 9945,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-07-14T15:35:07.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/역병보균자라니",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "싸늘한청년",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 6615,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:33:58.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/싸늘한청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "탱거름은분제함",
+        "race": "Human",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12735,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T06:04:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱거름은분제함",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "츄럴성냥",
+        "race": "Zandalari Troll",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 12195,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/츄럴성냥",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "용한거",
+        "race": "Dracthyr",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 5555,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:21.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/용한거",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "카페전기도둑청년",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6625,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T06:29:11.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/카페전기도둑청년",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑푸른",
+        "race": "Draenei",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:36.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑푸른",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑귤색",
+        "race": "Kul Tiran",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑귤색",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유랑핑크",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Retribution",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 24025,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-09-01T04:34:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/유랑핑크",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "센초",
+        "race": "Mag'har Orc",
+        "class": "Warlock",
+        "active_spec_name": "Affliction",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 7165,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T18:34:33.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/센초",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "출근하기싫잖아",
+        "race": "Gnome",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15645,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-23T20:57:43.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/출근하기싫잖아",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "테레사수녀",
+        "race": "Lightforged Draenei",
+        "class": "Paladin",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 13730,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/테레사수녀",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "상수사",
+        "race": "Night Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 3975,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-13T10:26:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/상수사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "싱글몰트",
+        "race": "Gnome",
+        "class": "Monk",
+        "active_spec_name": "Windwalker",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28015,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-26T15:44:30.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/싱글몰트",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "데스레퀴엠",
+        "race": "Highmountain Tauren",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 5040,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/데스레퀴엠",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "탱이라서분제함",
+        "race": "Goblin",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 12755,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-19T07:34:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱이라서분제함",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "빅맨냥꾼",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12620,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:02:26.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/빅맨냥꾼",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "빅맨전사",
+        "race": "Night Elf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12610,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/빅맨전사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "빅맨수도",
+        "race": "Night Elf",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12610,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:45.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/빅맨수도",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "빅맨삼냥",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12610,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/빅맨삼냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "빅맨사냥",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12620,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T16:03:05.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/빅맨사냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "빅맨이냥",
+        "race": "Void Elf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12620,
+        "region": "kr",
+        "realm": "Rexxar",
+        "last_crawled_at": "2025-08-31T14:42:04.000Z",
+        "profile_url": "https://raider.io/characters/kr/rexxar/빅맨이냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "여길순",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Shadow",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15700,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T22:17:32.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/여길순",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "오리패",
+        "race": "Night Elf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6585,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T17:34:27.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/오리패",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "큰성냥",
+        "race": "Worgen",
+        "class": "Monk",
+        "active_spec_name": "Windwalker",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12335,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T14:37:56.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/큰성냥",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "상비법",
+        "race": "Human",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 4455,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:51.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/상비법",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "탱눕혀서분제함",
+        "race": "Troll",
+        "class": "Druid",
+        "active_spec_name": "Guardian",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 12575,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-07-27T18:32:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱눕혀서분제함",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "댕댕이아닙니다",
+        "race": "Vulpera",
+        "class": "Monk",
+        "active_spec_name": "Brewmaster",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 9985,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/댕댕이아닙니다",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "Neat",
+        "race": "Draenei",
+        "class": "Shaman",
+        "active_spec_name": "Elemental",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28050,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:49.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/Neat",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "유사휴먼극혐",
+        "race": "Mechagnome",
+        "class": "Death Knight",
+        "active_spec_name": "Blood",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9960,
+        "region": "kr",
+        "realm": "Hellscream",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/hellscream/유사휴먼극혐",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "신성한하마",
+        "race": "Dark Iron Dwarf",
+        "class": "Paladin",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6365,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T15:28:53.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/신성한하마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "김쓰랄",
+        "race": "Tauren",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 15005,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-06T19:36:29.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/김쓰랄",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "이건두번째래슨",
+        "race": "Highmountain Tauren",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "horde",
+        "achievement_points": 13790,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-05T01:53:23.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/이건두번째래슨",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "애거사",
+        "race": "Void Elf",
+        "class": "Priest",
+        "active_spec_name": "Discipline",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 9860,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/애거사",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "탱악사라분제함",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Vengeance",
+        "active_spec_role": "TANK",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 12735,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T11:02:11.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/탱악사라분제함",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "사나운하마",
+        "race": "Dwarf",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6240,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-28T00:09:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/사나운하마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "데스하울",
+        "race": "Dark Iron Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Fury",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 5040,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:50.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/데스하울",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "날랜하마",
+        "race": "Mag'har Orc",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 6285,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/날랜하마",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "흑화한하마",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": "Havoc",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 6260,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/흑화한하마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "소심한하마",
+        "race": "Dwarf",
+        "class": "Rogue",
+        "active_spec_name": "Assassination",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6240,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-28T00:09:18.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/소심한하마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "이쪽",
+        "race": "Lightforged Draenei",
+        "class": "Priest",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 18385,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T13:13:56.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/이쪽",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "저쪽",
+        "race": "Lightforged Draenei",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 26215,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-30T22:29:54.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/저쪽",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 2,
+      "character": {
+        "name": "주황별드루",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Balance",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 7985,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-31T11:02:09.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/주황별드루",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "발랄한하마",
+        "race": "Dwarf",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 6240,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-28T00:09:20.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/발랄한하마",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "혜윰이서",
+        "race": "Mechagnome",
+        "class": "Death Knight",
+        "active_spec_name": "Frost",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15390,
+        "region": "kr",
+        "realm": "Garona",
+        "last_crawled_at": "2025-08-16T08:24:19.000Z",
+        "profile_url": "https://raider.io/characters/kr/garona/혜윰이서",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "혜윰이서",
+        "race": "Mechagnome",
+        "class": "Warlock",
+        "active_spec_name": "Demonology",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15465,
+        "region": "kr",
+        "realm": "Gul'dan",
+        "last_crawled_at": "2025-08-28T00:08:37.000Z",
+        "profile_url": "https://raider.io/characters/kr/guldan/혜윰이서",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 3,
+      "character": {
+        "name": "혜윰이서",
+        "race": "Mechagnome",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15485,
+        "region": "kr",
+        "realm": "Deathwing",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/deathwing/혜윰이서",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "혜윰이서",
+        "race": "Mechagnome",
+        "class": "Mage",
+        "active_spec_name": "Arcane",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15275,
+        "region": "kr",
+        "realm": "Alexstrasza",
+        "last_crawled_at": "2025-08-10T22:46:35.000Z",
+        "profile_url": "https://raider.io/characters/kr/alexstrasza/혜윰이서",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "혜윰지아",
+        "race": "Mechagnome",
+        "class": "Hunter",
+        "active_spec_name": "Beast Mastery",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 15115,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2025-08-10T22:46:38.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/혜윰지아",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "레벨삼뚝배기",
+        "race": "Goblin",
+        "class": "Death Knight",
+        "active_spec_name": "Unholy",
+        "active_spec_role": "DPS",
+        "gender": "male",
+        "faction": "horde",
+        "achievement_points": 11220,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-16T08:46:41.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/레벨삼뚝배기",
+        "profile_banner": "hordebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "대씨부",
+        "race": "Gnome",
+        "class": "Monk",
+        "active_spec_name": "Mistweaver",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 11110,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-16T08:46:41.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/대씨부",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "또리드루",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": "Restoration",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 12015,
+        "region": "kr",
+        "realm": "Gul'dan",
+        "last_crawled_at": "2025-08-16T08:46:40.000Z",
+        "profile_url": "https://raider.io/characters/kr/guldan/또리드루",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 4,
+      "character": {
+        "name": "자빨리빨자",
+        "race": "Worgen",
+        "class": "Priest",
+        "active_spec_name": "Holy",
+        "active_spec_role": "HEALING",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28125,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-31T14:37:53.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/자빨리빨자",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "자빨래빨자",
+        "race": "Dark Iron Dwarf",
+        "class": "Warrior",
+        "active_spec_name": "Protection",
+        "active_spec_role": "TANK",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28115,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:46.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/자빨래빨자",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "다시갑시다",
+        "race": "Draenei",
+        "class": "Monk",
+        "active_spec_name": "Windwalker",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28115,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:47.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/다시갑시다",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "자빨대빨자",
+        "race": "Mechagnome",
+        "class": "Warlock",
+        "active_spec_name": "Affliction",
+        "active_spec_role": "DPS",
+        "gender": "female",
+        "faction": "alliance",
+        "achievement_points": 28115,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2025-08-30T22:29:48.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/자빨대빨자",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "밀렵술사-247197393",
+        "race": "Night Elf",
+        "class": "Druid",
+        "active_spec_name": null,
+        "active_spec_role": null,
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 0,
+        "region": "kr",
+        "realm": "Cenarius",
+        "last_crawled_at": "2017-01-19T00:00:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/cenarius/밀렵술사-247197393",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "은신저격수-247197416",
+        "race": "Dracthyr",
+        "class": "Warrior",
+        "active_spec_name": null,
+        "active_spec_role": null,
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 0,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2017-01-19T00:00:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/은신저격수-247197416",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "콕시엘라-247197425",
+        "race": "Night Elf",
+        "class": "Demon Hunter",
+        "active_spec_name": null,
+        "active_spec_role": null,
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 0,
+        "region": "kr",
+        "realm": "Hyjal",
+        "last_crawled_at": "2017-01-19T00:00:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/hyjal/콕시엘라-247197425",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 5,
+      "character": {
+        "name": "광속사나이-247197484",
+        "race": "Night Elf",
+        "class": "Death Knight",
+        "active_spec_name": null,
+        "active_spec_role": null,
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 0,
+        "region": "kr",
+        "realm": "Dalaran",
+        "last_crawled_at": "2017-01-19T00:00:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/dalaran/광속사나이-247197484",
+        "profile_banner": "alliancebanner1"
+      }
+    },
+    {
+      "rank": 6,
+      "character": {
+        "name": "횡령술사-247197523",
+        "race": "Draenei",
+        "class": "Hunter",
+        "active_spec_name": null,
+        "active_spec_role": null,
+        "gender": "male",
+        "faction": "alliance",
+        "achievement_points": 0,
+        "region": "kr",
+        "realm": "Azshara",
+        "last_crawled_at": "2017-01-19T00:00:00.000Z",
+        "profile_url": "https://raider.io/characters/kr/azshara/횡령술사-247197523",
+        "profile_banner": "alliancebanner1"
+      }
+    }
+  ]
+}
