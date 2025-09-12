@@ -42,12 +42,16 @@ async def setup_hook():
         print(f">>> 데이터베이스 연결 실패: {e}")
     
     # 코그 로드
-    await bot.load_extension("cogs.raid")
-    await bot.load_extension("cogs.auto_nickname_handler")  # 자동 닉네임 처리
-    await bot.load_extension("cogs.member_manager")
+    await bot.load_extension("cogs.core.auto_nickname")
+    await bot.load_extension("cogs.core.member_manager")
+    await bot.load_extension("cogs.stats.guild_stats") 
+    await bot.load_extension("cogs.raid.general")
+    await bot.load_extension("cogs.raid.participation")
+
     # await bot.load_extension("cogs.guild_stats")
     await bot.load_extension("services.blizzard.token_price")  
     await bot.load_extension("services.raiderio.affixes") 
+    await bot.load_extension("services.raiderio.raid_progression") 
     await bot.load_extension("services.wowhead.bis") 
     await bot.load_extension("services.community.secondary_stats") 
     # await bot.load_extension("cogs.craft")  
