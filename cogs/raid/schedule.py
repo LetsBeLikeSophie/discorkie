@@ -127,7 +127,7 @@ class Schedule(commands.Cog):
                     return
                 
                 # 임베드 메시지 생성
-                embed = self.create_event_embed(event_data)
+                embed = await self.create_event_embed(event_data)
                 
                 # 먼저 View 없이 메시지 발송
                 message = await interaction.followup.send(embed=embed)
@@ -153,9 +153,8 @@ class Schedule(commands.Cog):
             print(f">>> 스택 추적: {traceback.format_exc()}")
             await interaction.followup.send("❌ 일정 공지 발송 중 오류가 발생했습니다.")
 
-
-    def create_event_embed(self, event_data) -> discord.Embed:
-        """일정 공지용 임베드 생성"""
+    async def create_event_embed(self, event_data) -> discord.Embed:
+        """일정 공지용 임베드 생성 - 실시간 카운트"""
         weekdays = ['', '월', '화', '수', '목', '금', '토', '일']
         day_name = weekdays[event_data['instance_date'].isoweekday()]
         start_time = event_data['instance_datetime'].strftime('%H:%M')
@@ -177,13 +176,29 @@ class Schedule(commands.Cog):
             inline=False
         )
         
+        # 실시간 참가자 수 조회
+        async with self.db_manager.get_connection() as conn:
+            participation_counts = await conn.fetchrow("""
+                SELECT 
+                    COUNT(CASE WHEN participation_status = 'confirmed' THEN 1 END) as confirmed_count,
+                    COUNT(CASE WHEN participation_status = 'tentative' THEN 1 END) as tentative_count,
+                    COUNT(CASE WHEN participation_status = 'declined' THEN 1 END) as declined_count
+                FROM guild_bot.event_participations 
+                WHERE event_instance_id = $1
+            """, event_data['id'])
+        
+        confirmed_count = participation_counts['confirmed_count'] or 0
+        tentative_count = participation_counts['tentative_count'] or 0  
+        declined_count = participation_counts['declined_count'] or 0
+        total_attending = confirmed_count + tentative_count
+        
         embed.add_field(
             name="👥 참여 현황",
             value=(
-                f"✅ 확정: {event_data['current_confirmed']}명\n"
-                f"❓ 미정: {event_data['current_tentative']}명\n"
-                f"❌ 불참: {event_data['current_declined']}명\n"
-                f"📊 **전체**: {event_data['current_confirmed'] + event_data['current_tentative']}명 / {event_data['max_participants']}명"
+                f">>> 확정: {confirmed_count}명\n"
+                f">>> 미정: {tentative_count}명\n"
+                f">>> 불참: {declined_count}명\n"
+                f"📊 **전체**: {total_attending}명 / {event_data['max_participants']}명"
             ),
             inline=True
         )
