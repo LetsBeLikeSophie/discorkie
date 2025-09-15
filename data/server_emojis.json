@@ -1,0 +1,150 @@
+{
+  "guild_id": "1121105790477025310",
+  "guild_name": "부스러긔님의 서버",
+  "collected_at": "2025-09-15T06:11:03.758295+00:00",
+  "wow_emojis": {
+    "wow_evoke": {
+      "id": "1396323431598784562",
+      "format": "<:wow_evoke:1396323431598784562>",
+      "name": "wow_evoke",
+      "animated": false
+    },
+    "wow_demonhunter": {
+      "id": "1396323433318584340",
+      "format": "<:wow_demonhunter:1396323433318584340>",
+      "name": "wow_demonhunter",
+      "animated": false
+    },
+    "wow_deathknight": {
+      "id": "1396323434673475595",
+      "format": "<:wow_deathknight:1396323434673475595>",
+      "name": "wow_deathknight",
+      "animated": false
+    },
+    "wow_druid": {
+      "id": "1396323436946526319",
+      "format": "<:wow_druid:1396323436946526319>",
+      "name": "wow_druid",
+      "animated": false
+    },
+    "wow_warlock": {
+      "id": "1396323440046243882",
+      "format": "<:wow_warlock:1396323440046243882>",
+      "name": "wow_warlock",
+      "animated": false
+    },
+    "wow_monk": {
+      "id": "1396323442135142451",
+      "format": "<:wow_monk:1396323442135142451>",
+      "name": "wow_monk",
+      "animated": false
+    },
+    "wow_mage": {
+      "id": "1396323443661733951",
+      "format": "<:wow_mage:1396323443661733951>",
+      "name": "wow_mage",
+      "animated": false
+    },
+    "wow_sharman": {
+      "id": "1396323446413070396",
+      "format": "<:wow_sharman:1396323446413070396>",
+      "name": "wow_sharman",
+      "animated": false
+    },
+    "wow_hunter": {
+      "id": "1396323448430661756",
+      "format": "<:wow_hunter:1396323448430661756>",
+      "name": "wow_hunter",
+      "animated": false
+    },
+    "wow_paladin": {
+      "id": "1396323450225692753",
+      "format": "<:wow_paladin:1396323450225692753>",
+      "name": "wow_paladin",
+      "animated": false
+    },
+    "wow_rogue": {
+      "id": "1396323451916128457",
+      "format": "<:wow_rogue:1396323451916128457>",
+      "name": "wow_rogue",
+      "animated": false
+    },
+    "wow_priest": {
+      "id": "1396323456043323483",
+      "format": "<:wow_priest:1396323456043323483>",
+      "name": "wow_priest",
+      "animated": false
+    },
+    "wow_warrior": {
+      "id": "1396323460049014875",
+      "format": "<:wow_warrior:1396323460049014875>",
+      "name": "wow_warrior",
+      "animated": false
+    }
+  },
+  "wow_classes": {
+    "hunter": {
+      "id": "1396323448430661756",
+      "format": "<:wow_hunter:1396323448430661756>",
+      "name": "wow_hunter",
+      "animated": false
+    },
+    "deathknight": {
+      "id": "1396323434673475595",
+      "format": "<:wow_deathknight:1396323434673475595>",
+      "name": "wow_deathknight",
+      "animated": false
+    },
+    "druid": {
+      "id": "1396323436946526319",
+      "format": "<:wow_druid:1396323436946526319>",
+      "name": "wow_druid",
+      "animated": false
+    },
+    "warlock": {
+      "id": "1396323440046243882",
+      "format": "<:wow_warlock:1396323440046243882>",
+      "name": "wow_warlock",
+      "animated": false
+    },
+    "monk": {
+      "id": "1396323442135142451",
+      "format": "<:wow_monk:1396323442135142451>",
+      "name": "wow_monk",
+      "animated": false
+    },
+    "mage": {
+      "id": "1396323443661733951",
+      "format": "<:wow_mage:1396323443661733951>",
+      "name": "wow_mage",
+      "animated": false
+    },
+    "paladin": {
+      "id": "1396323450225692753",
+      "format": "<:wow_paladin:1396323450225692753>",
+      "name": "wow_paladin",
+      "animated": false
+    },
+    "rogue": {
+      "id": "1396323451916128457",
+      "format": "<:wow_rogue:1396323451916128457>",
+      "name": "wow_rogue",
+      "animated": false
+    },
+    "priest": {
+      "id": "1396323456043323483",
+      "format": "<:wow_priest:1396323456043323483>",
+      "name": "wow_priest",
+      "animated": false
+    },
+    "warrior": {
+      "id": "1396323460049014875",
+      "format": "<:wow_warrior:1396323460049014875>",
+      "name": "wow_warrior",
+      "animated": false
+    }
+  },
+  "wow_roles": {},
+  "other_emojis": {},
+  "total_count": 13
+}

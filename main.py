@@ -47,6 +47,7 @@ async def setup_hook():
     await bot.load_extension("cogs.stats.guild_stats") 
     await bot.load_extension("cogs.raid.general")
     await bot.load_extension("cogs.raid.participation")
+    await bot.load_extension("cogs.raid.schedule")
 
     # await bot.load_extension("cogs.guild_stats")
     await bot.load_extension("services.blizzard.token_price")  
