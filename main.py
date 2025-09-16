@@ -42,12 +42,14 @@ async def setup_hook():
         print(f">>> 데이터베이스 연결 실패: {e}")
     
     # 코그 로드
+    await bot.load_extension("cogs.admin.raid_management")   
     await bot.load_extension("cogs.core.auto_nickname")
     await bot.load_extension("cogs.core.member_manager")
     await bot.load_extension("cogs.stats.guild_stats") 
     await bot.load_extension("cogs.raid.general")
     await bot.load_extension("cogs.raid.participation")
     await bot.load_extension("cogs.raid.schedule")
+      
 
     # await bot.load_extension("cogs.guild_stats")
     await bot.load_extension("services.blizzard.token_price")  
@@ -60,6 +62,7 @@ async def setup_hook():
     # await bot.load_extension("cogs.raid_schedule")
     # await bot.load_extension("cogs.character_manager")
     # await bot.load_extension("cogs.raid_management")
+
 
 # 봇 종료 시 데이터베이스 연결 해제
 @bot.event  
