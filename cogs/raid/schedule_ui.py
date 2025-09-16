@@ -23,19 +23,19 @@ class EventSignupView(discord.ui.View):
         self.character_service = CharacterService(db_manager)
         self.participation_service = ParticipationService(db_manager)
 
-    @discord.ui.button(label="참여", style=discord.ButtonStyle.success)
+    @discord.ui.button(label="참여", style=discord.ButtonStyle.success, custom_id="signup_confirmed")
     async def signup_confirmed(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self._handle_signup(interaction, ParticipationStatus.CONFIRMED)
 
-    @discord.ui.button(label="미정", style=discord.ButtonStyle.secondary) 
+    @discord.ui.button(label="미정", style=discord.ButtonStyle.secondary, custom_id="signup_tentative") 
     async def signup_tentative(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self._handle_signup(interaction, ParticipationStatus.TENTATIVE)
 
-    @discord.ui.button(label="불참", style=discord.ButtonStyle.danger)
+    @discord.ui.button(label="불참", style=discord.ButtonStyle.danger, custom_id="signup_declined")
     async def signup_declined(self, interaction: discord.Interaction, button: discord.ui.Button):
         await self._handle_signup(interaction, ParticipationStatus.DECLINED)
 
-    @discord.ui.button(label="캐릭터변경", style=discord.ButtonStyle.secondary, row=1)
+    @discord.ui.button(label="캐릭터변경", style=discord.ButtonStyle.secondary, row=1, custom_id="character_change")
     async def character_change(self, interaction: discord.Interaction, button: discord.ui.Button):
         modal = CharacterChangeModal(self.event_instance_id, self.db_manager, 
                                    self.discord_message_id, self.discord_channel_id)
@@ -108,7 +108,6 @@ class EventSignupView(discord.ui.View):
 
     async def _send_success_message(self, interaction, character_data, detailed_role, status, memo):
         """성공 메시지 전송"""
-        status_emoji = {"confirmed": "", "tentative": "", "declined": ""}
         status_text = {"confirmed": "확정 참여", "tentative": "미정", "declined": "불참"}
         
         spec_kr = translate_spec_en_to_kr(character_data['character_spec'] or '')
@@ -129,7 +128,7 @@ class EventSignupView(discord.ui.View):
                 # 이벤트 기본 정보
                 event_data = await conn.fetchrow("""
                     SELECT ei.*, e.event_name, e.expansion, e.season, e.difficulty, 
-                           e.content_name, e.max_participants, e.duration_minutes
+                        e.content_name, e.max_participants, e.duration_minutes
                     FROM guild_bot.event_instances ei
                     JOIN guild_bot.events e ON ei.event_id = e.id
                     WHERE ei.id = $1
@@ -138,7 +137,7 @@ class EventSignupView(discord.ui.View):
                 # 참여자 목록 조회
                 participants_data = await conn.fetch("""
                     SELECT character_name, character_class, character_spec, detailed_role,
-                           participation_status, participant_notes, armor_type
+                        participation_status, participant_notes, armor_type
                     FROM guild_bot.event_participations
                     WHERE discord_message_id = $1
                     ORDER BY 
@@ -156,7 +155,17 @@ class EventSignupView(discord.ui.View):
                         character_name
                 """, self.discord_message_id)
             
-            embed = self.create_detailed_event_embed(event_data, participants_data)
+
+                # 최근 참가 이력 3개 조회
+                recent_logs = await conn.fetch("""
+                    SELECT action_type, character_name, old_character_name, participant_memo, created_at
+                    FROM guild_bot.event_participation_logs
+                    WHERE event_instance_id = $1
+                    ORDER BY created_at DESC
+                    LIMIT 3
+                """, self.event_instance_id)
+            
+            embed = self.create_detailed_event_embed(event_data, participants_data, recent_logs)
             original_message = await interaction.original_response()
             await original_message.edit(embed=embed, view=self)
             
@@ -164,9 +173,9 @@ class EventSignupView(discord.ui.View):
             
         except Exception as e:
             Logger.error(f"메시지 업데이트 오류: {e}", e)
-
-    def create_detailed_event_embed(self, event_data, participants_data) -> discord.Embed:
-        """상세한 참여자 목록이 포함된 임베드 생성"""
+            
+    def create_detailed_event_embed(self, event_data, participants_data, recent_logs=None) -> discord.Embed:
+        """간소화된 참여자 목록과 최근 이력이 포함된 임베드 생성"""
         weekdays = ['', '월', '화', '수', '목', '금', '토', '일']
         day_name = weekdays[event_data['instance_date'].isoweekday()]
         start_time = event_data['instance_datetime'].strftime('%H:%M')
@@ -194,43 +203,39 @@ class EventSignupView(discord.ui.View):
         for participant in participants_data:
             participants_by_status[participant['participation_status']].append(participant)
         
-        # 확정 참여자 목록
+        # 확정 참여자만 역할별로 표시 (간소화)
         if participants_by_status['confirmed']:
-            confirmed_text = self._format_participants_by_role(participants_by_status['confirmed'])
+            confirmed_text = self._format_participants_compact(participants_by_status['confirmed'])
             embed.add_field(
-                name=f"**확정 참여 ({len(participants_by_status['confirmed'])}명)**",
+                name=f"👥 **참여 인원 ({len(participants_by_status['confirmed'])}명)**",
                 value=confirmed_text,
                 inline=False
             )
         
-        # 미정/불참 참여자 목록
-        for status, emoji, name in [('tentative', '', '미정'), ('declined', '', '불참')]:
-            if participants_by_status[status]:
-                text = self._format_participants_simple(participants_by_status[status])
-                embed.add_field(
-                    name=f"**{name} ({len(participants_by_status[status])}명)**",
-                    value=text,
-                    inline=False
-                )
-        
-        # 전체 요약
-        total_attending = len(participants_by_status['confirmed']) + len(participants_by_status['tentative'])
+        # 간단 요약 (미정/불참 숫자만)
         embed.add_field(
-            name="📊 **참여 현황 요약**",
+            name="📊 **현황**",
             value=(
-                f"**전체**: {total_attending}명 / {event_data['max_participants']}명\n"
-                f"확정: {len(participants_by_status['confirmed'])}명, "
+                f"**전체**: {len(participants_by_status['confirmed'])}명 / {event_data['max_participants']}명\n"
                 f"미정: {len(participants_by_status['tentative'])}명, "
                 f"불참: {len(participants_by_status['declined'])}명"
             ),
             inline=False
         )
         
+        # 최근 이력 추가 (새로 추가되는 부분)
+        if recent_logs:
+            embed.add_field(
+                name="📝 **최근 이력**",
+                value=self._format_recent_logs(recent_logs),
+                inline=False
+            )
+        
         embed.set_footer(text="아래 버튼으로 참가 의사를 표시해주세요!")
         return embed
 
-    def _format_participants_by_role(self, participants) -> str:
-        """역할별 참여자 포맷팅"""
+    def _format_participants_compact(self, participants) -> str:
+        """간소화된 역할별 참여자 포맷팅 (아이콘과 특성 포함)"""
         roles = defaultdict(list)
         for p in participants:
             role = p['detailed_role'] or 'MELEE_DPS'
@@ -251,7 +256,7 @@ class EventSignupView(discord.ui.View):
                     class_emoji = get_class_emoji(p['character_class'] or 'unknown')
                     spec_kr = translate_spec_en_to_kr(p['character_spec'] or '')
                     spec_text = f"({spec_kr})" if spec_kr else ""
-                    result_lines.append(f"   • {class_emoji} {p['character_name']}{spec_text}")
+                    result_lines.append(f"{class_emoji} {p['character_name']}{spec_text}")
         
         return '\n'.join(result_lines) if result_lines else "참여자가 없습니다."
 
@@ -269,4 +274,217 @@ class EventSignupView(discord.ui.View):
             
             result_lines.append(line)
         
-        return 
+        return '\n'.join(result_lines) if result_lines else "해당 없음"
+    
+    def _format_recent_logs(self, recent_logs) -> str:
+        """최근 이력 포맷팅"""
+        if not recent_logs:
+            return "이력이 없습니다."
+        
+        result_lines = []
+        for log in recent_logs:
+            time_str = log['created_at'].strftime('%m/%d %H:%M')
+            
+            # 캐릭터 변경 액션의 경우 old_character_name 활용
+            if log['action_type'].startswith('character_changed_from_'):
+                old_char = log.get('old_character_name', '알 수 없음')
+                new_char = log['character_name']
+                line = f"{time_str} 캐릭터 변경 ({old_char}→{new_char})"
+            elif log['action_type'] == 'character_changed_and_joined':
+                line = f"{time_str} {log['character_name']} 캐릭터 변경 후 참가"
+            else:
+                # 일반 액션들 - 캐릭터명 포함
+                action_text = {
+                    'joined': '참가',
+                    'changed_to_confirmed': '확정 변경', 
+                    'changed_to_tentative': '미정 변경',
+                    'changed_to_declined': '불참 변경'
+                }.get(log['action_type'], '변경')
+                line = f"{time_str} {log['character_name']} {action_text}"
+            
+            # 메모가 있으면 추가
+            if log['participant_memo']:
+                line += f" - \"{log['participant_memo']}\""
+            
+            result_lines.append(line)
+        
+        return '\n'.join(result_lines)
+
+
+class CharacterChangeModal(discord.ui.Modal):
+    def __init__(self, event_instance_id: int, db_manager: DatabaseManager, discord_message_id: int, discord_channel_id: int):
+        super().__init__(title="캐릭터 변경")
+        self.event_instance_id = event_instance_id
+        self.db_manager = db_manager
+        self.discord_message_id = discord_message_id
+        self.discord_channel_id = discord_channel_id
+        
+        self.character_input = discord.ui.TextInput(
+            label="캐릭터명",
+            placeholder="예: 비수긔",
+            required=True,
+            max_length=50
+        )
+        self.add_item(self.character_input)
+        
+        self.realm_input = discord.ui.TextInput(
+            label="서버명",
+            placeholder="예: 아즈샤라, 하이잘, 굴단",
+            required=True,
+            max_length=50
+        )
+        self.add_item(self.realm_input)
+
+    @handle_interaction_errors
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        
+        character_name = self.character_input.value.strip()
+        realm_input = self.realm_input.value.strip()
+        
+        Logger.info(f"캐릭터 변경 시도: {character_name}-{realm_input}")
+        
+        # 서비스 초기화
+        character_service = CharacterService(self.db_manager)
+        participation_service = ParticipationService(self.db_manager)
+        
+        # 캐릭터 검증
+        char_validation = await character_service.validate_character_from_input(character_name, realm_input)
+        if not char_validation.get("success"):
+            await interaction.followup.send(f">>> {char_validation['error']}", ephemeral=True)
+            return
+        
+        char_info = char_validation["char_info"]
+        realm_name_kr = char_validation["realm_name_kr"]
+        
+        # 닉네임 변경
+        new_nickname = f"{Emojis.ROCKET}{character_name}"
+        try:
+            await interaction.user.edit(nick=new_nickname)
+            Logger.info(f"닉네임 변경 성공: {interaction.user.display_name} -> {new_nickname}")
+        except discord.Forbidden:
+            Logger.info(f"닉네임 변경 실패 (권한 부족): {interaction.user.name}")
+        except Exception as e:
+            Logger.error(f"닉네임 변경 오류: {e}")
+        
+        # DB 트랜잭션으로 모든 작업 처리
+        async with self.db_manager.get_connection() as conn:
+            # 캐릭터 저장
+            character_data = {
+                "character_id": None,  # 새로 생성됨
+                "character_name": char_info.get("name"),
+                "realm_slug": char_info.get("realm"),
+                "character_role": char_info.get("active_spec_role"),
+                "character_spec": char_info.get("active_spec_name"),
+                "character_class": char_info.get("class")
+            }
+            
+            # 캐릭터 DB 저장
+            character_data["character_id"] = await conn.fetchval("""
+                INSERT INTO guild_bot.characters (
+                    character_name, realm_slug, race, class, active_spec, 
+                    active_spec_role, gender, faction, achievement_points,
+                    profile_url, thumbnail_url, region, last_crawled_at, is_guild_member
+                )
+                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), FALSE)
+                ON CONFLICT (character_name, realm_slug) DO UPDATE SET
+                    race = EXCLUDED.race,
+                    class = EXCLUDED.class,
+                    active_spec = EXCLUDED.active_spec,
+                    active_spec_role = EXCLUDED.active_spec_role,
+                    gender = EXCLUDED.gender,
+                    faction = EXCLUDED.faction,
+                    achievement_points = EXCLUDED.achievement_points,
+                    profile_url = EXCLUDED.profile_url,
+                    thumbnail_url = EXCLUDED.thumbnail_url,
+                    last_crawled_at = NOW(),
+                    updated_at = NOW()
+                RETURNING id
+            """, char_info.get("name"), char_info.get("realm"), char_info.get("race"),
+                char_info.get("class"), char_info.get("active_spec_name"),
+                char_info.get("active_spec_role"), char_info.get("gender"),
+                char_info.get("faction"), char_info.get("achievement_points", 0),
+                char_info.get("profile_url", ""), char_info.get("thumbnail_url", ""), "kr")
+            
+            # 사용자 및 소유권 처리
+            discord_user_id = await participation_service.ensure_discord_user(
+                str(interaction.user.id), interaction.user.name, conn)
+            
+            await character_service.set_character_ownership(
+                discord_user_id, character_data["character_id"], conn)
+            
+            # 자동 참가 (confirmed 상태)
+            old_participation, detailed_role = await participation_service.upsert_participation(
+                self.event_instance_id, discord_user_id, character_data, 
+                ParticipationStatus.CONFIRMED, None, self.discord_message_id, 
+                self.discord_channel_id, conn)
+            
+            # 로그 기록 (캐릭터 변경 특수 액션)
+            action_type = "character_changed_and_joined" if not old_participation else f"character_changed_from_{old_participation['participation_status']}"
+            await conn.execute("""
+                INSERT INTO guild_bot.event_participation_logs
+                (event_instance_id, character_id, discord_user_id, action_type, old_status, new_status,
+                character_name, character_realm, character_class, character_spec, detailed_role,
+                old_character_name, old_detailed_role,
+                discord_message_id, discord_channel_id, user_display_name)
+                VALUES ($1, $2, $3, $4, $5, 'confirmed', $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+            """, self.event_instance_id, character_data["character_id"], discord_user_id, action_type, 
+                old_participation['participation_status'] if old_participation else None,
+                char_info.get('name'), char_info.get('realm'), char_info.get('class'), 
+                char_info.get('active_spec_name'), detailed_role, 
+                old_participation['character_name'] if old_participation else None,  # 이 부분이 문제
+                old_participation['detailed_role'] if old_participation else None,
+                self.discord_message_id, self.discord_channel_id, interaction.user.display_name)
+        
+        # 성공 메시지
+        class_kr = translate_class_en_to_kr(char_info.get("class", ""))
+        spec_kr = translate_spec_en_to_kr(char_info.get("active_spec_name", ""))
+        role_kr = get_role_korean(detailed_role)
+        
+        await interaction.followup.send(
+            f">>> **캐릭터 변경 및 참가 완료!**\n"
+            f"캐릭터: {char_info.get('name')}\n"
+            f"서버: {realm_name_kr}\n"
+            f"직업: {class_kr} ({spec_kr})\n"
+            f"역할: {role_kr}\n"
+            f"닉네임: {new_nickname}\n\n"
+            f"**확정 참여**로 자동 등록되었습니다!",
+            ephemeral=True
+        )
+        
+        # 메시지 업데이트
+        signup_view = EventSignupView(self.event_instance_id, self.db_manager, 
+                                    self.discord_message_id, self.discord_channel_id)
+        await signup_view.update_event_message(interaction)
+        
+        Logger.info(f"캐릭터 변경 및 참가 완료: {char_info.get('name')}-{char_info.get('realm')}")
+
+
+class ParticipationMemoModal(discord.ui.Modal):
+    def __init__(self, status: str, event_instance_id: int, db_manager: DatabaseManager, discord_message_id: int, discord_channel_id: int):
+        super().__init__(title=f"{'미정' if status == 'tentative' else '불참'} 사유 입력")
+        self.status = status
+        self.event_instance_id = event_instance_id
+        self.db_manager = db_manager
+        self.discord_message_id = discord_message_id
+        self.discord_channel_id = discord_channel_id
+        
+        self.memo_input = discord.ui.TextInput(
+            label="사유를 입력해주세요 (선택사항)",
+            placeholder="예: 갑자기 일정이 생겼어요" if status == 'declined' else "예: 시간 확인해보고 답변드릴게요",
+            required=False,
+            max_length=200,
+            style=discord.TextStyle.paragraph
+        )
+        self.add_item(self.memo_input)
+
+    @handle_interaction_errors
+    async def on_submit(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True)
+        
+        memo = self.memo_input.value.strip() if self.memo_input.value else None
+        
+        # View의 참가 처리 로직 재사용
+        signup_view = EventSignupView(self.event_instance_id, self.db_manager, 
+                                    self.discord_message_id, self.discord_channel_id)
+        await signup_view._process_participation(interaction, self.status, memo)

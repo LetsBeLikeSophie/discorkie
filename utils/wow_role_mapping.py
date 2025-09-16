@@ -67,7 +67,7 @@ CLASS_SPEC_ROLES = {
     ("Death Knight", "Frost"): "MELEE_DPS",
     ("Death Knight", "Unholy"): "MELEE_DPS",
     
-    # 용술사 (Evoker)
+    # 기원사 (Evoker)
     ("Evoker", "Devastation"): "RANGED_DPS",
     ("Evoker", "Preservation"): "HEALER",
     ("Evoker", "Augmentation"): "RANGED_DPS",  # 지원형 DPS지만 원거리로 분류

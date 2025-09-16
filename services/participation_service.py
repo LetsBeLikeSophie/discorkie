@@ -66,15 +66,13 @@ class ParticipationService:
         return existing, detailed_role
 
     async def log_participation_action(self, event_instance_id: int, character_data: dict, 
-                                     discord_user_id: int, old_participation, new_status: str,
-                                     detailed_role: str, discord_message_id: int, 
-                                     discord_channel_id: int, user_display_name: str, 
-                                     memo: str, conn):
+                                 discord_user_id: int, old_participation, new_status: str,
+                                 detailed_role: str, discord_message_id: int, 
+                                 discord_channel_id: int, user_display_name: str, 
+                                 memo: str, conn):
         """참가 로그 기록"""
         old_status = old_participation['participation_status'] if old_participation else None
         old_character_name = old_participation['character_name'] if old_participation else None
-        old_character_class = old_participation['character_class'] if old_participation else None
-        old_character_spec = old_participation['character_spec'] if old_participation else None
         old_detailed_role = old_participation['detailed_role'] if old_participation else None
         
         action_type = "joined" if not old_status else f"changed_to_{new_status}"
@@ -82,13 +80,12 @@ class ParticipationService:
         await conn.execute("""
             INSERT INTO guild_bot.event_participation_logs
             (event_instance_id, character_id, discord_user_id, action_type, old_status, new_status,
-             character_name, character_realm, character_class, character_spec, detailed_role,
-             old_character_name, old_character_realm, old_character_class, old_character_spec, old_detailed_role,
-             discord_message_id, discord_channel_id, user_display_name, participant_memo)
-            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20)
+            character_name, character_realm, character_class, character_spec, detailed_role,
+            old_character_name, old_detailed_role,
+            discord_message_id, discord_channel_id, user_display_name, participant_memo)
+            VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17)
         """, event_instance_id, character_data['character_id'], discord_user_id, action_type, 
             old_status, new_status, character_data['character_name'], character_data['realm_slug'], 
             character_data['character_class'], character_data['character_spec'], detailed_role,
-            old_character_name, character_data['realm_slug'], old_character_class, 
-            old_character_spec, old_detailed_role, discord_message_id, discord_channel_id, 
+            old_character_name, old_detailed_role, discord_message_id, discord_channel_id, 
             user_display_name, memo)

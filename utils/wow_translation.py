@@ -47,7 +47,7 @@ CLASS_KR_TO_EN = {
     "드루이드": "Druid",
     "악마사냥꾼": "Demon Hunter",
     "죽음의기사": "Death Knight",
-    "용술사": "Evoker"
+    "기원사": "Evoker"
 }
 
 # 직업명 번역 (영어 -> 한국어)
@@ -63,7 +63,7 @@ SPEC_EN_TO_KR = {
     # 성기사
     "Holy": "신성",
     "Retribution": "징벌",
-    "Protection": "보호",  # 성기사 보호는 전사 방어와 다름
+    "Protection": "보호",  
     
     # 사냥꾼
     "Beast Mastery": "야수",
@@ -103,6 +103,7 @@ SPEC_EN_TO_KR = {
     "Balance": "조화",
     "Feral": "야성",
     "Guardian": "수호",
+    "Restoration": "회복",
     
     # 악마사냥꾼
     "Havoc": "파멸",

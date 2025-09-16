@@ -20,6 +20,43 @@ class Schedule(commands.Cog):
         await self.db_manager.close_pool()
         print(">>> Schedule: 데이터베이스 연결 해제")
 
+
+    async def cog_load(self):
+        """Cog 로드 시 기존 메시지들의 View 복원"""
+        await self.db_manager.create_pool()
+        await self._restore_persistent_views()
+        print(">>> Schedule: 데이터베이스 연결 및 View 복원 완료")
+
+    async def _restore_persistent_views(self):
+        """기존 메시지들의 View 복원"""
+        try:
+            async with self.db_manager.get_connection() as conn:
+                # 활성 메시지들 조회
+                active_messages = await conn.fetch("""
+                    SELECT DISTINCT discord_message_id, discord_channel_id, event_instance_id
+                    FROM guild_bot.event_participations 
+                    WHERE discord_message_id IS NOT NULL
+                    AND discord_message_id != 0
+                    ORDER BY discord_message_id DESC
+                    LIMIT 50
+                """)
+                
+                for row in active_messages:
+                    view = EventSignupView(
+                        row['event_instance_id'],
+                        self.db_manager,
+                        row['discord_message_id'], 
+                        row['discord_channel_id']
+                    )
+                    self.bot.add_view(view)
+                
+                print(f">>> {len(active_messages)}개 기존 메시지의 View 복원 완료")
+                
+        except Exception as e:
+            print(f">>> View 복원 오류: {e}")
+    
+
+
     @app_commands.command(name="일정", description="예정된 길드 이벤트를 보여줘요!")
     @guild_only() 
     async def show_events(self, interaction: Interaction):
