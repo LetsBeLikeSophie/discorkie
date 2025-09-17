@@ -58,6 +58,64 @@ class EventSignupView(discord.ui.View):
         clean_name = clean_nickname(interaction.user.display_name)
         Logger.info(f"참가 신청 시작: {clean_name} -> {status}")
         
+        async with self.db_manager.get_connection() as conn:
+            # ===== 새로 추가: 기존 참가 캐릭터 우선 확인 =====
+            discord_user_id = await self.participation_service.ensure_discord_user(
+                str(interaction.user.id), interaction.user.name, conn)
+            
+            # 이미 이 이벤트에 참가한 캐릭터가 있는지 확인
+            existing_participation = await conn.fetchrow("""
+                SELECT ep.character_id, ep.character_name, ep.character_realm,
+                    ep.character_class, ep.character_spec, ep.detailed_role,
+                    ep.participation_status
+                FROM guild_bot.event_participations ep
+                WHERE ep.event_instance_id = $1 AND ep.discord_user_id = $2
+            """, self.event_instance_id, discord_user_id)
+            
+            if existing_participation:
+                # 이미 참가한 캐릭터가 있음 → 상태만 변경
+                Logger.info(f"기존 참가 캐릭터 발견: {existing_participation['character_name']}, 상태 변경만 수행")
+                
+                # 상태 업데이트
+                await conn.execute("""
+                    UPDATE guild_bot.event_participations 
+                    SET participation_status = $1, participant_notes = $2, updated_at = NOW()
+                    WHERE event_instance_id = $3 AND discord_user_id = $4
+                """, status, memo, self.event_instance_id, discord_user_id)
+                
+                # 로그 기록
+                await conn.execute("""
+                    INSERT INTO guild_bot.event_participation_logs
+                    (event_instance_id, character_id, discord_user_id, action_type, 
+                    old_status, new_status, character_name, character_realm, 
+                    character_class, character_spec, detailed_role,
+                    discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                """, self.event_instance_id, existing_participation['character_id'], discord_user_id,
+                    f"changed_to_{status}", existing_participation['participation_status'], status,
+                    existing_participation['character_name'], existing_participation['character_realm'],
+                    existing_participation['character_class'], existing_participation['character_spec'], 
+                    existing_participation['detailed_role'], self.discord_message_id, self.discord_channel_id,
+                    interaction.user.display_name, memo)
+                
+                # 성공 메시지
+                status_text = {"confirmed": "확정 참여", "tentative": "미정", "declined": "불참"}
+                spec_kr = translate_spec_en_to_kr(existing_participation['character_spec'] or '')
+                role_kr = get_role_korean(existing_participation['detailed_role'])
+                memo_text = f"\n사유: {memo}" if memo else ""
+                
+                await interaction.followup.send(
+                    f">>> **{status_text[status]}** 처리 완료!\n"
+                    f"캐릭터: {existing_participation['character_name']} ({spec_kr})\n"
+                    f"역할: {role_kr}{memo_text}",
+                    ephemeral=True
+                )
+                
+                await self.update_event_message(interaction)
+                Logger.info(f"기존 캐릭터 상태 변경 완료: {existing_participation['character_name']} -> {status}")
+                return  # 여기서 함수 종료
+        
+        # ===== 기존 로직 (참가한 캐릭터가 없는 경우) =====
         # 1. 캐릭터 검증
         char_validation = await self.character_service.validate_and_get_character(clean_name)
         if not char_validation.get("success"):
@@ -83,7 +141,7 @@ class EventSignupView(discord.ui.View):
                     "character_class": char_details['class']
                 })
             
-            # ===== 새로 추가: 더미 기록 확인 및 처리 =====
+            # ===== 더미 기록 확인 및 처리 =====
             existing_dummy = await conn.fetchrow("""
                 SELECT ep.*, du.is_dummy 
                 FROM guild_bot.event_participations ep
@@ -95,11 +153,41 @@ class EventSignupView(discord.ui.View):
             
             if existing_dummy:
                 # 더미 기록을 실제 유저로 업데이트
-                print(f">>> 더미 기록 발견: {character_data['character_name']}, 실제 유저로 업데이트")
+                Logger.info(f"더미 기록 발견: {character_data['character_name']}, 실제 유저로 업데이트")
                 
-                # 실제 사용자 정보 확보
-                discord_user_id = await self.participation_service.ensure_discord_user(
-                    str(interaction.user.id), interaction.user.name, conn)
+                # 실제 사용자 정보 확보 (이미 위에서 생성됨)
+                # discord_user_id는 이미 생성되어 있음
+                
+                # ===== 추가: 기존 참가 기록 확인 =====
+                existing_user_participation = await conn.fetchrow("""
+                    SELECT id, character_name, participation_status 
+                    FROM guild_bot.event_participations 
+                    WHERE event_instance_id = $1 AND discord_user_id = $2
+                """, self.event_instance_id, discord_user_id)
+                
+                if existing_user_participation:
+                    # 이미 다른 캐릭터로 참가중인 경우 - 기존 기록을 삭제하고 더미를 대체
+                    Logger.info(f"기존 참가 기록 발견: {existing_user_participation['character_name']}, 삭제 후 더미 기록으로 대체")
+                    
+                    # 기존 참가 기록 삭제 로그
+                    await conn.execute("""
+                        INSERT INTO guild_bot.event_participation_logs
+                        (event_instance_id, character_id, discord_user_id, action_type, 
+                        old_status, new_status, character_name, character_realm, 
+                        character_class, character_spec, detailed_role,
+                        discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                    """, self.event_instance_id, None, discord_user_id,
+                        "removed_for_character_change", existing_user_participation['participation_status'], "removed",
+                        existing_user_participation['character_name'], "", "", "", "",
+                        self.discord_message_id, self.discord_channel_id,
+                        interaction.user.display_name, f"캐릭터 변경으로 인한 기존 참가 기록 제거")
+                    
+                    # 기존 참가 기록 삭제
+                    await conn.execute("""
+                        DELETE FROM guild_bot.event_participations 
+                        WHERE id = $1
+                    """, existing_user_participation['id'])
                 
                 # 더미 기록을 실제 유저로 업데이트
                 await conn.execute("""
@@ -116,9 +204,9 @@ class EventSignupView(discord.ui.View):
                 await conn.execute("""
                     INSERT INTO guild_bot.event_participation_logs
                     (event_instance_id, character_id, discord_user_id, action_type, 
-                     old_status, new_status, character_name, character_realm, 
-                     character_class, character_spec, detailed_role,
-                     discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                    old_status, new_status, character_name, character_realm, 
+                    character_class, character_spec, detailed_role,
+                    discord_message_id, discord_channel_id, user_display_name, participant_memo)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
                 """, self.event_instance_id, character_data["character_id"], discord_user_id,
                     "dummy_to_real_user", existing_dummy['participation_status'], status,
@@ -128,21 +216,27 @@ class EventSignupView(discord.ui.View):
                     interaction.user.display_name, memo)
                 
                 # 특별한 성공 메시지
-                await interaction.followup.send(
-                    f">>> **관리자가 미리 추가한 캐릭터를 본인 계정으로 연결했습니다!**\n"
-                    f"캐릭터: {character_data['character_name']}\n"
-                    f"상태: {status}",
-                    ephemeral=True
-                )
+                message_parts = [f">>> **관리자가 미리 추가한 캐릭터를 본인 계정으로 연결했습니다!**"]
+                
+                if existing_user_participation:
+                    message_parts.append(f"(기존 참가: {existing_user_participation['character_name']} → 제거됨)")
+                
+                spec_kr = translate_spec_en_to_kr(character_data.get('character_spec', ''))
+                role_kr = get_role_korean(existing_dummy['detailed_role'])
+                
+                message_parts.extend([
+                    f"캐릭터: {character_data['character_name']} ({spec_kr})",
+                    f"역할: {role_kr}"
+                ])
+                
+                await interaction.followup.send("\n".join(message_parts), ephemeral=True)
                 
                 await self.update_event_message(interaction)
-                Logger.info(f"더미 기록을 실제 유저로 업데이트 완료: {clean_name} -> {status}")
+                Logger.info(f"더미 기록을 실제 유저로 업데이트 완료 (기존 기록 처리 포함): {clean_name} -> {status}")
                 return  # 여기서 함수 종료 (기존 로직 실행 안함)
             
             # ===== 기존 로직 (더미 기록이 없는 경우) =====
-            # 사용자 및 소유권 처리
-            discord_user_id = await self.participation_service.ensure_discord_user(
-                str(interaction.user.id), interaction.user.name, conn)
+            # 사용자 및 소유권 처리 (discord_user_id 이미 생성됨)
             
             await self.character_service.set_character_ownership(
                 discord_user_id, character_data["character_id"], conn)
@@ -434,41 +528,122 @@ class CharacterChangeModal(discord.ui.Modal):
                 "character_class": char_info.get("class")
             }
             
-            # 캐릭터 DB 저장
-            character_data["character_id"] = await conn.fetchval("""
-                INSERT INTO guild_bot.characters (
-                    character_name, realm_slug, race, class, active_spec, 
-                    active_spec_role, gender, faction, achievement_points,
-                    profile_url, thumbnail_url, region, last_crawled_at, is_guild_member
-                )
-                VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, NOW(), FALSE)
-                ON CONFLICT (character_name, realm_slug) DO UPDATE SET
-                    race = EXCLUDED.race,
-                    class = EXCLUDED.class,
-                    active_spec = EXCLUDED.active_spec,
-                    active_spec_role = EXCLUDED.active_spec_role,
-                    gender = EXCLUDED.gender,
-                    faction = EXCLUDED.faction,
-                    achievement_points = EXCLUDED.achievement_points,
-                    profile_url = EXCLUDED.profile_url,
-                    thumbnail_url = EXCLUDED.thumbnail_url,
-                    last_crawled_at = NOW(),
-                    updated_at = NOW()
-                RETURNING id
-            """, char_info.get("name"), char_info.get("realm"), char_info.get("race"),
-                char_info.get("class"), char_info.get("active_spec_name"),
-                char_info.get("active_spec_role"), char_info.get("gender"),
-                char_info.get("faction"), char_info.get("achievement_points", 0),
-                char_info.get("profile_url", ""), char_info.get("thumbnail_url", ""), "kr")
+            character_data = await character_service.save_character_to_db(
+                {"source": "api", "character_info": char_info}, conn)
             
-            # 사용자 및 소유권 처리
+            # ===== 새로 추가: 더미 기록 확인 및 처리 =====
+            existing_dummy = await conn.fetchrow("""
+                SELECT ep.id, ep.participation_status, ep.detailed_role, du.is_dummy 
+                FROM guild_bot.event_participations ep
+                JOIN guild_bot.discord_users du ON ep.discord_user_id = du.id
+                WHERE ep.event_instance_id = $1 
+                AND ep.character_id = $2 
+                AND du.is_dummy = TRUE
+            """, self.event_instance_id, character_data['character_id'])
+
+            if existing_dummy:
+                # 더미 기록을 실제 유저로 업데이트
+                Logger.info(f"더미 기록 발견: {character_data['character_name']}, 실제 유저로 업데이트")
+                
+                # 실제 사용자 정보 확보
+                discord_user_id = await participation_service.ensure_discord_user(
+                    str(interaction.user.id), interaction.user.name, conn)
+                
+                # ===== 추가: 기존 참가 기록 확인 =====
+                existing_user_participation = await conn.fetchrow("""
+                    SELECT id, character_name, participation_status 
+                    FROM guild_bot.event_participations 
+                    WHERE event_instance_id = $1 AND discord_user_id = $2
+                """, self.event_instance_id, discord_user_id)
+                
+                if existing_user_participation:
+                    # 이미 다른 캐릭터로 참가중인 경우 - 기존 기록을 삭제하고 더미를 대체
+                    Logger.info(f"기존 참가 기록 발견: {existing_user_participation['character_name']}, 삭제 후 더미 기록으로 대체")
+                    
+                    # 기존 참가 기록 삭제 로그
+                    await conn.execute("""
+                        INSERT INTO guild_bot.event_participation_logs
+                        (event_instance_id, character_id, discord_user_id, action_type, 
+                        old_status, new_status, character_name, character_realm, 
+                        character_class, character_spec, detailed_role,
+                        discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                    """, self.event_instance_id, None, discord_user_id,
+                        "removed_for_character_change", existing_user_participation['participation_status'], "removed",  # ← "removed"로 변경
+                        existing_user_participation['character_name'], "", "", "", "",
+                        self.discord_message_id, self.discord_channel_id,
+                        interaction.user.display_name, f"캐릭터 변경으로 인한 기존 참가 기록 제거")
+                    
+                    # 기존 참가 기록 삭제
+                    await conn.execute("""
+                        DELETE FROM guild_bot.event_participations 
+                        WHERE id = $1
+                    """, existing_user_participation['id'])
+                
+                # 더미 기록을 실제 유저로 업데이트
+                await conn.execute("""
+                    UPDATE guild_bot.event_participations 
+                    SET discord_user_id = $1, participation_status = 'confirmed', updated_at = NOW()
+                    WHERE id = $2
+                """, discord_user_id, existing_dummy['id'])
+                
+                # 캐릭터 소유권 설정
+                await character_service.set_character_ownership(
+                    discord_user_id, character_data["character_id"], conn)
+                
+                # 로그 기록 (더미에서 실제 유저로 변경)
+                await conn.execute("""
+                    INSERT INTO guild_bot.event_participation_logs
+                    (event_instance_id, character_id, discord_user_id, action_type, 
+                    old_status, new_status, character_name, character_realm, 
+                    character_class, character_spec, detailed_role,
+                    discord_message_id, discord_channel_id, user_display_name)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+                """, self.event_instance_id, character_data["character_id"], discord_user_id,
+                    "dummy_to_real_user_via_character_change", existing_dummy['participation_status'], 'confirmed',
+                    character_data['character_name'], character_data['realm_slug'],
+                    character_data['character_class'], character_data['character_spec'], 
+                    existing_dummy['detailed_role'], self.discord_message_id, self.discord_channel_id,
+                    interaction.user.display_name)
+                
+                # 특별한 성공 메시지
+                class_kr = translate_class_en_to_kr(char_info.get("class", ""))
+                spec_kr = translate_spec_en_to_kr(char_info.get("active_spec_name", ""))
+                role_kr = get_role_korean(existing_dummy['detailed_role'])
+                
+                message_parts = [f">>> **관리자가 미리 추가한 캐릭터를 본인 계정으로 연결했습니다!**"]
+                
+                if existing_user_participation:
+                    message_parts.append(f"(기존 참가: {existing_user_participation['character_name']} → 제거됨)")
+                
+                message_parts.extend([
+                    f"캐릭터: {character_data['character_name']}",
+                    f"서버: {realm_name_kr}",
+                    f"직업: {class_kr} ({spec_kr})",
+                    f"역할: {role_kr}",
+                    f"닉네임: {new_nickname}",
+                    "",
+                    f"**확정 참여**로 자동 등록되었습니다!"
+                ])
+                
+                await interaction.followup.send("\n".join(message_parts), ephemeral=True)
+                
+                # 메시지 업데이트
+                signup_view = EventSignupView(self.event_instance_id, self.db_manager, 
+                                            self.discord_message_id, self.discord_channel_id)
+                await signup_view.update_event_message(interaction)
+                
+                Logger.info(f"더미 기록을 실제 유저로 업데이트 완료: {character_name}-{realm_input}")
+                return  # 여기서 함수 종료 (기존 로직 실행 안함)
+            
+            # ===== 기존 로직 (더미 기록이 없는 경우) =====
+            # 나머지 기존 코드 그대로...
             discord_user_id = await participation_service.ensure_discord_user(
                 str(interaction.user.id), interaction.user.name, conn)
             
             await character_service.set_character_ownership(
                 discord_user_id, character_data["character_id"], conn)
             
-            # 자동 참가 (confirmed 상태)
             old_participation, detailed_role = await participation_service.upsert_participation(
                 self.event_instance_id, discord_user_id, character_data, 
                 ParticipationStatus.CONFIRMED, None, self.discord_message_id, 
@@ -487,11 +662,11 @@ class CharacterChangeModal(discord.ui.Modal):
                 old_participation['participation_status'] if old_participation else None,
                 char_info.get('name'), char_info.get('realm'), char_info.get('class'), 
                 char_info.get('active_spec_name'), detailed_role, 
-                old_participation['character_name'] if old_participation else None,  # 이 부분이 문제
+                old_participation['character_name'] if old_participation else None,
                 old_participation['detailed_role'] if old_participation else None,
                 self.discord_message_id, self.discord_channel_id, interaction.user.display_name)
         
-        # 성공 메시지
+        # 기존 성공 메시지...
         class_kr = translate_class_en_to_kr(char_info.get("class", ""))
         spec_kr = translate_spec_en_to_kr(char_info.get("active_spec_name", ""))
         role_kr = get_role_korean(detailed_role)

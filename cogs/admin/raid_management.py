@@ -51,7 +51,7 @@ class AdminRaidManagement(commands.Cog):
         """특정 일정의 참가자 목록 조회"""
         async with self.db_manager.get_connection() as conn:
             participants = await conn.fetch("""
-                SELECT ep.character_name, ep.character_realm, ep.character_class,
+                SELECT ep.character_id, ep.discord_user_id, ep.character_name, ep.character_realm, ep.character_class,
                        ep.character_spec, ep.detailed_role, ep.participation_status,
                        ep.participant_notes, ep.raid_progression,
                        du.discord_username
@@ -188,106 +188,67 @@ class AdminRaidManagement(commands.Cog):
             f"🏹 원딜: {role_counts['RANGED_DPS']}명"
         )
         
-        embed.add_field(
-            name="📊 **참여 현황 요약**",
-            value=summary_text,
-            inline=False
-        )
+        embed.add_field(name="📊 참여 현황", value=summary_text, inline=False)
         
-        # 확정 참여자
+        # 확정 참가자만 역할별로 상세 표시
         if status_groups['confirmed']:
-            confirmed_text = ""
-            for p in status_groups['confirmed']:
-                realm_kr = translate_realm_en_to_kr(p['character_realm'])
-                class_emoji = self.get_class_emoji(p['character_class'], wow_emojis)
-                role_emoji = self.get_role_emoji(p['detailed_role'])
-                
-                # raid_progression 표시 (임시)
-                progression = ""
-                if p['raid_progression']:
-                    progression = " 진행도 있음"  # 임시로 이렇게
-                
-                # 메모 처리
-                memo = ""
-                if p['participant_notes'] and p['participant_notes'].startswith('*'):
-                    memo = f" {p['participant_notes']}"
-                
-                # 새 포맷: 직업이모티콘 캐릭터명-서버명 진행도 역할이모티콘
-                confirmed_text += f"{class_emoji} {p['character_name']}-{realm_kr}{progression} {role_emoji}{memo}\n"
-            
-            embed.add_field(
-                name="**확정**",
-                value=confirmed_text,
-                inline=False
-            )
+            confirmed_text = self.format_participants_by_role(status_groups['confirmed'], wow_emojis)
+            embed.add_field(name="✅ 확정 참가자", value=confirmed_text, inline=False)
         
-        # 미정 참여자
+        # 미정/불참은 간단히
         if status_groups['tentative']:
-            tentative_text = ""
-            for p in status_groups['tentative']:
-                realm_kr = translate_realm_en_to_kr(p['character_realm'])
-                class_emoji = self.get_class_emoji(p['character_class'], wow_emojis)
-                memo = f" - {p['participant_notes']}" if p['participant_notes'] else ""
-                tentative_text += f"{class_emoji} {p['character_name']}-{realm_kr}{memo}\n"
-            
-            embed.add_field(
-                name="**미정**",
-                value=tentative_text,
-                inline=False
-            )
+            tentative_names = [p['character_name'] for p in status_groups['tentative']]
+            embed.add_field(name="⏳ 미정", value=", ".join(tentative_names), inline=True)
         
-        # 불참자 (축약)
         if status_groups['declined']:
-            declined_count = len(status_groups['declined'])
-            embed.add_field(
-                name="**불참**",
-                value=f"총 {declined_count}명",
-                inline=False
-            )
+            declined_names = [p['character_name'] for p in status_groups['declined']]
+            embed.add_field(name="❌ 불참", value=", ".join(declined_names), inline=True)
         
         return embed
 
     def load_wow_class_emojis(self) -> Dict[str, str]:
-        """WoW 클래스 이모티콘 로드"""
+        """WoW 직업 이모티콘 로드"""
         try:
-            emoji_file = os.path.join("data", "class_emojis.json")
-            if os.path.exists(emoji_file):
-                with open(emoji_file, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-        except Exception as e:
-            print(f">>> 이모티콘 로드 오류: {e}")
-        
-        return {}
-
-    def get_class_emoji(self, class_name: str, wow_emojis: Dict[str, str]) -> str:
-        """클래스 이모티콘 가져오기"""
-        if not class_name:
-            return "❓"
-        
-        class_lower = class_name.lower()
-        return wow_emojis.get(class_lower, "❓")
-
-    def get_role_emoji(self, role: str) -> str:
-        """역할 이모티콘 가져오기"""
-        role_emojis = {
-            "TANK": "🛡️",
-            "HEALER": "💚", 
-            "MELEE_DPS": "⚔️",
-            "RANGED_DPS": "🏹"
-        }
-        return role_emojis.get(role, "❓")
+            with open('data/server_emojis.json', 'r', encoding='utf-8') as f:
+                data = json.load(f)
+                return {k: v['format'] for k, v in data.get('wow_classes', {}).items()}
+        except:
+            return {}
 
     def count_roles(self, participants: List[Dict]) -> Dict[str, int]:
         """역할별 인원 카운팅"""
-        counts = {"TANK": 0, "HEALER": 0, "MELEE_DPS": 0, "RANGED_DPS": 0}
-        
+        counts = {'TANK': 0, 'HEALER': 0, 'MELEE_DPS': 0, 'RANGED_DPS': 0}
         for p in participants:
-            if p['participation_status'] in ['confirmed', 'tentative']:
-                role = p.get('detailed_role')
-                if role in counts:
-                    counts[role] += 1
-        
+            if p['participation_status'] == 'confirmed':
+                role = p['detailed_role'] or 'MELEE_DPS'
+                counts[role] = counts.get(role, 0) + 1
         return counts
+
+    def format_participants_by_role(self, participants: List[Dict], wow_emojis: Dict[str, str]) -> str:
+        """역할별 참가자 포맷팅"""
+        roles = {
+            'TANK': ('🛡️', '탱커'),
+            'HEALER': ('💚', '힐러'),  
+            'MELEE_DPS': ('⚔️', '근딜'),
+            'RANGED_DPS': ('🏹', '원딜')
+        }
+        
+        role_groups = {}
+        for p in participants:
+            role = p['detailed_role'] or 'MELEE_DPS'
+            if role not in role_groups:
+                role_groups[role] = []
+            role_groups[role].append(p)
+        
+        result_lines = []
+        for role_key, (emoji, name) in roles.items():
+            if role_key in role_groups:
+                result_lines.append(f"\n{emoji} **{name} ({len(role_groups[role_key])}명)**")
+                for p in role_groups[role_key]:
+                    class_emoji = wow_emojis.get(p['character_class'], '⚪')
+                    result_lines.append(f"{class_emoji} {p['character_name']}")
+        
+        return '\n'.join(result_lines) if result_lines else "참가자가 없습니다."
 
 
 class EventSelectionView(ui.View):
@@ -296,9 +257,8 @@ class EventSelectionView(ui.View):
         self.cog = cog
         self.events = events
         
-        # 일정 선택 드롭다운 추가
-        if events:
-            self.add_item(EventSelectionDropdown(cog, events))
+        # 드롭다운 생성
+        self.add_item(EventSelectionDropdown(cog, events))
 
 
 class EventSelectionDropdown(ui.Select):
@@ -306,9 +266,8 @@ class EventSelectionDropdown(ui.Select):
         self.cog = cog
         self.events = events
         
-        # 드롭다운 옵션 생성
-        options = []
         weekdays = ['', '월', '화', '수', '목', '금', '토', '일']
+        options = []
         
         for event in events[:25]:  # Discord 제한
             date = event['instance_date']
@@ -444,7 +403,62 @@ class AddParticipantModal(ui.Modal):
                 }
                 character_data = await self.cog.character_service.save_character_to_db(char_result, conn)
                 
-                # 수정:
+                # ===== 새로 추가: 더미 기록 확인 및 처리 =====
+                existing_dummy = await conn.fetchrow("""
+                    SELECT ep.id, ep.participation_status, ep.detailed_role, du.is_dummy 
+                    FROM guild_bot.event_participations ep
+                    JOIN guild_bot.discord_users du ON ep.discord_user_id = du.id
+                    WHERE ep.event_instance_id = $1 
+                    AND ep.character_id = $2 
+                    AND du.is_dummy = TRUE
+                """, self.event_instance_id, character_data['character_id'])
+                
+                if existing_dummy:
+                    # 이미 더미로 추가된 캐릭터인 경우
+                    Logger.info(f"관리자 추가 시 기존 더미 발견: {character_data['character_name']}")
+                    
+                    # 기존 더미 기록의 메모만 업데이트
+                    await conn.execute("""
+                        UPDATE guild_bot.event_participations 
+                        SET participant_notes = $1, updated_at = NOW()
+                        WHERE id = $2
+                    """, formatted_memo, existing_dummy['id'])
+                    
+                    # 로그 기록 (관리자가 더미 메모 업데이트)
+                    await conn.execute("""
+                        INSERT INTO guild_bot.event_participation_logs
+                        (event_instance_id, character_id, discord_user_id, action_type, 
+                         old_status, new_status, character_name, character_realm, 
+                         character_class, character_spec, detailed_role,
+                         discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                    """, self.event_instance_id, character_data['character_id'], existing_dummy['id'],
+                        "admin_updated_existing_dummy", existing_dummy['participation_status'], existing_dummy['participation_status'],
+                        character_data['character_name'], character_data['realm_slug'],
+                        character_data['character_class'], character_data['character_spec'], 
+                        existing_dummy['detailed_role'], 0, 0, f"관리자_{interaction.user.display_name}", formatted_memo)
+                    
+                    # 성공 메시지 (이미 존재함을 알림)
+                    server_kr = translate_realm_en_to_kr(character_data['realm_slug'])
+                    role_kr = get_role_korean(existing_dummy['detailed_role'])
+                    
+                    await interaction.followup.send(
+                        f">>> **이미 추가된 캐릭터입니다! 메모만 업데이트했습니다.**\n"
+                        f"캐릭터: {character_data['character_name']}-{server_kr}\n"
+                        f"직업: {character_data['character_class']}-{character_data['character_spec']}\n"
+                        f"역할: {role_kr}\n"
+                        f"상태: 확정 참가 (기존)\n"
+                        f"메모: {formatted_memo}"
+                    )
+                    
+                    Logger.info(f"관리자가 기존 더미 메모 업데이트: {character_name}-{server_input} by {interaction.user.display_name}")
+                    
+                    # 메시지 업데이트
+                    await self.update_messages_after_change(interaction)
+                    return  # 여기서 함수 종료
+                
+                # ===== 기존 로직 (더미 기록이 없는 경우) =====
+                # 더미 사용자 생성 (기존 코드 그대로)
                 import time
                 dummy_discord_id = f"DUMMY_{character_name}_{server_en}_{int(time.time())}"
                 admin_user_id = await conn.fetchval("""
@@ -472,7 +486,7 @@ class AddParticipantModal(ui.Modal):
                     character_data['character_class'], character_data['character_spec'], detailed_role,
                     0, 0, f"관리자_{interaction.user.display_name}", formatted_memo)
             
-            # 성공 메시지
+            # 성공 메시지 (새로 추가된 경우)
             server_kr = translate_realm_en_to_kr(character_data['realm_slug'])
             role_kr = get_role_korean(detailed_role)
             
@@ -632,7 +646,7 @@ class RemoveParticipantView(ui.View):
         
         # 참가자 선택 드롭다운
         options = []
-        for i, p in enumerate(participants[:25]):  # Discord 제한
+        for p in participants[:25]:  # Discord 제한
             realm_kr = translate_realm_en_to_kr(p['character_realm'])
             status_emoji = {"confirmed": "✅", "tentative": "⏳", "declined": "❌"}
             emoji = status_emoji.get(p['participation_status'], "")
@@ -656,7 +670,6 @@ class ParticipantSelectionDropdown(ui.Select):
         self.event_data = event_data
         self.action_type = action_type
         
-        # 드롭다운 옵션 생성
         options = []
         for p in participants[:25]:  # Discord 제한
             realm_kr = translate_realm_en_to_kr(p['character_realm'])
@@ -665,7 +678,7 @@ class ParticipantSelectionDropdown(ui.Select):
             
             label = f"{emoji} {p['character_name']}-{realm_kr}"
             options.append(discord.SelectOption(
-                label=label[:100],
+                label=label[:100],  # Discord 제한
                 description=f"{p['character_class']} - {p['participation_status']}",
                 value=str(p['character_id'])
             ))
@@ -674,26 +687,22 @@ class ParticipantSelectionDropdown(ui.Select):
         super().__init__(placeholder=placeholder, options=options)
 
     async def callback(self, interaction: Interaction):
+        await interaction.response.defer(ephemeral=True)
+        
         character_id = int(self.values[0])
-        selected_participant = next(p for p in self.participants if p['character_id'] == character_id)
+        participant = next(p for p in self.participants if p['character_id'] == character_id)
         
         if self.action_type == "status_change":
-            # 상태 변경 버튼들 표시
-            view = StatusChangeButtonView(self.cog, self.event_instance_id, selected_participant, self.event_data)
-            realm_kr = translate_realm_en_to_kr(selected_participant['character_realm'])
-            await interaction.response.send_message(
-                f">>> **{selected_participant['character_name']}-{realm_kr}**의 상태를 변경하세요:",
-                view=view,
-                ephemeral=True
+            view = StatusChangeButtonView(self.cog, self.event_instance_id, participant, self.event_data)
+            await interaction.followup.send(
+                f">>> **{participant['character_name']}**의 상태를 변경하세요:",
+                view=view
             )
         elif self.action_type == "remove":
-            # 제거 확인
-            view = RemoveConfirmView(self.cog, self.event_instance_id, selected_participant, self.event_data)
-            realm_kr = translate_realm_en_to_kr(selected_participant['character_realm'])
-            await interaction.response.send_message(
-                f">>> **{selected_participant['character_name']}-{realm_kr}**를 정말 제거하시겠습니까?",
-                view=view,
-                ephemeral=True
+            view = RemoveConfirmView(self.cog, self.event_instance_id, participant, self.event_data)
+            await interaction.followup.send(
+                f">>> **{participant['character_name']}**을(를) 참가자 목록에서 제거하시겠습니까?",
+                view=view
             )
 
 
@@ -707,15 +716,15 @@ class StatusChangeButtonView(ui.View):
 
     @ui.button(label="✅ 확정", style=discord.ButtonStyle.success)
     async def set_confirmed(self, interaction: Interaction, button: ui.Button):
-        await self.change_status(interaction, ParticipationStatus.CONFIRMED)
+        await self.change_status(interaction, "confirmed")
 
     @ui.button(label="⏳ 미정", style=discord.ButtonStyle.secondary)
     async def set_tentative(self, interaction: Interaction, button: ui.Button):
-        await self.change_status(interaction, ParticipationStatus.TENTATIVE)
+        await self.change_status(interaction, "tentative")
 
     @ui.button(label="❌ 불참", style=discord.ButtonStyle.danger)
     async def set_declined(self, interaction: Interaction, button: ui.Button):
-        await self.change_status(interaction, ParticipationStatus.DECLINED)
+        await self.change_status(interaction, "declined")
 
     async def change_status(self, interaction: Interaction, new_status: str):
         await interaction.response.defer(ephemeral=True)
