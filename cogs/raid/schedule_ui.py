@@ -83,6 +83,64 @@ class EventSignupView(discord.ui.View):
                     "character_class": char_details['class']
                 })
             
+            # ===== 새로 추가: 더미 기록 확인 및 처리 =====
+            existing_dummy = await conn.fetchrow("""
+                SELECT ep.*, du.is_dummy 
+                FROM guild_bot.event_participations ep
+                JOIN guild_bot.discord_users du ON ep.discord_user_id = du.id
+                WHERE ep.event_instance_id = $1 
+                AND ep.character_name = $2 
+                AND ep.character_realm = $3 
+                AND du.is_dummy = TRUE
+            """, self.event_instance_id, character_data['character_name'], character_data['realm_slug'])
+            
+            if existing_dummy:
+                # 더미 기록을 실제 유저로 업데이트
+                print(f">>> 더미 기록 발견: {character_data['character_name']}, 실제 유저로 업데이트")
+                
+                # 실제 사용자 정보 확보
+                discord_user_id = await self.participation_service.ensure_discord_user(
+                    str(interaction.user.id), interaction.user.name, conn)
+                
+                # 더미 기록을 실제 유저로 업데이트
+                await conn.execute("""
+                    UPDATE guild_bot.event_participations 
+                    SET discord_user_id = $1, participation_status = $2, participant_notes = $3, updated_at = NOW()
+                    WHERE id = $4
+                """, discord_user_id, status, memo, existing_dummy['id'])
+                
+                # 캐릭터 소유권 설정
+                await self.character_service.set_character_ownership(
+                    discord_user_id, character_data["character_id"], conn)
+                
+                # 로그 기록 (더미에서 실제 유저로 변경)
+                await conn.execute("""
+                    INSERT INTO guild_bot.event_participation_logs
+                    (event_instance_id, character_id, discord_user_id, action_type, 
+                    old_status, new_status, character_name, character_realm, 
+                    character_class, character_spec, detailed_role,
+                    discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                """, self.event_instance_id, character_data["character_id"], discord_user_id,
+                    "dummy_to_real_user", existing_dummy['participation_status'], status,
+                    character_data['character_name'], character_data['realm_slug'],
+                    character_data['character_class'], character_data['character_spec'], 
+                    existing_dummy['detailed_role'], self.discord_message_id, self.discord_channel_id,
+                    interaction.user.display_name, memo)
+                
+                # 특별한 성공 메시지
+                await interaction.followup.send(
+                    f">>> **관리자가 미리 추가한 캐릭터를 본인 계정으로 연결했습니다!**\n"
+                    f"캐릭터: {character_data['character_name']}\n"
+                    f"상태: {status}",
+                    ephemeral=True
+                )
+                
+                await self.update_event_message(interaction)
+                Logger.info(f"더미 기록을 실제 유저로 업데이트 완료: {clean_name} -> {status}")
+                return  # 여기서 함수 종료 (기존 로직 실행 안함)
+            
+            # ===== 기존 로직 (더미 기록이 없는 경우) =====
             # 사용자 및 소유권 처리
             discord_user_id = await self.participation_service.ensure_discord_user(
                 str(interaction.user.id), interaction.user.name, conn)
@@ -105,21 +163,6 @@ class EventSignupView(discord.ui.View):
         await self._send_success_message(interaction, character_data, detailed_role, status, memo)
         await self.update_event_message(interaction)
         Logger.info(f"참가 신청 완료: {clean_name} -> {status}")
-
-    async def _send_success_message(self, interaction, character_data, detailed_role, status, memo):
-        """성공 메시지 전송"""
-        status_text = {"confirmed": "확정 참여", "tentative": "미정", "declined": "불참"}
-        
-        spec_kr = translate_spec_en_to_kr(character_data['character_spec'] or '')
-        role_kr = get_role_korean(detailed_role)
-        memo_text = f"\n사유: {memo}" if memo else ""
-        
-        await interaction.followup.send(
-            f">>> **{status_text[status]}** 처리 완료!\n"
-            f"캐릭터: {character_data['character_name']} ({spec_kr})\n"
-            f"역할: {role_kr}{memo_text}",
-            ephemeral=True
-        )
 
     async def update_event_message(self, interaction):
         """일정 메시지 업데이트"""

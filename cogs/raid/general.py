@@ -23,7 +23,7 @@ class Raid(commands.Cog):
     # /닉 - 단순한 닉네임 변경
     @app_commands.command(name="닉", description="닉네임을 변경해요!")
     @app_commands.describe(new_nickname="바꾸고 싶은 닉네임")
-    @guild_only() 
+    # @guild_only() 
     async def change_nickname(self, interaction: Interaction, new_nickname: str):
         try:
             await interaction.user.edit(nick=new_nickname)

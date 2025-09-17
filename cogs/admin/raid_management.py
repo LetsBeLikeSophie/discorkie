@@ -42,106 +42,13 @@ class AdminRaidManagement(commands.Cog):
                 FROM guild_bot.event_instances ei
                 JOIN guild_bot.events e ON ei.event_id = e.id
                 WHERE ei.status NOT IN ('completed', 'cancelled')
-                ORDER BY ei.instance_datetime
+                ORDER BY ei.instance_date, ei.instance_datetime
             """)
-            return events
-
-    def load_wow_class_emojis(self) -> Dict:
-        """WoW 직업 이모티콘 로드"""
-        try:
-            data_path = os.path.join('data', 'server_emojis.json')
-            with open(data_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-            return data.get('wow_classes', {})
-        except Exception as e:
-            Logger.error(f"WoW 이모티콘 로드 실패: {e}")
-            return {}
-
-    def get_class_emoji(self, class_name: str, wow_emojis: Dict) -> str:
-        """직업명으로 이모티콘 반환"""
-        class_lower = class_name.lower()
-        
-        # 직업명 매핑 (한글 → 영문)
-        class_mapping = {
-            '전사': 'warrior',
-            '성기사': 'paladin', 
-            '사냥꾼': 'hunter',
-            '도적': 'rogue',
-            '사제': 'priest',
-            '주술사': 'shaman',
-            '법사': 'mage',
-            '흑마법사': 'warlock',
-            '수도사': 'monk',
-            '드루이드': 'druid',
-            '악마사냥꾼': 'demonhunter',
-            '죽음의기사': 'deathknight',
-            '기원사': 'evoker'
-        }
-        
-        # 한글명이면 영문으로 변환
-        english_class = class_mapping.get(class_name, class_lower)
-        
-        # 영문명으로 이모티콘 찾기
-        for class_key, emoji_data in wow_emojis.items():
-            if english_class == class_key or english_class in class_key:
-                return emoji_data['format']
-        
-        return '⚔️'  # 기본 이모티콘
-
-    def get_role_emoji(self, detailed_role: str) -> str:
-        """역할 이모티콘 반환"""
-        role_emojis = {
-            'TANK': '🛡️',
-            'HEALER': '💚',
-            'MELEE_DPS': '⚔️',
-            'RANGED_DPS': '🏹'
-        }
-        return role_emojis.get(detailed_role, '⚔️')
-
-    def count_roles(self, participants: List[Dict]) -> Dict:
-        """확정 참가자의 역할별 인원수 카운트"""
-        role_counts = {'TANK': 0, 'HEALER': 0, 'MELEE_DPS': 0, 'RANGED_DPS': 0}
-        
-        for p in participants:
-            if p['participation_status'] == 'confirmed':
-                role = p.get('detailed_role', '')
-                if role in role_counts:
-                    role_counts[role] += 1
-        
-        return role_counts
-
-    def get_missing_classes(self, participants: List[Dict], wow_emojis: Dict) -> List[str]:
-        """참가자에 없는 직업들의 이모티콘 목록 반환"""
-        # 현재 참가자들의 직업 수집
-        participant_classes = set()
-        for p in participants:
-            if p.get('character_class'):
-                class_name = p['character_class'].lower()
-                # 한글 → 영문 변환
-                class_mapping = {
-                    '전사': 'warrior', '성기사': 'paladin', '사냥꾼': 'hunter',
-                    '도적': 'rogue', '사제': 'priest', '주술사': 'shaman',
-                    '법사': 'mage', '흑마법사': 'warlock', '수도사': 'monk',
-                    '드루이드': 'druid', '악마사냥꾼': 'demonhunter', 
-                    '죽음의기사': 'deathknight', '기원사': 'evoker'
-                }
-                english_class = class_mapping.get(p['character_class'], class_name)
-                participant_classes.add(english_class)
-        
-        # 모든 직업에서 참가자 직업 제외
-        all_classes = set(wow_emojis.keys())
-        missing_classes = all_classes - participant_classes
-        
-        # 이모티콘 포맷으로 변환
-        missing_emojis = []
-        for class_name in sorted(missing_classes):
-            if class_name in wow_emojis:
-                missing_emojis.append(wow_emojis[class_name]['format'])
-        
-        return missing_emojis
+            
+            return [dict(row) for row in events]
 
     async def get_event_participants(self, event_instance_id: int) -> List[Dict]:
-        """일정 참가자 목록 조회"""
+        """특정 일정의 참가자 목록 조회"""
         async with self.db_manager.get_connection() as conn:
             participants = await conn.fetch("""
                 SELECT ep.character_name, ep.character_realm, ep.character_class,
@@ -165,19 +72,20 @@ class AdminRaidManagement(commands.Cog):
                     END,
                     ep.character_name
             """, event_instance_id)
-            return participants
+            
+            return [dict(row) for row in participants]
 
-    @app_commands.command(name="관리자_참가관리", description="일정 참가자를 관리합니다 (관리자 전용)")
-    @app_commands.default_permissions(administrator=True)
-    async def manage_participation(self, interaction: Interaction):
-        await interaction.response.defer(ephemeral=True)
+    @app_commands.command(name="관리자_참가관리", description="관리자가 일정 참가자를 관리합니다")
+    @commands.has_permissions(administrator=True)
+    async def admin_participant_management(self, interaction: Interaction):
+        """관리자용 참가자 관리"""
+        await interaction.response.defer()
         
         try:
-            # 다가오는 일정 조회
             events = await self.get_upcoming_events()
             
             if not events:
-                await interaction.followup.send(">>> 관리할 일정이 없습니다.")
+                await interaction.followup.send(">>> 관리할 활성 일정이 없습니다.")
                 return
             
             # 일정 선택 View 생성
@@ -189,6 +97,31 @@ class AdminRaidManagement(commands.Cog):
         except Exception as e:
             Logger.error(f"관리자_참가관리 오류: {e}")
             await interaction.followup.send(">>> 오류가 발생했습니다.")
+
+    @app_commands.command(name="관리자_진행도새로고침", description="참가자들의 레이드 진행도를 새로고침합니다")
+    @commands.has_permissions(administrator=True)
+    async def admin_refresh_progression(self, interaction: Interaction, 인스턴스id: int):
+        """참가자들의 진행도 새로고침"""
+        await interaction.response.defer()
+        
+        try:
+            # 해당 일정의 참가자 조회
+            participants = await self.get_event_participants(인스턴스id)
+            
+            if not participants:
+                await interaction.followup.send(">>> 해당 일정에 참가자가 없습니다.")
+                return
+            
+            # TODO: raid_progression API 업데이트 로직 구현
+            # 현재는 메시지만 표시
+            await interaction.followup.send(
+                f">>> 진행도 새로고침 시작: {len(participants)}명\n"
+                ">>> (구현 예정: Raider.io API 호출로 progression 업데이트)"
+            )
+            
+        except Exception as e:
+            Logger.error(f"진행도 새로고침 오류: {e}")
+            await interaction.followup.send(">>> 진행도 새로고침 중 오류가 발생했습니다.")
 
     def create_event_list_embed(self, events: List[Dict]) -> discord.Embed:
         """일정 목록 임베드 생성"""
@@ -242,7 +175,7 @@ class AdminRaidManagement(commands.Cog):
         # 역할별 카운팅
         role_counts = self.count_roles(participants)
         
-        # 📊 참여 현황 요약 (일정 정보 바로 다음)
+        # 📊 참여 현황 요약
         total_attending = len(status_groups['confirmed']) + len(status_groups['tentative'])
         summary_text = (
             f"**전체**: {total_attending}명 / {event_data['max_participants']}명\n"
@@ -284,7 +217,7 @@ class AdminRaidManagement(commands.Cog):
             
             embed.add_field(
                 name="**확정**",
-                value=confirmed_text[:1024],
+                value=confirmed_text,
                 inline=False
             )
         
@@ -294,49 +227,67 @@ class AdminRaidManagement(commands.Cog):
             for p in status_groups['tentative']:
                 realm_kr = translate_realm_en_to_kr(p['character_realm'])
                 class_emoji = self.get_class_emoji(p['character_class'], wow_emojis)
-                
-                memo = ""
-                if p['participant_notes'] and p['participant_notes'].startswith('*'):
-                    memo = f" {p['participant_notes']}"
-                
+                memo = f" - {p['participant_notes']}" if p['participant_notes'] else ""
                 tentative_text += f"{class_emoji} {p['character_name']}-{realm_kr}{memo}\n"
             
             embed.add_field(
                 name="**미정**",
-                value=tentative_text[:1024],
+                value=tentative_text,
                 inline=False
             )
         
-        # 불참
+        # 불참자 (축약)
         if status_groups['declined']:
-            declined_text = ""
-            for p in status_groups['declined']:
-                realm_kr = translate_realm_en_to_kr(p['character_realm'])
-                class_emoji = self.get_class_emoji(p['character_class'], wow_emojis)
-                
-                memo = ""
-                if p['participant_notes'] and p['participant_notes'].startswith('*'):
-                    memo = f" {p['participant_notes']}"
-                
-                declined_text += f"{class_emoji} {p['character_name']}-{realm_kr}{memo}\n"
-            
+            declined_count = len(status_groups['declined'])
             embed.add_field(
                 name="**불참**",
-                value=declined_text[:1024],
-                inline=False
-            )
-        
-        # 없는 직업
-        missing_emojis = self.get_missing_classes(participants, wow_emojis)
-        if missing_emojis:
-            missing_text = " ".join(missing_emojis)
-            embed.add_field(
-                name="**없는 직업**",
-                value=missing_text,
+                value=f"총 {declined_count}명",
                 inline=False
             )
         
         return embed
+
+    def load_wow_class_emojis(self) -> Dict[str, str]:
+        """WoW 클래스 이모티콘 로드"""
+        try:
+            emoji_file = os.path.join("data", "class_emojis.json")
+            if os.path.exists(emoji_file):
+                with open(emoji_file, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+        except Exception as e:
+            print(f">>> 이모티콘 로드 오류: {e}")
+        
+        return {}
+
+    def get_class_emoji(self, class_name: str, wow_emojis: Dict[str, str]) -> str:
+        """클래스 이모티콘 가져오기"""
+        if not class_name:
+            return "❓"
+        
+        class_lower = class_name.lower()
+        return wow_emojis.get(class_lower, "❓")
+
+    def get_role_emoji(self, role: str) -> str:
+        """역할 이모티콘 가져오기"""
+        role_emojis = {
+            "TANK": "🛡️",
+            "HEALER": "💚", 
+            "MELEE_DPS": "⚔️",
+            "RANGED_DPS": "🏹"
+        }
+        return role_emojis.get(role, "❓")
+
+    def count_roles(self, participants: List[Dict]) -> Dict[str, int]:
+        """역할별 인원 카운팅"""
+        counts = {"TANK": 0, "HEALER": 0, "MELEE_DPS": 0, "RANGED_DPS": 0}
+        
+        for p in participants:
+            if p['participation_status'] in ['confirmed', 'tentative']:
+                role = p.get('detailed_role')
+                if role in counts:
+                    counts[role] += 1
+        
+        return counts
 
 
 class EventSelectionView(ui.View):
@@ -345,110 +296,84 @@ class EventSelectionView(ui.View):
         self.cog = cog
         self.events = events
         
-        # 드롭다운 생성
+        # 일정 선택 드롭다운 추가
+        if events:
+            self.add_item(EventSelectionDropdown(cog, events))
+
+
+class EventSelectionDropdown(ui.Select):
+    def __init__(self, cog: AdminRaidManagement, events: List[Dict]):
+        self.cog = cog
+        self.events = events
+        
+        # 드롭다운 옵션 생성
         options = []
-        for event in events[:25]:  # Discord 제한: 최대 25개
+        weekdays = ['', '월', '화', '수', '목', '금', '토', '일']
+        
+        for event in events[:25]:  # Discord 제한
             date = event['instance_date']
-            weekdays = ['', '월', '화', '수', '목', '금', '토', '일']
             day_name = weekdays[date.isoweekday()]
             time_str = event['instance_datetime'].strftime('%H:%M')
             
-            label = f"{date} ({day_name}) {time_str} - {event['event_name']}"
             options.append(discord.SelectOption(
-                label=label[:100],  # Discord 제한
-                value=str(event['id']),
-                description=f"{event['expansion']} S{event['season']} {event['difficulty']}"[:100]
+                label=f"{date} ({day_name}) {time_str}",
+                description=f"{event['event_name']} - {event['expansion']} S{event['season']}",
+                value=str(event['id'])
             ))
         
-        select = EventSelect(self.cog, options)
-        self.add_item(select)
-
-
-class EventSelect(ui.Select):
-    def __init__(self, cog: AdminRaidManagement, options: List[discord.SelectOption]):
-        super().__init__(placeholder="일정을 선택하세요...", options=options)
-        self.cog = cog
+        super().__init__(placeholder="관리할 일정을 선택하세요...", options=options)
 
     async def callback(self, interaction: Interaction):
         await interaction.response.defer()
         
         event_instance_id = int(self.values[0])
         
-        try:
-            # 일정 정보와 참가자 조회
-            async with self.cog.db_manager.get_connection() as conn:
-                event_data = await conn.fetchrow("""
-                    SELECT ei.*, e.event_name, e.expansion, e.season, e.difficulty,
-                           e.content_name, e.max_participants
-                    FROM guild_bot.event_instances ei
-                    JOIN guild_bot.events e ON ei.event_id = e.id
-                    WHERE ei.id = $1
-                """, event_instance_id)
-                
-                if not event_data:
-                    await interaction.followup.send(">>> 일정을 찾을 수 없습니다.")
-                    return
-            
-            participants = await self.cog.get_event_participants(event_instance_id)
-            
-            # 참가자 목록 임베드와 관리 버튼들 생성
-            embed = self.cog.create_participants_embed(event_data, participants)
-            view = ParticipationManagementView(self.cog, event_instance_id, event_data)
-            
-            await interaction.edit_original_response(embed=embed, view=view)
-            
-        except Exception as e:
-            Logger.error(f"일정 선택 처리 오류: {e}")
-            await interaction.followup.send(">>> 오류가 발생했습니다.")
+        # 선택된 일정 정보
+        selected_event = next(e for e in self.events if e['id'] == event_instance_id)
+        
+        # 참가자 목록 조회
+        participants = await self.cog.get_event_participants(event_instance_id)
+        
+        # 참가자 관리 View와 Embed 생성
+        embed = self.cog.create_participants_embed(selected_event, participants)
+        view = ParticipantManagementView(self.cog, event_instance_id, participants, selected_event)
+        
+        await interaction.followup.send(embed=embed, view=view)
 
 
-class ParticipationManagementView(ui.View):
-    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, event_data: Dict):
-        super().__init__(timeout=600)
+class ParticipantManagementView(ui.View):
+    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participants: List[Dict], event_data: Dict):
+        super().__init__(timeout=300)
         self.cog = cog
         self.event_instance_id = event_instance_id
+        self.participants = participants
         self.event_data = event_data
 
-    @ui.button(label="새 참가자 추가", style=discord.ButtonStyle.success)
+    @ui.button(label="➕ 참가자 추가", style=discord.ButtonStyle.success)
     async def add_participant(self, interaction: Interaction, button: ui.Button):
+        """참가자 추가 버튼"""
         modal = AddParticipantModal(self.cog, self.event_instance_id, self.event_data)
         await interaction.response.send_modal(modal)
 
-    @ui.button(label="참가자 상태 변경", style=discord.ButtonStyle.primary)
+    @ui.button(label="📝 상태 변경", style=discord.ButtonStyle.primary)
     async def change_status(self, interaction: Interaction, button: ui.Button):
-        await interaction.response.defer()
-        
-        # 현재 참가자 목록 조회
-        participants = await self.cog.get_event_participants(self.event_instance_id)
-        
-        if not participants:
-            await interaction.followup.send(">>> 참가자가 없습니다.")
+        """참가자 상태 변경 버튼"""
+        if not self.participants:
+            await interaction.response.send_message(">>> 참가자가 없습니다.", ephemeral=True)
             return
         
-        view = StatusChangeView(self.cog, self.event_instance_id, participants, self.event_data)
-        await interaction.followup.send(">>> 상태를 변경할 참가자를 선택하세요:", view=view, ephemeral=True)
+        view = StatusChangeView(self.cog, self.event_instance_id, self.participants, self.event_data)
+        await interaction.response.send_message(">>> 상태를 변경할 참가자를 선택하세요:", view=view, ephemeral=True)
 
-    @ui.button(label="진행도 새로고침", style=discord.ButtonStyle.secondary)
-    async def refresh_progression(self, interaction: Interaction, button: ui.Button):
-        await interaction.response.defer()
+    @ui.button(label="🗑️ 참가자 제거", style=discord.ButtonStyle.danger)
+    async def remove_participant(self, interaction: Interaction, button: ui.Button):
+        """참가자 제거 버튼"""
+        if not self.participants:
+            await interaction.response.send_message(">>> 참가자가 없습니다.", ephemeral=True)
+            return
         
-        try:
-            participants = await self.cog.get_event_participants(self.event_instance_id)
-            
-            if not participants:
-                await interaction.followup.send(">>> 새로고침할 참가자가 없습니다.")
-                return
-            
-            # TODO: raid_progression API 업데이트 로직 구현
-            # 현재는 메시지만 표시
-            await interaction.followup.send(
-                f">>> 진행도 새로고침 시작: {len(participants)}명\n"
-                ">>> (구현 예정: Raider.io API 호출로 progression 업데이트)"
-            )
-            
-        except Exception as e:
-            Logger.error(f"진행도 새로고침 오류: {e}")
-            await interaction.followup.send(">>> 진행도 새로고침 중 오류가 발생했습니다.")
+        view = RemoveParticipantView(self.cog, self.event_instance_id, self.participants, self.event_data)
+        await interaction.response.send_message(">>> 제거할 참가자를 선택하세요:", view=view, ephemeral=True)
 
 
 class AddParticipantModal(ui.Modal):
@@ -514,15 +439,20 @@ class AddParticipantModal(ui.Modal):
             async with self.cog.db_manager.get_connection() as conn:
                 # 캐릭터 정보 저장
                 char_result = {
-                "source": "api",
-                "character_info": char_info
+                    "source": "api",
+                    "character_info": char_info
                 }
                 character_data = await self.cog.character_service.save_character_to_db(char_result, conn)
                 
-                # 더미 discord_user_id 생성 (관리자 추가용)
-                admin_user_id = await self.cog.participation_service.ensure_discord_user(
-                    f"admin_{interaction.user.id}", f"관리자_{interaction.user.display_name}", conn)
-                
+                # 수정:
+                import time
+                dummy_discord_id = f"DUMMY_{character_name}_{server_en}_{int(time.time())}"
+                admin_user_id = await conn.fetchval("""
+                    INSERT INTO guild_bot.discord_users (discord_id, discord_username, is_dummy)
+                    VALUES ($1, $2, TRUE)
+                    RETURNING id
+                """, dummy_discord_id, f"관리자추가_{character_name}")
+
                 # 참가 정보 추가 (확정 참가로)
                 old_participation, detailed_role = await self.cog.participation_service.upsert_participation(
                     self.event_instance_id, admin_user_id, character_data, 
@@ -567,14 +497,103 @@ class AddParticipantModal(ui.Modal):
     async def update_messages_after_change(self, interaction):
         """참가자 변경 후 관련 메시지들 업데이트"""
         try:
-            # 현재 참가자 목록 다시 조회
+            print(">>> 메시지 업데이트 시작")
+            
+            # 1. 현재 참가자 목록 다시 조회
             updated_participants = await self.cog.get_event_participants(self.event_instance_id)
+            
+            # 2. 관리자용 참가자 목록 메시지 업데이트
             updated_embed = self.cog.create_participants_embed(self.event_data, updated_participants)
             
-            print(">>> 메시지 업데이트 시작")
-                        
+            # 현재 interaction이 속한 메시지 업데이트 (관리자용 메시지)
+            try:
+                original_message = await interaction.original_response()
+                if original_message:
+                    # 새로운 View 생성 (기존 참가자 목록으로)
+                    updated_view = ParticipantManagementView(self.cog, self.event_instance_id, updated_participants, self.event_data)
+                    await original_message.edit(embed=updated_embed, view=updated_view)
+                    print(">>> 관리자용 참가자 목록 메시지 업데이트 완료")
+            except Exception as e:
+                print(f">>> 관리자용 메시지 업데이트 오류: {e}")
+            
+            # 3. 일정 공지 메시지 업데이트 (discord_message_id 있는 경우)
+            if self.event_data.get('discord_message_id') and self.event_data.get('discord_channel_id'):
+                await self.update_event_announcement_message()
+                
         except Exception as e:
             print(f">>> 메시지 업데이트 전체 오류: {e}")
+    
+    async def update_event_announcement_message(self):
+        """일정 공지 메시지 업데이트"""
+        try:
+            # EventSignupView의 update_event_message 로직을 재사용
+            from cogs.raid.schedule_ui import EventSignupView
+            
+            # 가상의 interaction 대신 봇과 채널을 직접 사용
+            bot = self.cog.bot
+            channel = bot.get_channel(int(self.event_data['discord_channel_id']))
+            
+            if channel:
+                message = await channel.fetch_message(int(self.event_data['discord_message_id']))
+                if message:
+                    # 새로운 EventSignupView로 메시지 업데이트
+                    signup_view = EventSignupView(
+                        self.event_instance_id, 
+                        self.cog.db_manager, 
+                        int(self.event_data['discord_message_id']), 
+                        int(self.event_data['discord_channel_id'])
+                    )
+                    
+                    # 메시지 내용 새로고침
+                    async with self.cog.db_manager.get_connection() as conn:
+                        # 이벤트 기본 정보
+                        event_data = await conn.fetchrow("""
+                            SELECT ei.*, e.event_name, e.expansion, e.season, e.difficulty, 
+                                e.content_name, e.max_participants, e.duration_minutes
+                            FROM guild_bot.event_instances ei
+                            JOIN guild_bot.events e ON ei.event_id = e.id
+                            WHERE ei.id = $1
+                        """, self.event_instance_id)
+                        
+                        # 참여자 목록 조회 - event_instance_id로 조회하도록 수정!
+                        participants_data = await conn.fetch("""
+                            SELECT character_name, character_class, character_spec, detailed_role,
+                                participation_status, participant_notes, armor_type
+                            FROM guild_bot.event_participations
+                            WHERE event_instance_id = $1
+                            ORDER BY 
+                                CASE participation_status 
+                                    WHEN 'confirmed' THEN 1 
+                                    WHEN 'tentative' THEN 2 
+                                    WHEN 'declined' THEN 3 
+                                END,
+                                CASE detailed_role 
+                                    WHEN 'TANK' THEN 1 
+                                    WHEN 'HEALER' THEN 2 
+                                    WHEN 'MELEE_DPS' THEN 3 
+                                    WHEN 'RANGED_DPS' THEN 4 
+                                END,
+                                character_name
+                        """, self.event_instance_id)
+                        
+                        # 최근 참가 이력 조회
+                        recent_logs = await conn.fetch("""
+                            SELECT action_type, character_name, old_character_name, participant_memo, created_at
+                            FROM guild_bot.event_participation_logs
+                            WHERE event_instance_id = $1
+                            ORDER BY created_at DESC
+                            LIMIT 3
+                        """, self.event_instance_id)
+                    
+                    # 새로운 embed 생성
+                    updated_embed = signup_view.create_detailed_event_embed(event_data, participants_data, recent_logs)
+                    
+                    # 메시지 업데이트
+                    await message.edit(embed=updated_embed, view=signup_view)
+                    print(">>> 일정 공지 메시지 업데이트 완료")
+                    
+        except Exception as e:
+            print(f">>> 일정 공지 메시지 업데이트 오류: {e}")
 
 
 class StatusChangeView(ui.View):
@@ -593,122 +612,212 @@ class StatusChangeView(ui.View):
             emoji = status_emoji.get(p['participation_status'], "")
             
             label = f"{emoji} {p['character_name']}-{realm_kr}"
-            description = f"{p['character_class']} | {p['participation_status']}"
-            
             options.append(discord.SelectOption(
-                label=label[:100],
-                value=str(i),
-                description=description[:100]
+                label=label[:100],  # Discord 제한
+                description=f"{p['character_class']} - {p['participation_status']}",
+                value=str(p['character_id'])
             ))
         
-        select = ParticipantSelect(self.cog, self.event_instance_id, self.participants)
-        self.add_item(select)
+        if options:
+            self.add_item(ParticipantSelectionDropdown(cog, event_instance_id, participants, event_data, "status_change"))
 
 
-class ParticipantSelect(ui.Select):
-    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participants: List[Dict]):
-        super().__init__(placeholder="상태를 변경할 참가자를 선택하세요...")
+class RemoveParticipantView(ui.View):
+    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participants: List[Dict], event_data: Dict):
+        super().__init__(timeout=300)
         self.cog = cog
         self.event_instance_id = event_instance_id
         self.participants = participants
+        self.event_data = event_data
+        
+        # 참가자 선택 드롭다운
+        options = []
+        for i, p in enumerate(participants[:25]):  # Discord 제한
+            realm_kr = translate_realm_en_to_kr(p['character_realm'])
+            status_emoji = {"confirmed": "✅", "tentative": "⏳", "declined": "❌"}
+            emoji = status_emoji.get(p['participation_status'], "")
+            
+            label = f"{emoji} {p['character_name']}-{realm_kr}"
+            options.append(discord.SelectOption(
+                label=label[:100],  # Discord 제한
+                description=f"{p['character_class']} - {p['participation_status']}",
+                value=str(p['character_id'])
+            ))
+        
+        if options:
+            self.add_item(ParticipantSelectionDropdown(cog, event_instance_id, participants, event_data, "remove"))
+
+
+class ParticipantSelectionDropdown(ui.Select):
+    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participants: List[Dict], event_data: Dict, action_type: str):
+        self.cog = cog
+        self.event_instance_id = event_instance_id
+        self.participants = participants
+        self.event_data = event_data
+        self.action_type = action_type
+        
+        # 드롭다운 옵션 생성
+        options = []
+        for p in participants[:25]:  # Discord 제한
+            realm_kr = translate_realm_en_to_kr(p['character_realm'])
+            status_emoji = {"confirmed": "✅", "tentative": "⏳", "declined": "❌"}
+            emoji = status_emoji.get(p['participation_status'], "")
+            
+            label = f"{emoji} {p['character_name']}-{realm_kr}"
+            options.append(discord.SelectOption(
+                label=label[:100],
+                description=f"{p['character_class']} - {p['participation_status']}",
+                value=str(p['character_id'])
+            ))
+        
+        placeholder = "상태를 변경할 참가자를 선택하세요..." if action_type == "status_change" else "제거할 참가자를 선택하세요..."
+        super().__init__(placeholder=placeholder, options=options)
 
     async def callback(self, interaction: Interaction):
-        participant_index = int(self.values[0])
-        participant = self.participants[participant_index]
+        character_id = int(self.values[0])
+        selected_participant = next(p for p in self.participants if p['character_id'] == character_id)
         
-        modal = StatusChangeModal(self.cog, self.event_instance_id, participant)
-        await interaction.response.send_modal(modal)
+        if self.action_type == "status_change":
+            # 상태 변경 버튼들 표시
+            view = StatusChangeButtonView(self.cog, self.event_instance_id, selected_participant, self.event_data)
+            realm_kr = translate_realm_en_to_kr(selected_participant['character_realm'])
+            await interaction.response.send_message(
+                f">>> **{selected_participant['character_name']}-{realm_kr}**의 상태를 변경하세요:",
+                view=view,
+                ephemeral=True
+            )
+        elif self.action_type == "remove":
+            # 제거 확인
+            view = RemoveConfirmView(self.cog, self.event_instance_id, selected_participant, self.event_data)
+            realm_kr = translate_realm_en_to_kr(selected_participant['character_realm'])
+            await interaction.response.send_message(
+                f">>> **{selected_participant['character_name']}-{realm_kr}**를 정말 제거하시겠습니까?",
+                view=view,
+                ephemeral=True
+            )
 
 
-class StatusChangeModal(ui.Modal):
-    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participant: Dict):
-        super().__init__(title=f"{participant['character_name']} 상태 변경")
+class StatusChangeButtonView(ui.View):
+    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participant: Dict, event_data: Dict):
+        super().__init__(timeout=300)
         self.cog = cog
         self.event_instance_id = event_instance_id
         self.participant = participant
-        
-        # 현재 상태 표시
-        current_status = {"confirmed": "확정", "tentative": "미정", "declined": "불참"}
-        current = current_status.get(participant['participation_status'], participant['participation_status'])
-        
-        self.status_input.placeholder = f"현재: {current} → 새 상태를 선택하세요"
+        self.event_data = event_data
 
-    status_input = ui.TextInput(
-        label="새 상태",
-        placeholder="confirmed, tentative, declined 중 하나",
-        required=True,
-        max_length=20
-    )
-    
-    admin_memo = ui.TextInput(
-        label="관리자 메모",
-        placeholder="상태 변경 사유를 입력하세요",
-        required=False,
-        style=discord.TextStyle.paragraph,
-        max_length=200
-    )
+    @ui.button(label="✅ 확정", style=discord.ButtonStyle.success)
+    async def set_confirmed(self, interaction: Interaction, button: ui.Button):
+        await self.change_status(interaction, ParticipationStatus.CONFIRMED)
 
-    async def on_submit(self, interaction: Interaction):
+    @ui.button(label="⏳ 미정", style=discord.ButtonStyle.secondary)
+    async def set_tentative(self, interaction: Interaction, button: ui.Button):
+        await self.change_status(interaction, ParticipationStatus.TENTATIVE)
+
+    @ui.button(label="❌ 불참", style=discord.ButtonStyle.danger)
+    async def set_declined(self, interaction: Interaction, button: ui.Button):
+        await self.change_status(interaction, ParticipationStatus.DECLINED)
+
+    async def change_status(self, interaction: Interaction, new_status: str):
         await interaction.response.defer(ephemeral=True)
         
-        new_status = self.status_input.value.strip().lower()
-        memo = self.admin_memo.value.strip()
-        
-        # 상태 유효성 검사
-        valid_statuses = ['confirmed', 'tentative', 'declined']
-        if new_status not in valid_statuses:
-            await interaction.followup.send(
-                f">>> 잘못된 상태입니다. 다음 중 하나를 입력하세요: {', '.join(valid_statuses)}"
-            )
-            return
-        
         try:
-            # 관리자 메모 포맷팅
-            formatted_memo = f"*{memo}*" if memo else f"*관리자가 {new_status}로 변경*"
-            
+            # DB에서 상태 변경
             async with self.cog.db_manager.get_connection() as conn:
-                # 참가 상태 업데이트
-                await conn.execute("""
-                    UPDATE guild_bot.event_participations
-                    SET participation_status = $1, participant_notes = $2, updated_at = NOW()
-                    WHERE event_instance_id = $3 AND character_name = $4 AND character_realm = $5
-                """, new_status, formatted_memo, self.event_instance_id, 
-                    self.participant['character_name'], self.participant['character_realm'])
+                old_status = self.participant['participation_status']
                 
-                # 변경 로그 기록
+                # 상태 업데이트
+                await conn.execute("""
+                    UPDATE guild_bot.event_participations 
+                    SET participation_status = $1, updated_at = CURRENT_TIMESTAMP
+                    WHERE event_instance_id = $2 AND character_id = $3
+                """, new_status, self.event_instance_id, self.participant['character_id'])
+                
+                # 로그 기록
                 await conn.execute("""
                     INSERT INTO guild_bot.event_participation_logs
-                    (event_instance_id, character_id, discord_user_id, action_type,
-                     old_status, new_status, character_name, character_realm,
+                    (event_instance_id, character_id, discord_user_id, action_type, 
+                     old_status, new_status, character_name, character_realm, 
                      character_class, character_spec, detailed_role,
                      discord_message_id, discord_channel_id, user_display_name, participant_memo)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
-                """, self.event_instance_id, 0, 0, "manual_status_change_by_admin",
-                    self.participant['participation_status'], new_status,
+                """, self.event_instance_id, self.participant['character_id'], self.participant['discord_user_id'],
+                    f"admin_changed_to_{new_status}", old_status, new_status,
                     self.participant['character_name'], self.participant['character_realm'],
-                    self.participant['character_class'], self.participant['character_spec'],
-                    self.participant['detailed_role'], 0, 0,
-                    f"관리자_{interaction.user.display_name}", formatted_memo)
+                    self.participant['character_class'], self.participant['character_spec'], 
+                    self.participant['detailed_role'], 0, 0, 
+                    f"관리자_{interaction.user.display_name}", f"*관리자가 {old_status}에서 {new_status}로 변경*")
             
-            # 성공 메시지
-            status_names = {"confirmed": "확정 참가", "tentative": "미정", "declined": "불참"}
-            old_status_name = status_names.get(self.participant['participation_status'], self.participant['participation_status'])
-            new_status_name = status_names.get(new_status, new_status)
+            status_names = {
+                "confirmed": "확정",
+                "tentative": "미정", 
+                "declined": "불참"
+            }
             
             realm_kr = translate_realm_en_to_kr(self.participant['character_realm'])
-            
             await interaction.followup.send(
                 f">>> **상태 변경 완료!**\n"
                 f"캐릭터: {self.participant['character_name']}-{realm_kr}\n"
-                f"상태: {old_status_name} → {new_status_name}\n"
-                f"메모: {formatted_memo}"
+                f"{status_names[old_status]} → {status_names[new_status]}"
             )
             
-            Logger.info(f"관리자 상태 변경: {self.participant['character_name']} {old_status_name}→{new_status_name} by {interaction.user.display_name}")
+            print(f">>> 관리자 상태 변경: {self.participant['character_name']} {old_status} → {new_status}")
             
         except Exception as e:
             Logger.error(f"상태 변경 오류: {e}")
             await interaction.followup.send(">>> 상태 변경 중 오류가 발생했습니다.")
+
+
+class RemoveConfirmView(ui.View):
+    def __init__(self, cog: AdminRaidManagement, event_instance_id: int, participant: Dict, event_data: Dict):
+        super().__init__(timeout=300)
+        self.cog = cog
+        self.event_instance_id = event_instance_id
+        self.participant = participant
+        self.event_data = event_data
+
+    @ui.button(label="✅ 제거 확정", style=discord.ButtonStyle.danger)
+    async def confirm_remove(self, interaction: Interaction, button: ui.Button):
+        await interaction.response.defer(ephemeral=True)
+        
+        try:
+            # DB에서 참가자 제거
+            async with self.cog.db_manager.get_connection() as conn:
+                # 참가 정보 삭제
+                await conn.execute("""
+                    DELETE FROM guild_bot.event_participations 
+                    WHERE event_instance_id = $1 AND character_id = $2
+                """, self.event_instance_id, self.participant['character_id'])
+                
+                # 제거 로그 기록
+                await conn.execute("""
+                    INSERT INTO guild_bot.event_participation_logs
+                    (event_instance_id, character_id, discord_user_id, action_type, 
+                     old_status, new_status, character_name, character_realm, 
+                     character_class, character_spec, detailed_role,
+                     discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
+                """, self.event_instance_id, self.participant['character_id'], self.participant['discord_user_id'],
+                    "admin_removed", self.participant['participation_status'], None,
+                    self.participant['character_name'], self.participant['character_realm'],
+                    self.participant['character_class'], self.participant['character_spec'], 
+                    self.participant['detailed_role'], 0, 0, 
+                    f"관리자_{interaction.user.display_name}", "*관리자가 참가자 목록에서 제거*")
+            
+            realm_kr = translate_realm_en_to_kr(self.participant['character_realm'])
+            await interaction.followup.send(
+                f">>> **참가자 제거 완료!**\n"
+                f"캐릭터: {self.participant['character_name']}-{realm_kr}"
+            )
+            
+            print(f">>> 관리자 참가자 제거: {self.participant['character_name']}-{self.participant['character_realm']}")
+            
+        except Exception as e:
+            Logger.error(f"참가자 제거 오류: {e}")
+            await interaction.followup.send(">>> 참가자 제거 중 오류가 발생했습니다.")
+
+    @ui.button(label="❌ 취소", style=discord.ButtonStyle.secondary)
+    async def cancel_remove(self, interaction: Interaction, button: ui.Button):
+        await interaction.response.send_message(">>> 참가자 제거를 취소했습니다.", ephemeral=True)
 
 
 async def setup(bot):
