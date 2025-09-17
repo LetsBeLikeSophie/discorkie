@@ -89,10 +89,9 @@ class EventSignupView(discord.ui.View):
                 FROM guild_bot.event_participations ep
                 JOIN guild_bot.discord_users du ON ep.discord_user_id = du.id
                 WHERE ep.event_instance_id = $1 
-                AND ep.character_name = $2 
-                AND ep.character_realm = $3 
+                AND ep.character_id = $2 
                 AND du.is_dummy = TRUE
-            """, self.event_instance_id, character_data['character_name'], character_data['realm_slug'])
+            """, self.event_instance_id, character_data['character_id'])
             
             if existing_dummy:
                 # 더미 기록을 실제 유저로 업데이트
@@ -117,9 +116,9 @@ class EventSignupView(discord.ui.View):
                 await conn.execute("""
                     INSERT INTO guild_bot.event_participation_logs
                     (event_instance_id, character_id, discord_user_id, action_type, 
-                    old_status, new_status, character_name, character_realm, 
-                    character_class, character_spec, detailed_role,
-                    discord_message_id, discord_channel_id, user_display_name, participant_memo)
+                     old_status, new_status, character_name, character_realm, 
+                     character_class, character_spec, detailed_role,
+                     discord_message_id, discord_channel_id, user_display_name, participant_memo)
                     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
                 """, self.event_instance_id, character_data["character_id"], discord_user_id,
                     "dummy_to_real_user", existing_dummy['participation_status'], status,
@@ -159,11 +158,24 @@ class EventSignupView(discord.ui.View):
                 status, detailed_role, self.discord_message_id, self.discord_channel_id,
                 interaction.user.display_name, memo, conn)
         
-        # 3. 성공 응답
-        await self._send_success_message(interaction, character_data, detailed_role, status, memo)
+        # 3. 성공 응답 - 기존 방식으로 변경
+        status_text = {"confirmed": "확정 참여", "tentative": "미정", "declined": "불참"}
+        
+        spec_kr = translate_spec_en_to_kr(character_data.get('character_spec', ''))
+        role_kr = get_role_korean(detailed_role)
+        memo_text = f"\n사유: {memo}" if memo else ""
+        
+        await interaction.followup.send(
+            f">>> **{status_text[status]}** 처리 완료!\n"
+            f"캐릭터: {character_data['character_name']} ({spec_kr})\n"
+            f"역할: {role_kr}{memo_text}",
+            ephemeral=True
+        )
+        
         await self.update_event_message(interaction)
         Logger.info(f"참가 신청 완료: {clean_name} -> {status}")
 
+        
     async def update_event_message(self, interaction):
         """일정 메시지 업데이트"""
         try:
